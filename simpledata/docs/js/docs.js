@@ -1,39 +1,39 @@
 (function() {
-  var commitsUrl, repo, user;
+  var contentFolder, getSubTree, repo, showContentTree, user;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   user = 'simplefx';
   repo = 'simplefx.github.com';
-  commitsUrl = "https://api.github.com/repos/" + user + "/" + repo + "/commits?callback=?";
+  contentFolder = 'simpledata/docs/content';
+  showContentTree = function(trees) {
+    var tree, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = trees.length; _i < _len; _i++) {
+      tree = trees[_i];
+      _results.push($('#navigation').append("<li>" + tree.path + "</li>"));
+    }
+    return _results;
+  };
+  getSubTree = function(tree, subTreeNames) {
+    var subTree;
+    subTree = _.first(_.filter(tree, function(item) {
+      return item.path === _.first(subTreeNames);
+    }));
+    if (_.size(subTreeNames) === 1) {
+      return $.getJSON(subTree.url + '?recursive=1&callback=?', function(data) {
+        return showContentTree(data.data.tree);
+      });
+    } else {
+      return $.getJSON(subTree.url + '?callback=?', __bind(function(data) {
+        return getSubTree(data.data.tree, _.rest(subTreeNames));
+      }, this));
+    }
+  };
   $(function() {
+    var commitsUrl;
+    commitsUrl = "https://api.github.com/repos/" + user + "/" + repo + "/commits?callback=?";
     return $.getJSON(commitsUrl, function(data) {
-      var rootTree;
-      rootTree = _.first(data.data).commit.tree;
-      return $.getJSON(rootTree.url + '?callback=?', function(data) {
-        var simpledataTree;
-        simpledataTree = _.first(_.filter(data.data.tree, function(item) {
-          return item.path === 'simpledata';
-        }));
-        return $.getJSON(simpledataTree.url + '?callback=?', function(data) {
-          var docsTree;
-          docsTree = _.first(_.filter(data.data.tree, function(item) {
-            return item.path === 'docs';
-          }));
-          return $.getJSON(docsTree.url + '?callback=?', function(data) {
-            var contentTree;
-            contentTree = _.first(_.filter(data.data.tree, function(item) {
-              return item.path === 'content';
-            }));
-            return $.getJSON(contentTree.url + '?recursive=1&callback=?', function(data) {
-              var tree, _i, _len, _ref, _results;
-              _ref = data.data.tree;
-              _results = [];
-              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                tree = _ref[_i];
-                _results.push($('#navigation').append("<li>" + tree.path + "</li>"));
-              }
-              return _results;
-            });
-          });
-        });
+      return $.getJSON(_.first(data.data).commit.tree.url + '?callback=?', function(data) {
+        return getSubTree(data.data.tree, contentFolder.split('/'));
       });
     });
   });
