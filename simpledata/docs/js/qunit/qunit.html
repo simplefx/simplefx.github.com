@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>
+  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+<script type="text/javascript" src="qunit.js"></script>
+
+  <script src="../docs.js"></script>
+  <script>
+  $(document).ready(function(){
+
+module("Tree");
+test("Tree creation", function() {
+  data = [{path:'a'},{path:'a/b'},{path:'a/b/c'}]
+  tree = new Tree(data)
+  equal( tree.nodes.length, 1, "Tree should have one node")
+  equal( tree.nodes[0].text, 'a', "Tree node should be 'a'")
+  equal( tree.nodes[0].nodes.length, 1, "First sub-node should have one node")
+  equal( tree.nodes[0].nodes[0].text, 'b', "First sub-node text should be 'b'")
+  equal( tree.nodes[0].nodes[0].nodes.length, 1, "Second sub-node should have one node")
+  equal( tree.nodes[0].nodes[0].nodes[0].text, 'c', "Second sub-node text should be 'c'")
+  equal( tree.nodes[0].nodes[0].nodes[0].nodes.length, 0, "Final sub-node should have no nodes")
+});
+
+
+  });
+  </script>
+
+</head>
+<body>
+  <h1 id="qunit-header">QUnit example</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+ <div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>

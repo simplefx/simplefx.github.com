@@ -1,8 +1,49 @@
 (function() {
-  var addNestedNode, contentFolder, getSubTree, repo, showContentTree, toDashes, user;
+  var Node, Tree, addNestedNode, contentFolder, getSubTree, repo, showContentTree, toDashes, user;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
   user = 'simplefx';
   repo = 'simplefx.github.com';
   contentFolder = 'simpledata/docs/content';
+  Node = (function() {
+    function Node(text) {
+      this.text = text;
+      this.nodes = [];
+    }
+    Node.prototype.addNode = function(parts) {
+      var node;
+      if (parts.length === 1) {
+        return this.nodes.push(new Node(parts[0]));
+      } else {
+        node = _(this.nodes).detect(function(n) {
+          return n.text === parts[0];
+        });
+        if (node != null) {
+          return node.addNode(parts.slice(1));
+        }
+      }
+    };
+    return Node;
+  })();
+  Tree = (function() {
+    __extends(Tree, Node);
+    function Tree(trees) {
+      var tree, _i, _len;
+      this.nodes = [];
+      for (_i = 0, _len = trees.length; _i < _len; _i++) {
+        tree = trees[_i];
+        this.addNode(tree.path.split('/'));
+      }
+    }
+    return Tree;
+  })();
+  window.Tree = Tree;
   toDashes = function(str) {
     return str.replace(/[\s\.\/]/g, '-');
   };

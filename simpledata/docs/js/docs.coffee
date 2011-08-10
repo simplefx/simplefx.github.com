@@ -2,6 +2,28 @@ user = 'simplefx'
 repo = 'simplefx.github.com'
 contentFolder = 'simpledata/docs/content'
 
+class Node
+  constructor: (@text) ->
+    @nodes = []
+    @index = false
+  addNode: (parts) ->
+    if parts.length is 1
+      if parts[0] is 'index.html'
+        @index = true
+      else
+        @nodes.push new Node parts[0]
+    else
+      node = _(@nodes).detect((n) -> n.text is parts[0])
+      node.addNode parts.slice(1) if node?
+
+class Tree extends Node
+  constructor: (trees) ->
+    @nodes = []
+    for tree in trees
+      @addNode tree.path.split('/')
+
+window.Tree = Tree
+
 toDashes = (str) -> str.replace(/[\s\.\/]/g, '-')
 
 addNestedNode = (tree) ->
