@@ -31,9 +31,9 @@ class Node
       html += node.getItemHtml(path)
     html += '</ul>'
   indexLink: (path) ->
-    '<a href="' + path + @text + '/index.html">' + @text + '</a>'
+    '<a href="' + path + @text + '/index.html">' + @getItemText() + '</a>'
   getItemText: ->
-    @text.replace(/^[0-9]+ /,'').replace(/\.[^\.]+$/, '')
+    @text.replace(/^[0-9]+ /,'').replace(/\.html$/, '')
 
 class Tree extends Node
   constructor: (trees) ->
@@ -46,7 +46,7 @@ window.Tree = Tree
 
 showContentTree = (trees) ->
   tree = new Tree trees
-  $('#navigation').append tree.getListHtml()
+  $('#navigation').append tree.getListHtml('content')
 
 getSubTree = (tree, subTreeNames) ->
   subTree = _.first(_.filter(tree, (item) -> item.path is _.first(subTreeNames)))

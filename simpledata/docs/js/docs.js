@@ -59,10 +59,10 @@
       return html += '</ul>';
     };
     Node.prototype.indexLink = function(path) {
-      return '<a href="' + path + this.text + '/index.html">' + this.text + '</a>';
+      return '<a href="' + path + this.text + '/index.html">' + this.getItemText() + '</a>';
     };
     Node.prototype.getItemText = function() {
-      return this.text.replace(/^[0-9]+ /, '').replace(/\.[^\.]+$/, '');
+      return this.text.replace(/^[0-9]+ /, '').replace(/\.html$/, '');
     };
     return Node;
   })();
@@ -83,7 +83,7 @@
   showContentTree = function(trees) {
     var tree;
     tree = new Tree(trees);
-    return $('#navigation').append(tree.getListHtml());
+    return $('#navigation').append(tree.getListHtml('content'));
   };
   getSubTree = function(tree, subTreeNames) {
     var subTree;
