@@ -12,15 +12,22 @@
 
 module("Tree");
 test("Tree creation", function() {
-  data = [{path:'a'},{path:'a/b'},{path:'a/b/c'}]
-  tree = new Tree(data)
-  equal( tree.nodes.length, 1, "Tree should have one node")
-  equal( tree.nodes[0].text, 'a', "Tree node should be 'a'")
-  equal( tree.nodes[0].nodes.length, 1, "First sub-node should have one node")
-  equal( tree.nodes[0].nodes[0].text, 'b', "First sub-node text should be 'b'")
-  equal( tree.nodes[0].nodes[0].nodes.length, 1, "Second sub-node should have one node")
-  equal( tree.nodes[0].nodes[0].nodes[0].text, 'c', "Second sub-node text should be 'c'")
-  equal( tree.nodes[0].nodes[0].nodes[0].nodes.length, 0, "Final sub-node should have no nodes")
+  data = [{path:'a'},{path:'a/b'},{path:'a/b/c'}];
+  tree = new Tree(data);
+  equal( tree.nodes.length, 1, "Tree should have one node");
+  equal( tree.nodes[0].text, 'a', "Tree node should be 'a'");
+  equal( tree.nodes[0].nodes.length, 1, "First sub-node should have one node");
+  equal( tree.nodes[0].nodes[0].text, 'b', "First sub-node text should be 'b'");
+  equal( tree.nodes[0].nodes[0].nodes.length, 1, "Second sub-node should have one node");
+  equal( tree.nodes[0].nodes[0].nodes[0].text, 'c', "Second sub-node text should be 'c'");
+  equal( tree.nodes[0].nodes[0].nodes[0].nodes.length, 0, "Final sub-node should have no nodes");
+});
+
+test("Tree HTML", function() {
+  data = [{path:'a'},{path:'a/index.html'},{path:'a/00 b.html'}];
+  tree = new Tree(data);
+  html = tree.getListHtml('');
+  equal( html, '<ul class="menu"><li class="menu-item"><a href="a/index.html">a</a><ul class="menu"><li class="menu-item"><a href="a/00 b.html">b</a></li></ul></li></ul>');
 });
 
 

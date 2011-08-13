@@ -15,30 +15,38 @@ class Node
     else
       node = _(@nodes).detect((n) -> n.text is parts[0])
       node.addNode parts.slice(1) if node?
+  getItemHtml: (path) ->
+    html = '<li class="menu-item">'
+    if @index
+      html += @indexLink(path)
+    if @nodes.length > 0
+      html += @getListHtml(path)
+    else
+      html += '<a href="' + path + @text + '">' + @getItemText() + '</a>'
+    html += '</li>'
+  getListHtml: (path) ->
+    html = '<ul class="menu">'
+    path = if path + @text is '' then '' else path + @text + '/'
+    for node in @nodes
+      html += node.getItemHtml(path)
+    html += '</ul>'
+  indexLink: (path) ->
+    '<a href="' + path + @text + '/index.html">' + @text + '</a>'
+  getItemText: ->
+    @text.replace(/^[0-9]+ /,'').replace(/\.[^\.]+$/, '')
 
 class Tree extends Node
   constructor: (trees) ->
     @nodes = []
+    @text = ''
     for tree in trees
       @addNode tree.path.split('/')
 
 window.Tree = Tree
 
-toDashes = (str) -> str.replace(/[\s\.\/]/g, '-')
-
-addNestedNode = (tree) ->
-  parts = tree.path.split('/')
-  id = toDashes(tree.path)
-  selector = '#' + _.map(parts[0...-1], toDashes).join('-')
-  subList = if tree.type is 'tree' then '<ul></ul>' else ''
-  $(selector + ' > ul').append("<li id=\"#{id}\">#{_.last(parts)}#{subList}</li>")
-
 showContentTree = (trees) ->
-  for tree in trees
-    if tree.path.indexOf('/') is -1
-      $('#navigation').append("<li id=\"#{toDashes(tree.path)}\">#{tree.path}<ul></ul></li>")
-    else
-      addNestedNode tree
+  tree = new Tree trees
+  $('#navigation').append tree.getListHtml()
 
 getSubTree = (tree, subTreeNames) ->
   subTree = _.first(_.filter(tree, (item) -> item.path is _.first(subTreeNames)))

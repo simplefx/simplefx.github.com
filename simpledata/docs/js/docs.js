@@ -1,5 +1,5 @@
 (function() {
-  var Node, Tree, addNestedNode, contentFolder, getSubTree, repo, showContentTree, toDashes, user;
+  var Node, Tree, contentFolder, getSubTree, repo, showContentTree, user;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -15,11 +15,16 @@
     function Node(text) {
       this.text = text;
       this.nodes = [];
+      this.index = false;
     }
     Node.prototype.addNode = function(parts) {
       var node;
       if (parts.length === 1) {
-        return this.nodes.push(new Node(parts[0]));
+        if (parts[0] === 'index.html') {
+          return this.index = true;
+        } else {
+          return this.nodes.push(new Node(parts[0]));
+        }
       } else {
         node = _(this.nodes).detect(function(n) {
           return n.text === parts[0];
@@ -29,6 +34,36 @@
         }
       }
     };
+    Node.prototype.getItemHtml = function(path) {
+      var html;
+      html = '<li class="menu-item">';
+      if (this.index) {
+        html += this.indexLink(path);
+      }
+      if (this.nodes.length > 0) {
+        html += this.getListHtml(path);
+      } else {
+        html += '<a href="' + path + this.text + '">' + this.getItemText() + '</a>';
+      }
+      return html += '</li>';
+    };
+    Node.prototype.getListHtml = function(path) {
+      var html, node, _i, _len, _ref;
+      html = '<ul class="menu">';
+      path = path + this.text === '' ? '' : path + this.text + '/';
+      _ref = this.nodes;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        node = _ref[_i];
+        html += node.getItemHtml(path);
+      }
+      return html += '</ul>';
+    };
+    Node.prototype.indexLink = function(path) {
+      return '<a href="' + path + this.text + '/index.html">' + this.text + '</a>';
+    };
+    Node.prototype.getItemText = function() {
+      return this.text.replace(/^[0-9]+ /, '').replace(/\.[^\.]+$/, '');
+    };
     return Node;
   })();
   Tree = (function() {
@@ -36,6 +71,7 @@
     function Tree(trees) {
       var tree, _i, _len;
       this.nodes = [];
+      this.text = '';
       for (_i = 0, _len = trees.length; _i < _len; _i++) {
         tree = trees[_i];
         this.addNode(tree.path.split('/'));
@@ -44,25 +80,10 @@
     return Tree;
   })();
   window.Tree = Tree;
-  toDashes = function(str) {
-    return str.replace(/[\s\.\/]/g, '-');
-  };
-  addNestedNode = function(tree) {
-    var id, parts, selector, subList;
-    parts = tree.path.split('/');
-    id = toDashes(tree.path);
-    selector = '#' + _.map(parts.slice(0, -1), toDashes).join('-');
-    subList = tree.type === 'tree' ? '<ul></ul>' : '';
-    return $(selector + ' > ul').append("<li id=\"" + id + "\">" + (_.last(parts)) + subList + "</li>");
-  };
   showContentTree = function(trees) {
-    var tree, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = trees.length; _i < _len; _i++) {
-      tree = trees[_i];
-      _results.push(tree.path.indexOf('/') === -1 ? $('#navigation').append("<li id=\"" + (toDashes(tree.path)) + "\">" + tree.path + "<ul></ul></li>") : addNestedNode(tree));
-    }
-    return _results;
+    var tree;
+    tree = new Tree(trees);
+    return $('#navigation').append(tree.getListHtml());
   };
   getSubTree = function(tree, subTreeNames) {
     var subTree;
