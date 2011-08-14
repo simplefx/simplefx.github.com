@@ -83,7 +83,7 @@
   showContentTree = function(trees) {
     var tree;
     tree = new Tree(trees);
-    return $('#navigation').append(tree.getListHtml('content'));
+    return $('#nav').append(tree.getListHtml('content'));
   };
   getSubTree = function(tree, subTreeNames) {
     var subTree;

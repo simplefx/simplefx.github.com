@@ -1,0 +1,22 @@
+#wrap {
+  width:750px;
+  margin:0 auto;
+  background:#99c;
+}
+#header {
+  background:#ddd;
+}
+#main {
+  float:right;
+  width:500px;
+  background:#9c9;
+}
+#nav {
+  float:left;
+  width:250px;
+  background:#c9c;
+}
+#footer {
+  clear:both;
+  background:#cc9;
+}

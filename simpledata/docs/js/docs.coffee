@@ -46,7 +46,7 @@ window.Tree = Tree
 
 showContentTree = (trees) ->
   tree = new Tree trees
-  $('#navigation').append tree.getListHtml('content')
+  $('#nav').append tree.getListHtml('content')
 
 getSubTree = (tree, subTreeNames) ->
   subTree = _.first(_.filter(tree, (item) -> item.path is _.first(subTreeNames)))
