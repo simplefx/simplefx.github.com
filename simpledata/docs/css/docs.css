@@ -1,7 +1,11 @@
+h1 {
+  font-family: Calibri, "Helvetica Neue", Helvetica, Arial;
+}
 #wrap {
   width:750px;
   margin:0 auto;
   background:#99c;
+  font-family: Garamond, Palatino, serif;
 }
 #header {
   background:#ddd;
@@ -12,8 +16,9 @@
   background:#9c9;
 }
 #nav {
+  padding-left: 4px;
   float:left;
-  width:250px;
+  width:246px;
   background:#c9c;
 }
 #footer {
