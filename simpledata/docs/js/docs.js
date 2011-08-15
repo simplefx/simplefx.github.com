@@ -67,7 +67,6 @@
     return Node;
   })();
   Tree = (function() {
-    __extends(Tree, Node);
     function Tree(trees) {
       var tree, _i, _len;
       this.nodes = [];
@@ -77,6 +76,7 @@
         this.addNode(tree.path.split('/'));
       }
     }
+    __extends(Tree, Node);
     return Tree;
   })();
   window.Tree = Tree;
@@ -103,10 +103,19 @@
   $(function() {
     var commitsUrl;
     commitsUrl = "https://api.github.com/repos/" + user + "/" + repo + "/commits?callback=?";
-    return $.getJSON(commitsUrl, function(data) {
+    $.getJSON(commitsUrl, function(data) {
       return $.getJSON(_.first(data.data).commit.tree.url + '?callback=?', function(data) {
         return getSubTree(data.data.tree, contentFolder.split('/'));
       });
+    });
+    return $('a').live('click', function() {
+      var url;
+      if (($(this).attr('href').match(/^content/i)) != null) {
+        url = encodeURIComponent($(this).attr('href'));
+        $('#main').load(url);
+        return false;
+      }
+      return true;
     });
   });
 }).call(this);

@@ -60,3 +60,10 @@ $ ->
   $.getJSON commitsUrl, (data) ->
     $.getJSON _.first(data.data).commit.tree.url + '?callback=?', (data) ->
       getSubTree data.data.tree, contentFolder.split('/')
+  $('a').live 'click', ->
+    if ($(this).attr('href').match /^content/i)?
+      url = encodeURIComponent($(this).attr('href'))
+      $('#main').load url
+      return false
+    true
+    
