@@ -62,7 +62,7 @@ $ ->
       getSubTree data.data.tree, contentFolder.split('/')
   $.address.change (e) ->
     if e.value is '/'
-      $('#main').html('<h1>Hello</h1><p>This documentation is a work in progress. Contributions are appreciated.</p>')
+      $('#main').html('<h2>Hello</h2><p>This documentation is a work in progress. Contributions are appreciated.</p>')
     else
       $('#main').load '/simpledata/docs' + e.value
   $('a').live 'click', ->
