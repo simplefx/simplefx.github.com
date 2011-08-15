@@ -46,13 +46,13 @@ a:active {
   background:#ffffff;
 }
 #main {
-  float:right;
+  float:left;
   width:550px;
   background:#f9f9f9;
 }
 #nav {
   padding-left: 4px;
-  float:left;
+  float:right;
   width:246px;
   background:#8CC63F;
 }
