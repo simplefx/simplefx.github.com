@@ -1,27 +1,67 @@
 h1 {
-  font-family: Calibri, "Helvetica Neue", Helvetica, Arial;
+  font-family: "Open Sans", sans-serif;
+  font-size: 2em;
+  font-weight: 300;
+  display: inline;
+}
+h2 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.25em;
+  margin: 8px;
+}
+h3 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.1em;
+  margin: 8px;
+}
+h4 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.8em;
+  margin: 8px;
+}
+p {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+code {
+  margin: 16px;
+  padding: 8px;
+  font-family: Inconsolata, Consolas, Courier;
+}
+a {
+  color: #2E3192;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9em;
+}
+a:active {
+  text-decoration: underline;
 }
 #wrap {
-  width:750px;
+  width:800px;
   margin:0 auto;
-  background:#99c;
   font-family: Garamond, Palatino, serif;
 }
 #header {
-  background:#ddd;
+  background:#ffffff;
 }
 #main {
   float:right;
-  width:500px;
-  background:#9c9;
+  width:550px;
+  background:#f9f9f9;
 }
 #nav {
   padding-left: 4px;
   float:left;
   width:246px;
-  background:#c9c;
+  background:#8CC63F;
 }
 #footer {
   clear:both;
   background:#cc9;
+}
+img.logo
+{
+  vertical-align: middle;
+  margin-right: 16px;
 }

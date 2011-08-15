@@ -108,11 +108,17 @@
         return getSubTree(data.data.tree, contentFolder.split('/'));
       });
     });
+    $.address.change(function(e) {
+      if (e.value === '/') {
+        return false;
+      }
+      return $('#main').load('/simpledata/docs' + e.value);
+    });
     return $('a').live('click', function() {
       var url;
       if (($(this).attr('href').match(/^content/i)) != null) {
         url = encodeURIComponent($(this).attr('href'));
-        $('#main').load(url);
+        $.address.value(url);
         return false;
       }
       return true;

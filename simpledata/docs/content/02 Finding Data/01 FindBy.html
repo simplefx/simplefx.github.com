@@ -5,8 +5,22 @@
 </head>
 <body>
 <h2>FindBy</h2>
-<h3>Summary</h3>
-<p>The FindBy methods return a single row of data; if more than one row matches,
+<p>The <strong>FindBy</strong> methods return a single row of data; if more than one row matches,
     the first row retrieved from the data store is returned.</p>
+<p>There are two ways to form a FindBy method: you may specify the column names as part of the method,
+or as named parameters. You can use whichever you prefer, unless you run into an edge-case which forces the
+named parameter form (more on that later).</p>
+<h3>Method name form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+  var db = Database.Open();
+  var user = db.Users.FindByUserName('bob');
+  Console.WriteLine(user.FullName);
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p0 = 'bob'
+  SELECT * FROM Users WHERE UserName = @p0
+</pre>
 </body>
 </html>
