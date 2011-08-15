@@ -13,9 +13,7 @@ named parameter form (more on that later).</p>
 <h3>Method name form</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-  var db = Database.Open();
   var user = db.Users.FindByUserName('bob');
-  Console.WriteLine(user.FullName);
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
