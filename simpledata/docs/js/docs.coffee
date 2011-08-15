@@ -61,8 +61,10 @@ $ ->
     $.getJSON _.first(data.data).commit.tree.url + '?callback=?', (data) ->
       getSubTree data.data.tree, contentFolder.split('/')
   $.address.change (e) ->
-    return false if e.value is '/'
-    $('#main').load '/simpledata/docs' + e.value
+    if e.value is '/'
+      $('#main').html('<h1>Hello</h1><p>This documentation is a work in progress. Contributions are appreciated.</p>')
+    else
+      $('#main').load '/simpledata/docs' + e.value
   $('a').live 'click', ->
     if ($(this).attr('href').match /^content/i)?
       url = encodeURIComponent($(this).attr('href'))

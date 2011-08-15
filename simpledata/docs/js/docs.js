@@ -110,9 +110,10 @@
     });
     $.address.change(function(e) {
       if (e.value === '/') {
-        return false;
+        return $('#main').html('<h1>Hello</h1><p>This documentation is a work in progress. Contributions are appreciated.</p>');
+      } else {
+        return $('#main').load('/simpledata/docs' + e.value);
       }
-      return $('#main').load('/simpledata/docs' + e.value);
     });
     return $('a').live('click', function() {
       var url;
