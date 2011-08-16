@@ -20,5 +20,17 @@ named parameter form (more on that later).</p>
   @p0 = 'bob'
   SELECT * FROM Users WHERE UserName = @p0
 </pre>
+
+<h3>Named parameter form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+  var user = db.Users.FindBy(UserName:'bob');
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p0 = 'bob'
+  SELECT * FROM Users WHERE UserName = @p0
+</pre>
+
 </body>
 </html>
