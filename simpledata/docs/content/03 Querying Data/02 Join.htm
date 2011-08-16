@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Join</title>
+</head>
+<body>
+<h2>Joins</h2>
+<p>There are two ways that you can perform joins with Simple.Data, Explicit Join and Natural Join. An Explicit Join allows you to 
+specify the indenty columns that are used in the Join. A Natural Join requires referential integrity,< and uses the Foreign Key
+constraints on the tables.</p>
+
+<h3>Explicit Join</h3>
+<p>There are two forms of Explicit Join, using Named Parameters and using the On(...) form</p>
+
+<h3>Named Parameters form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+var q = _db.Employees.Query()
+                .Join(_db.Department, Id: _db.Employees.DepartmentId)
+                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
+        join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+</pre>
+<i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
+
+<h3>On(...) form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+var q = _db.Employees.Query()
+                .Join(_db.Department).On(_db.Department.Id == _db.Employees.DepartmentId)
+                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
+                join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+</pre>
+<i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
+
+<h3>Natural Join</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Employees.Find(_db.Employees.DepartmentId == _db.Department.Id)
+                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    
+    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
+                join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+
+</pre>
+<i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
+
+
+
+</body>
+</html>
