@@ -43,7 +43,7 @@ li a:hover {
   /*text-decoration: underline;*/
 }
 #wrap {
-  width:800px;
+  width:760px;
   margin:0 auto;
   font-family: Garamond, Palatino, serif;
 }
@@ -58,7 +58,7 @@ li a:hover {
 #nav {
   padding-left: 4px;
   float:right;
-  width:246px;
+  width:206px;
   color:#f5f5f5;
   background: #2e3192; /* Old browsers */
   background: -moz-linear-gradient(left, #2e3192 0%, #173296 52%, #0071bc 100%); /* FF3.6+ */

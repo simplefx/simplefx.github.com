@@ -110,7 +110,7 @@
     });
     $.address.change(function(e) {
       if (e.value === '/') {
-        return $('#main').html('<h1>Hello</h1><p>This documentation is a work in progress. Contributions are appreciated.</p>');
+        return $('#main').html('<h2>Hello</h2><p>This documentation is a work in progress. Contributions are appreciated.</p><p><a href="https://github.com/simplefx/simplefx.github.com">Fork this documentation site.</a></p>');
       } else {
         return $('#main').load('/simpledata/docs' + e.value);
       }

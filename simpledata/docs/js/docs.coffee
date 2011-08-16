@@ -62,7 +62,7 @@ $ ->
       getSubTree data.data.tree, contentFolder.split('/')
   $.address.change (e) ->
     if e.value is '/'
-      $('#main').html('<h2>Hello</h2><p>This documentation is a work in progress. Contributions are appreciated.</p>')
+      $('#main').html('<h2>Hello</h2><p>This documentation is a work in progress. Contributions are appreciated.</p><p><a href="https://github.com/simplefx/simplefx.github.com">Fork this documentation site.</a></p>')
     else
       $('#main').load '/simpledata/docs' + e.value
   $('a').live 'click', ->
