@@ -62,7 +62,7 @@
       return '<a href="' + path + this.text + '/index.html">' + this.getItemText() + '</a>';
     };
     Node.prototype.getItemText = function() {
-      return this.text.replace(/^[0-9]+ /, '').replace(/\.html$/, '');
+      return this.text.replace(/^[0-9]+ /, '').replace(/\.html?$/, '');
     };
     return Node;
   })();

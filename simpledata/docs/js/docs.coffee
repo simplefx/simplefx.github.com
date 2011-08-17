@@ -33,7 +33,7 @@ class Node
   indexLink: (path) ->
     '<a href="' + path + @text + '/index.html">' + @getItemText() + '</a>'
   getItemText: ->
-    @text.replace(/^[0-9]+ /,'').replace(/\.html$/, '')
+    @text.replace(/^[0-9]+ /,'').replace(/\.html?$/, '')
 
 class Tree extends Node
   constructor: (trees) ->

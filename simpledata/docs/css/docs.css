@@ -28,6 +28,9 @@ code {
   padding: 8px;
   font-family: Inconsolata, Consolas, Courier;
 }
+pre {
+  word-wrap: normal;
+}
 ul {
   list-style: none;
   text-indent: -1em;
