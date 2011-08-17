@@ -5,7 +5,33 @@
 </head>
 <body>
 <h2>FindAllBy</h2>
-<h3>Summary</h3>
-<p>The FindAllBy methods return all matching rows.</p>
+<p>The <strong>FindAllBy</strong> methods are for finding multiple rows of data.</p>
+<p>The return value from a FindAllBy method is a SimpleQuery; you may start enumerating this directly,
+which will execute the query at the back-end, or you can append further Query methods for operations
+like sorting, paging etc. See <a href="content/03 Querying Data/index.html">Querying</a> for more info.
+<p>There are two ways to form a FindAllBy method: you may specify the column names as part of the method,
+or as named parameters. You can use whichever you prefer, unless you run into an edge-case which forces the
+named parameter form (more on that later).</p>
+<h3>Method name form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+  var user = db.Users.FindAllByType("Premium");
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p0 = 'Premium'
+  SELECT * FROM Users WHERE Type = @p0
+</pre>
+
+<h3>Named parameter form</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+  var user = db.Users.FindAllBy(Type:"Premium");
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p0 = 'Premium'
+  SELECT * FROM Users WHERE Type = @p0
+</pre>
 </body>
 </html>
