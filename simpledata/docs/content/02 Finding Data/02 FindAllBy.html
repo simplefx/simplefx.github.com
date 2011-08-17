@@ -15,7 +15,10 @@ named parameter form (more on that later).</p>
 <h3>Method name form</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-  var user = db.Users.FindAllByType("Premium");
+  foreach (var user in db.Users.FindAllByType("Premium"))
+  {
+      // Do something special
+  }
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
@@ -26,11 +29,14 @@ named parameter form (more on that later).</p>
 <h3>Named parameter form</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-  var user = db.Users.FindAllBy(Type:"Premium");
+  foreach (var user in db.Users.FindAllBy(Type:"Free"))
+  {
+      // Passive-aggressively disable key feature
+  }
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
-  @p0 = 'Premium'
+  @p0 = 'Free'
   SELECT * FROM Users WHERE Type = @p0
 </pre>
 </body>
