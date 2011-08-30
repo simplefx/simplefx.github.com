@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Calling Procedures</title>
+</head>
+<body>
+<h2>Procedures</h2>
+<p>Simple.Data allows you to call your existing stored procedures. There are three variations on calling procedures, Parameterless,
+Positional and with Named Parameters.</p>
+
+<h3>Procedure (Parameterless form)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            db.ProcedureWithoutParameters();
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+[ProcedureWithoutParameters]
+</pre>
+
+<h3>Procedure (Positional Parameters form)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            db.ProcedureWithParameters(1, 2);
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+[ProcedureWithParameters]
+@One (AnsiString) = 1
+@Two (AnsiString) = 2
+</pre>
+
+<h3>Procedure (Named Parameters form)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            db.ProcedureWithParameters(One: 1, Two: 2);
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+[ProcedureWithParameters]
+@One (AnsiString) = 1
+@Two (AnsiString) = 2
+</pre>
+
+</body>
+</html>

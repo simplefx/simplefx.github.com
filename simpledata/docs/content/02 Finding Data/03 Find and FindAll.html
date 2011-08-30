@@ -135,5 +135,19 @@ demonstrates a number of options.</p>
   @p0 = 42
   select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] <> @p0
 </pre>
+
+<h2>Other operators</h2>
+<h3>Like</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Users.Find(_db.Users.Name.Like("Foo%"));
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p0 = 'Foo%'
+  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[name] like @p0
+</pre>
+
+
 </body>
 </html>
