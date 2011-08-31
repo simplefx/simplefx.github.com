@@ -7,7 +7,7 @@
 <body>
 <h2>Joins</h2>
 <p>There are two ways that you can perform joins with Simple.Data, Explicit Join and Natural Join. An Explicit Join allows you to 
-specify the indenty columns that are used in the Join. A Natural Join requires referential integrity,< and uses the Foreign Key
+specify the indenty columns that are used in the Join. A Natural Join requires referential integrity, and uses the Foreign Key
 constraints on the tables.</p>
 
 <h3>Explicit Join</h3>
@@ -41,7 +41,10 @@ var q = _db.Employees.Query()
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
 
-<h3>Natural Join</h3>
+<h3>Natural Joins</h3>
+<p>There are two forms of natural joins, the dynamic form and via indexers.</p>
+
+<h3>Natural Join (Dynamic form)</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
             _db.Employees.Find(_db.Employees.DepartmentId == _db.Department.Id)
@@ -56,6 +59,20 @@ var q = _db.Employees.Query()
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
 
+<h3>Natural Join (Indexers form)</h3>
+
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            var orderDate = new DateTime(2010, 1, 1);
+            _db["Customer"].Find(_db["Customers"]["Orders"]["OrderDate"] == orderDate);
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    @p1 (Object) = 01/01/2010 00:00:00
+    select [dbo].[Customer].* from [dbo].[Customer] join [dbo].[Orders] on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) where [dbo].[Orders].[OrderDate] = @p1
+
+</pre>
+<i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
 
 
 </body>
