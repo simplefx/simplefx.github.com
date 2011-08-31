@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Transactions</title>
+</head>
+<body>
+
+<h3>Transactions</h3>
+<p>Transactions are transparent in Simple.Data and very simple to achieve. They are supported on all CRUD operations.</p>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            using (var transaction = database.BeginTransaction())
+            {
+                transaction.Users.Insert(Name: "Steve", Age: 50);
+                transaction.Commit();
+            }
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+@p0 (AnsiString) = Steve
+@p1 (AnsiString) = 50
+insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1)
+</pre>
+
+</body>
+</html>
