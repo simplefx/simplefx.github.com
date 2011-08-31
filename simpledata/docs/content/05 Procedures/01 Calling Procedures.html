@@ -10,6 +10,15 @@
 Positional and with Named Parameters.</p>
 
 <h3>Procedure (Parameterless form)</h3>
+<h4>Example Procedure</h4>
+
+<pre class="brush: sql">
+CREATE PROCEDURE ProcedureWithoutParameters 
+AS
+
+SELECT * FROM Customers
+</pre>
+
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
             db.ProcedureWithoutParameters();
@@ -20,6 +29,16 @@ Positional and with Named Parameters.</p>
 </pre>
 
 <h3>Procedure (Positional Parameters form)</h3>
+<h4>Example Procedure</h4>
+
+<pre class="brush: sql">
+CREATE PROCEDURE ProcedureWithParameters 
+@One VARCHAR(MAX),
+@Two VARCHAR(MAX)
+AS
+
+SELECT * FROM Customers WHERE Firstname = @One and Lastname like @Two
+</pre>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
             db.ProcedureWithParameters(1, 2);
