@@ -17,13 +17,16 @@ constraints on the tables.</p>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
 var q = _db.Employees.Query()
-                .Join(_db.Department, Id: _db.Employees.DepartmentId)
-                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+.Join(_db.Department, Id: _db.Employees.DepartmentId)
+.Select(_db.Employees.Name, _db.Department.Name.As("Department"));
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
-    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
-        join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+select [dbo].[employee].[name],
+        [dbo].[department].[name] as [Department] 
+from [dbo].[employee]
+join [dbo].[department] 
+    on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
 
@@ -31,13 +34,16 @@ var q = _db.Employees.Query()
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
 var q = _db.Employees.Query()
-                .Join(_db.Department).On(_db.Department.Id == _db.Employees.DepartmentId)
-                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+.Join(_db.Department).On(_db.Department.Id == _db.Employees.DepartmentId)
+.Select(_db.Employees.Name, _db.Department.Name.As("Department"));
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
-    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
-                join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+select [dbo].[employee].[name],
+        [dbo].[department].[name] as [Department] 
+from [dbo].[employee]
+join [dbo].[department] 
+    on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
 
@@ -47,14 +53,17 @@ var q = _db.Employees.Query()
 <h3>Natural Join (Dynamic form)</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-            _db.Employees.Find(_db.Employees.DepartmentId == _db.Department.Id)
-                .Select(_db.Employees.Name, _db.Department.Name.As("Department"));
+_db.Employees.Find(_db.Employees.DepartmentId == _db.Department.Id)
+.Select(_db.Employees.Name, _db.Department.Name.As("Department"));
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
-    
-    select [dbo].[employee].[name],[dbo].[department].[name] as [Department] from [dbo].[employee]
-                join [dbo].[department] on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
+   
+select [dbo].[employee].[name],
+    [dbo].[department].[name] as [Department] 
+from [dbo].[employee]
+join [dbo].[department] 
+    on ([dbo].[department].[id] = [dbo].[employee].[departmentid])
 
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
@@ -63,13 +72,16 @@ var q = _db.Employees.Query()
 
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-            var orderDate = new DateTime(2010, 1, 1);
-            _db["Customer"].Find(_db["Customers"]["Orders"]["OrderDate"] == orderDate);
+var orderDate = new DateTime(2010, 1, 1);
+_db["Customer"].Find(_db["Customers"]["Orders"]["OrderDate"] == orderDate);
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
-    @p1 (Object) = 01/01/2010 00:00:00
-    select [dbo].[Customer].* from [dbo].[Customer] join [dbo].[Orders] on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) where [dbo].[Orders].[OrderDate] = @p1
+@p1 (Object) = 01/01/2010 00:00:00
+select [dbo].[Customer].* from [dbo].[Customer] 
+join [dbo].[Orders] 
+    on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) 
+where [dbo].[Orders].[OrderDate] = @p1
 
 </pre>
 <i>Indentation whitespace added for clarity. SQL Generated may be a single line.</i>
