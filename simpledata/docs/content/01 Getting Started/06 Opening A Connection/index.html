@@ -6,26 +6,29 @@
 <body>
 <h2>Opening A Connection</h2>
 <p>Once you&#8217;ve set up your connection strings in your configuration file (or not), the first action to have your code take is to open your data store. You can use one of four methods to do this.</p>
-<p><strong>public static dynamic Open();</strong><br>
-  	  Tries to open a connection to a data store using the connection string named <em>Simple.Data.Properties.Settings.DefaultConnectionString</em> in your configuration file</p>
+<h3>Open</h3>
+<p>Tries to open a connection to a data store using the connection string named <code class="value">Simple.Data.Properties.Settings.DefaultConnectionString</code> in your configuration file</p>
 <pre class="brush:csharp">var defaultDb = Database.Open();
 var artist = defaultDb.Artists.FindByName("Aerosmith");
 Console.WriteLine("Id: {0}, Name: {1}", artist.ArtistId, artist.Name);</pre>
-<p><strong>public static dynamic OpenNamedConnection(string connectionName);</strong><br>
-	Tries to open a connection to a data store using the connection string with the given <em>connectionName</em> in your configuration file</p>
+<hr>
+<h3>OpenNamedConnection(string connectionName)</h3>
+<p>Tries to open a connection to a data store using the connection string with the given <code class="parameter">connectionName</code> in your configuration file</p>
 <pre class="brush:csharp">var namedDb = Database.OpenNamedConnection("MvcMusicStoreDb");
 var artist2 = namedDb.Artists.FindByName("Metallica");
 Console.WriteLine("Id: {0}, Name: {1}", artist2.ArtistId, artist2.Name);</pre>
-<p><strong>public static dynamic OpenConnection(string connectionString);</strong>
-	Tries to open a connection to a data store with the given literal <em>connectionString</em>.</p>
-<pre class="brush:csharp">var magicDb = Database.OpenConnection(@"Data Source=.\SQL2K8;Initial Catalog=MvcMusicStore;Integrated Security=True");
+<hr>
+<h3>OpenConnection(string connectionString)</h3>
+<p>Tries to open a connection to a data store with the given literal <code class="parameter">connectionString</code>.</p>
+<pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--");
 var artist3 = magicDb.Artists.FindByName("Iron Maiden");
 Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
-<p><strong>public static dynamic OpenFile(string filepath);</strong>
-	Tries to open a connection to a data store with the given <em>filepath</em>.</p>
+<hr>
+<h3>OpenFile(string filepath)</h3>
+<p>Tries to open a connection to a data store with the given <code class="parameter">filepath</code>.</p>
 <pre class="brush:csharp">var fileDb = Database.OpenConnection("MvcMusicStore.sdf");
 var artist4 = fileDb.Artists.FindByName("Alanis Morrisette");
 Console.WriteLine("Id: {0}, Name: {1}", artist4.ArtistId, artist4.Name);</pre>
-<p>Simple.Data is quite aggressive in closing connections and holds no open connections to a data store by default, so you can keep the db object returned from the Open methods hanging around without worrying.</p> 
+<p>Simple.Data is quite aggressive in closing connections and holds no open connections to a data store by default, so you can keep the <code class="type">Database</code> object returned from the <code class="method">Open*()</code> methods hanging around without worrying.</p> 
 </body>
 </html>

@@ -1,67 +1,23 @@
-h1 {
-  font-family: "Open Sans", sans-serif;
-  font-size: 2em;
-  font-weight: 300;
-  display: inline;
-}
-h2 {
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.25em;
-  margin: 8px;
-}
-h3 {
-  font-family: "Open Sans", sans-serif;
-  font-size: 1em;
-  margin: 8px;
-}
-h4 {
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.8em;
-  margin: 8px;
-}
-p {
-  margin-left: 8px;
-  margin-right: 8px;
-}
-code {
-  margin: 16px;
-  padding: 8px;
-  font-family: Inconsolata, Consolas, Courier;
-}
-pre {
-  word-wrap: normal;
-}
-ul {
-  list-style: none;
-  text-indent: -1em;
-}
-li a {
-  color: #f5f5f5;
-  text-decoration: none;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.9em;
-}
-li a:hover {
-  color: #ffffff;
-  /*text-decoration: underline;*/
-}
 #wrap {
-  width:760px;
+  width:960px;
   margin:0 auto;
-  font-family: Garamond, Palatino, serif;
+  font-family: Georgia, serif;
 }
 #header {
   background:#ffffff;
 }
 #main {
   float:left;
-  width:550px;
-  background:#f9f9f9;
+  width:690px;
+  margin-right:10px;
+}
+#main ul li {
+   padding:0 0 5px 0;
 }
 #nav {
   padding-left: 4px;
   float:right;
-  width:206px;
+  width:256px;
   color:#f5f5f5;
   background: #2e3192; /* Old browsers */
   background: -moz-linear-gradient(left, #2e3192 0%, #173296 52%, #0071bc 100%); /* FF3.6+ */
@@ -72,6 +28,51 @@ li a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e3192', endColorstr='#0071bc',GradientType=1 ); /* IE6-9 */
   background: linear-gradient(left, #2e3192 0%,#173296 52%,#0071bc 100%); /* W3C */
 }
+#nav ul {
+  list-style: none;
+  margin-left: 0;
+	padding-left: 1em;
+}
+#nav li a {
+  color:#f5f5f5;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+}
+#nav li a:hover {
+  text-decoration: underline;
+}
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2em;
+  font-weight: 300;
+  display: inline;
+}
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.25em;
+  margin-bottom: 0;
+}
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+h4 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8em;
+  margin-bottom: 0;
+}
+p
+{ 
+   margin-top : 4px;
+}
+p.alert
+{
+   margin: 16px 0 4px 0;
+   color: red;
+   font-style: italic;
+}
 #footer {
   clear:both;
 }
@@ -79,4 +80,21 @@ img.logo
 {
   vertical-align: middle;
   margin-right: 16px;
+}
+code
+{
+  font-family: Georgia, serif;
+  font-style:italic;
+}
+code.method
+{
+  color: #7f006e; 
+}
+code.parameter, code.property, code.value
+{
+  color: #008000; 
+}
+code.object, code.type
+{
+  color: #0066cc;
 }
