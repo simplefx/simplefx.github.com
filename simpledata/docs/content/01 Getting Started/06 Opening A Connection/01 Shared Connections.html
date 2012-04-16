@@ -5,16 +5,15 @@
 </head>
 <body>
 <h2>Using a Shared Connection</h2>
-<p><strong>[ADOAdapter Only]</strong></p>
-<p>SImple.Data&#8217;s aggressive attitude to closing database connections may not be optimal for you, but it is possible to</p> 
+<p class="alert">[ADOAdapter Only]</p>
+<p>Simple.Data&#8217;s aggressive attitude to closing database connections may not be optimal for you, but it is possible to</p> 
 <ul>
-	<li>create and open a connection outside of Simple.Data (e.g. a SqlConnection)</li>
+	<li>create and open a connection outside of Simple.Data (e.g. a <code class="type">SqlConnection</code>)</li>
 	<li>force Simple.Data to share that one open connection across all its databases operations</li>
 	<li>close the connection at your discretion</li>
 </ul> 
-<p>The Simple.Data.Ado adaptor includes the <strong>UseSharedConnection()</strong> and <strong>StopUsingSharedConnection()</strong> methods for this purpose</p> 
- <pre class="brush:csharp">public readonly string MagicConnection =
- 	  @"Data Source=.\SQL2K8;Initial Catalog=MvcMusicStore;Integrated Security=True";
+<p>The <code class="type">Simple.Data.Ado</code> adaptor includes the <code class="method">UseSharedConnection()</code> and <code class="method">StopUsingSharedConnection()</code> methods for this purpose</p> 
+ <pre class="brush:csharp;highlight:[4,6,17]">public readonly string MagicConnection = "--Your connection string--";
  	
 var db = Database.OpenConnection(MagicConnection);
 SqlConnection conn = new SqlConnection(MagicConnection);
