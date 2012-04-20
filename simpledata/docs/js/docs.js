@@ -8,7 +8,7 @@
     child.__super__ = parent.prototype;
     return child;
   };
-  user = 'simplefx';
+  user = 'hmobius';
   repo = 'simplefx.github.com';
   contentFolder = 'simpledata/docs/content';
   Node = (function() {
