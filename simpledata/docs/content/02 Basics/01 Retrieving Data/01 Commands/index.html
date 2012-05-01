@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Retrieving Data</title>
+</head>
+<body>
+<h2>Retrieving Data</h2>
+<p>There are six Simple.Data commands you can use to return data from a data store.</p>
+
+
+<table><tr>
+ 		<th>Name</th>
+ 		<th>Returns</th>
+ 		<th>Description</th>
+ 	</tr>
+ 	<tr>
+ 		<td><code class="method">All</code></td>
+ 		<td><code class="type">SimpleQuery</code></td>
+ 		<td>The <a href="01 All.html">All</a> method returns all data from a table.</td>
+ 	</tr> 
+ 	<tr>
+ 		<td><code class="method">FindBy*</code></td>
+ 		<td><code class="type">SimpleRecord</code></td>
+ 		<td>The <a href="02 FindBy.html">FindBy</a> methods return a single row of data; if more than one row matches, the first row retrieved from the data store is returned.</td>
+ 	</tr>
+ 	<tr>
+ 		<td><code class="method">FindAllBy*</code></td>
+ 		<td><code class="type">SimpleQuery</code></td>
+ 		<td>The <a href="03 FindByAll.html">FindAllBy</a> methods are for finding multiple rows of data.</td>
+ 	</tr>
+ 	<tr>
+ 		<td><code class="method">Get</code></td>
+ 		<td><code class="type">SimpleRecord</code></td>
+ 		<td>The <a href="04 Get.html">Get</a> method returns data from a table where the table&#8217;s primary key matches its argument values. The <code class="method">Get</code> method returns a single row of data; if more than one row matches (not that it should unless your primary key integrity is broken), the first row retrieved from the data store is returned.</td>
+ 	</tr>
+ 	<tr>
+ 		<td><code class="method">Find</code></td>
+ 		<td><code class="type">SimpleRecord</code></td>
+ 		<td>The <a href="05 Find.html">Find</a> method returns a single row of data; if more than one row matches, the first row retrieved from the data store is returned.</td>
+ 	</tr>
+ 	<tr>
+ 	 	<td><code class="method">FindAll</code></td>
+ 	 	<td><code class="type">SimpleQuery</code></td>
+ 	 	<td>The <a href="06 FindAll.html">FindAll</a> method returns multiple rows of data.</td>
+ 	 </tr></table>
+<h3>Notes</h3>
+<ul>
+	<li>The <code class="method">FindBy</code> and <code class="method">FindAllBy</code> methods are used to return data from a table based on a set of criteria where the value of columns in a row are equal to given values - e.g. <code>ArtistId=6 and Title="Back in Black"</code> - or within certain sets of values.</li>
+	<li>The <code class="method">Find</code> and <code class="method">FindAll</code> methods are used when the criteria is more complicated than simple equality tests. E.g. <code>Title LIKE "Back%"</code>. Criteria can be constructed just using regular C# expressions, with all operators supported and precedence-grouping honoured.</li>
+	<li>Still included in Simple.Data for legacy reasons, the <code class="method">Query</code> and <code class="method">QueryBy</code> methods are now deprecated in favour of using <code class="method">All</code> and <code class="method">FindAllBy</code> respectively.</li>
+</ul>
+</body>
+</html>

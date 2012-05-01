@@ -60,8 +60,9 @@ h3 {
 }
 h4 {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin-bottom: 0;
+  font-style:italic;
 }
 p
 { 
@@ -73,6 +74,19 @@ p.alert
    color: red;
    font-style: italic;
 }
+dl {
+margin-top:4px;
+}
+table {
+background-color: #eee;
+}
+
+th, td {
+   text-align:left;
+   border-bottom: solid 1px black;
+   padding : 2px;
+}
+
 #footer {
   clear:both;
 }
@@ -90,7 +104,7 @@ code.method
 {
   color: #7f006e; 
 }
-code.parameter, code.property, code.value
+code.parameter, code.property, code.value, code.variable
 {
   color: #008000; 
 }

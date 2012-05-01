@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>The All Method</title>
+</head>
+<body>
+<h2>All</h2>
+<p>The <code class="method">All</code> method returns all data from a table.</p>
+<h3>Syntax</h3>
+<pre class="brush:csharp">public SimpleQuery All(
+		Object[] filterExpressions
+	)</pre>
+<h4>Parameters</h4>
+<dl>
+<dt><code class="parameter">filterExpressions</code></dt>
+			<dd>Type: <code class="type">object[]</code><br>
+				All parameters in <code class="parameter">filterExpressions</code> are <em>silently ignored</em> by <code class="method">All()</code>.</dd></dl>
+<h4>Return Value</h4>
+<p>Type: <code class="type">SimpleQuery</code><br>
+	A collection of <code class="type">SimpleRecord</code> objects  which can be iterated over.</p>
+<h3>Examples</h3>
+<p>The following example returns all the rows of the Albums table and outputs all the album titles to the Console window.</p>
+<pre class="brush:csharp">var albums = Database.Open().Albums.All();
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when albums is evaluated.</p>
+<pre class="brush:sql">select   
+   [dbo].[Album].[AlbumId],
+   [dbo].[Album].[GenreId],
+   [dbo].[Album].[ArtistId],
+   [dbo].[Album].[Title],
+   [dbo].[Album].[Price],
+   [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]</pre>
+<p>(which equates to <code>select * from [dbo].[Album]</code>)</p>
+</body>
+</html>
