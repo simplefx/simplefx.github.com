@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Get</title>
+</head>
+<body>
+	<h2>Get</h2>
+  <p>For the ADO adapter, Get will use the table&#8217;s primary key to construct the query (once; it&#8217;s then cached internally, no worries about performance). For the MongoDB adapter, I&#8217;d expect it to use the built-in id value that Mongo assigns to all records. Somebody is working on an OData adapter, for which, e.g., Customers.Get(1001) will resolve to the /Customers(1001) URL.</p>
+</body>
+</html>
