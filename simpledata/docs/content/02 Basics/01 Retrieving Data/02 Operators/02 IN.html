@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IN</title>
+</head>
+<body>
+	<h2>IN</h2>
+  <p>It is possible to use Simple.Data to perform Range and Array operations. In SQL terminology, a Range uses the BETWEEN
+clause and an Array uses the IN (n..n1..n2) clause. These work work with the FindAll methods described elsewhere.</p>
+
+  <h3>FindAll with Integer Array</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Users.FindAllById(new[] { 1, 2, 3 });
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+@p1_0 (Object) = 1
+@p1_1 (Object) = 2
+@p1_2 (Object) = 3
+
+select [dbo].[Users].[Id],[dbo].[Users].[Name],[dbo].[Users].[Password],[dbo].[Users].[Age],[dbo].[Users].[JoinDate] from [dbo].[Users]
+WHERE [dbo].[Users].[Id] IN (@p1_0,@p1_1,@p1_2)
+
+</pre>
+</body>
+</html>
