@@ -44,8 +44,7 @@
       <p>Additional criteria can be added by concatenating more column names to the end of the method name, separated by “And”, with the column values set in the arguments to the method. For example,</p>
       <pre class="brush:csharp">db.Albums.FindByGenreIdAndArtistId(1,1);</pre>
 <p><img src="../../images/NamingConventions02.png" alt=""/></p>
-<p>Note that Simple.Data will also attempt to resolve names by removing all characters except for alpha-numerics and underscores from object names, and forcing all names to lower case. 
-	So, for example, <code class="value">Albums.GenreId</code> will match all of:</p>
+<p>Note that Simple.Data will also attempt to resolve names by removing all characters except for alpha-numerics and underscores from object names, and forcing all names to lower case. So, for example, <code class="value">Albums.GenreId</code> will match all of:</p>
 <ul>
 	<li>Albums.GenreId</li>
 	<li>Album.GenreId</li>
@@ -57,15 +56,5 @@
 <p>And other such variations.</p>
 	</li>
 </ol>
-
-
-
-
-
-
-￼
-
-
-
 </body>
 </html>

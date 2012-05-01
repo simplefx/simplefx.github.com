@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pluralizers</title>
+</head>
+<body>
+	<h2>Pluralizers</h2>
+  <p>Pluralizers are the classes Simple.Data uses to help it resolve the names of Tables and Views being accessed. When attempting to resolve table and view names within commands (e.g. <code class="method">db.Albums.All()</code>),</p> 
+<ol>
+	<li>It tries an exact match first (<code class="value">Albums</code>)</li>
+	<li>Then it tries a case-insensitive match (<code class="value">albums</code>)</li>
+	<li>Then a pluralized version if the string &#8216;is not a plural&#8217; (<code class="value">Albums</code>)</li>
+	<li>Finally a singularized version if the string &#8216;is a plural&#8217;  (<code class="value">Album</code>)</li>
+</ol>
+<p>The Pluralizer is used to determine whether the table \ view name is a plural or singular word and then to singularize \ pluralize it as appropriate. The <code class="type">SimplePluralizer</code> class used as a default by Simple.Data just adds/removes the letter &#8216;s&#8217; to the target string.</p>
+<p>To create your own pluralizer, create a class that implements the <code class="interface">Simple.Data.IPluralizer</code> interface and call the static <code class="method">Database.SetPluralizer</code> method.</p>
+<pre class="brush:csharp">public interface IPluralizer
+{
+	  bool IsPlural(string word);
+	  bool IsSingular(string word);
+	  string Pluralize(string word);
+	  string Singularize(string word);
+}</pre>
+<p>For example, to create a new Pluralizer that uses <a href="http://msdn.microsoft.com/en-us/library/system.data.entity.design.pluralizationservices.pluralizationservice.aspx">the Entity Framework&#8217;s Pluralization service</a>, we have this code.</p>
+<pre class="brush:csharp">class EntityPluralizer : IPluralizer
+{
+	  private readonly PluralizationService _pluralizationService =
+	      PluralizationService.CreateService(CultureInfo.CurrentCulture);
+	
+	  public bool IsPlural(string word)
+	  {
+	      return _pluralizationService.IsPlural(word);
+	  }
+	
+	  public bool IsSingular(string word)
+	  {
+	      return _pluralizationService.IsSingular(word);
+	  }
+	
+	  public string Pluralize(string word)
+	  {
+	      bool upper = (word.IsAllUpperCase());
+	      word = _pluralizationService.Pluralize(word);
+	      return upper ? word.ToUpper(_pluralizationService.Culture) : word;
+	  }
+	
+	  public string Singularize(string word)
+	  {
+	      return _pluralizationService.Singularize(word);
+	  }
+}</pre>
+<p>Then you need to call <code class="method">SetPluralizer()</code>.</p>
+<pre class="brush:csharp">Database.SetPluralizer(new EntityPluralizer());</pre>
+<p>There are several other pluralization services you could plug in <a href="http://www.hanselman.com/blog/FunWithNounPluralizationLibrariesAndTheNETFramework.aspx">here</a> as well as rolling your own.</p>
+</body>
+</html>
