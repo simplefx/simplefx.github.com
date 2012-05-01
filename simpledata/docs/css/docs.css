@@ -108,7 +108,7 @@ code.parameter, code.property, code.value, code.variable
 {
   color: #008000; 
 }
-code.object, code.type
+code.object, code.type, code.class, code.interface
 {
   color: #0066cc;
 }

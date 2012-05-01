@@ -16,7 +16,7 @@
 		Object[] filterExpressions
 	)
 
-public SimpleRecord FindBycolumnName1[AndcolumnName2…](
+public SimpleRecord FindBycolumnName1[AndcolumnName2&#8230;](
 	Object columnValue1
 	[, Object columnValue2]
 )</pre>
@@ -25,14 +25,14 @@ public SimpleRecord FindBycolumnName1[AndcolumnName2…](
     <dt><code class="parameter">filterExpressions</code></dt>
 <dd>Type: <code class="type">object[]</code><br>
 			A set of named parameters where the parameter name is that of column being filtered against and the parameter value is that which the column should equal.</dd>
-		<dt><code class="parameter">columnName1[, columnName2, …, columnNameX]</code></dt>
+		<dt><code class="parameter">columnName1[, columnName2, &#8230;, columnNameX]</code></dt>
 		<dd>Type: <code class="type">string</code>
 			The name of the column(s) being filtered against</dd>
-		<dt><code class="parameter">columnValue1[, columnValue2, …, columnValueX]</code></dt>
+		<dt><code class="parameter">columnValue1[, columnValue2, &#8230;, columnValueX]</code></dt>
 		<dd>Type: <code class="type">object</code>  (typically <code class="type">string</code> or <code class="type">int</code>)
 			<code class="parameter">columnValueY</code> contains the value with which column with name <code class="parameter">columnNameY</code> should equal.</dd></dl>
 <h4>Return Value</h4>
-<p>Type: <code class="type">SimpleRecord</code>
+<p>Type: <code class="type">SimpleRecord</code><br />
 	An object containing a property for each of the columns requested by Simple.Data whose values  are those of the single row retrieved from the data store.</p>
 <h3>Exceptions</h3>
 <table>
@@ -53,7 +53,7 @@ public SimpleRecord FindBycolumnName1[AndcolumnName2…](
 <p>FindBy is used to return data from a table based on a set of criteria where the value of columns in a row </p>
 <ul>
 	<li>are equal to given values - e.g. <code>Artistid=6</code> and <code>Title="Back in Black"</code></li>
-	<li>are within certain sets of values, a range or an array. See <a href="../02 Operators/02 IN.html">IN</a> and <a href="../02 Operators/03 BETWEEN.html">BETWEEN</a> for more on this.</li>
+	<li>are within certain sets of values, a range or an array. See <a href="content/02 Basics/01 Retrieving Data/02 Operators/02 IN.html">IN</a> and <a href="content/02 Basics/01 Retrieving Data/02 Operators/03 BETWEEN.html">BETWEEN</a> for more on this.</li>
 </ul>
 <p>If you wish to include a column name in a filter that contains the string &#8220;and&#8221; in it, 
 you must use the named parameter form of <code class="method">FindBy</code>. If you have a column called, for example, <code class="value">HandlingCode</code>, and you try to call </p>
@@ -81,7 +81,7 @@ where
     [dbo].[Album].[GenreId] = @p1
 @p1 (Int32) = 1</pre>
 <hr />
-<p>The following example retrieves the first album with  <code class="parameter">GenreId</code> equal to <code class="value">1</code> and <code class="parameter">ArtistId</code> eqal to <code class="value">120</code> and outputs its title to the Console window.</p>
+<p>The following example retrieves the first album with  <code class="parameter">GenreId</code> equal to <code class="value">1</code> and <code class="parameter">ArtistId</code> equal to <code class="value">120</code> and outputs its title to the Console window.</p>
 <pre class="brush:csharp">var album = Database.Open().Albums.FindByGenreIdAndArtistId(1,120);
 	
 // The named parameter equivalent call to FindBy() is
