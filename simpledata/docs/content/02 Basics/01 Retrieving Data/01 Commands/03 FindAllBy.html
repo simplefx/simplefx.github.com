@@ -5,39 +5,107 @@
 </head>
 <body>
 <h2>FindAllBy</h2>
-<p>The <strong>FindAllBy</strong> methods are for finding multiple rows of data.</p>
-<p>The return value from a FindAllBy method is a SimpleQuery; you may start enumerating this directly,
-which will execute the query at the back-end, or you can append further Query methods for operations
-like sorting, paging etc. See <a href="content/03 Querying Data/index.html">Querying</a> for more info.
-<p>There are two ways to form a FindAllBy method: you may specify the column names as part of the method,
-or as named parameters. You can use whichever you prefer, unless you run into an edge-case which forces the
-named parameter form (more on that later).</p>
-<h3>Method name form</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  foreach (var user in db.Users.FindAllByType("Premium"))
-  {
-      // Do something special
-  }
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 'Premium'
-  SELECT * FROM Users WHERE Type = @p0
-</pre>
+<p><code class="method">FindAllBy</code> returns all data from a table based on at least one column name and value to filter by.</p>
+<p>There are two ways to form a <code class="method">FindAllBy</code> method.</p>
+<ul>
+	<li>You can specify the column names as named parameters.</li>
+	<li>You can specify the column names as part of the method</li>
+</ul>
+<h3>Syntax</h3>
+<pre class="brush:csharp">public SimpleQuery FindAllBy(
+		Object[] filterExpressions
+	)
 
-<h3>Named parameter form</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  foreach (var user in db.Users.FindAllBy(Type:"Free"))
-  {
-      // Passive-aggressively disable key feature
-  }
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 'Free'
-  SELECT * FROM Users WHERE Type = @p0
-</pre>
+public SimpleQuery FindAllBycolumnName1[AndcolumnName2&#8230;](
+	Object columnValue1
+	[, Object columnValue2]
+)</pre>
+<h4>Parameters</h4>
+<dl>
+    <dt><code class="parameter">filterExpressions</code></dt>
+<dd>Type: <code class="type">object[]</code><br>
+			A set of named parameters where the parameter name is that of column being filtered against and the parameter value is that which the column should equal.</dd>
+		<dt><code class="parameter">columnName1[, columnName2, &#8230;, columnNameX]</code></dt>
+		<dd>Type: <code class="type">string</code>
+			The name of the column(s) being filtered against</dd>
+		<dt><code class="parameter">columnValue1[, columnValue2, &#8230;, columnValueX]</code></dt>
+		<dd>Type: <code class="type">object</code>  (typically <code class="type">string</code> or <code class="type">int</code>)
+			<code class="parameter">columnValueY</code> contains the value with which column with name <code class="parameter">columnNameY</code> should equal.</dd></dl>
+<h4>Return Value</h4>
+<p>Type: <code class="type">SimpleQuery</code><br />
+	A collection of <code class="type">SimpleRecord</code> objects  which can be iterated over.</p>
+<h3>Exceptions</h3>
+<table>
+<tr>
+		<th>Exception</th>
+		<th>Condition</th>
+	</tr>
+<tr>
+		<td><code class="type">InvalidOperationException</code></td>
+		<td>You have specified no named parameters for <code class="parameter">filterExpressions</code><br />
+    <em>-or-</em><br />The number of <code class="parameter">columnNames</code> does not match the number of <code class="parameter">columnValues</code></td>
+	</tr>
+<tr>
+		<td><code class="type">ArgumentException</code></td>
+		<td>The number of <code class="parameter">columnValues</code> does not match the number of <code class="parameter">columnNames</code></td>
+	</tr></table>
+<h3>Remarks</h3>
+<p>FindAllBy is used to return all the data from a table based on a set of criteria where the value of columns in a row </p>
+<ul>
+	<li>are equal to given values - e.g. <code>Artistid=6</code> and <code>Title="Back in Black"</code></li>
+	<li>are within certain sets of values, a range or an array. See <a href="content/02 Basics/01 Retrieving Data/02 Operators/02 IN.html">IN</a> and <a href="content/02 Basics/01 Retrieving Data/02 Operators/03 BETWEEN.html">BETWEEN</a> for more on this.</li>
+</ul>
+<p>If you wish to include a column name in a filter that contains the string &#8220;and&#8221; in it, 
+you must use the named parameter form of <code class="method">FindAllBy</code>. If you have a column called, for example, <code class="value">HandlingCode</code>, and you try to call </p>
+<pre class="brush:csharp">FindAllByHandlingCode(1);</pre>
+<p>the parser will split that into two columns, H &amp; lingCode, and throw an <code class="type">ArgumentException</code>. So you have to use the named parameter form for columns with &#8220;and&#8221; in the name. For example,</p>
+<pre class="brush:csharp">FindAllBy(HandlingCode:1);</pre>
+<h3>Examples</h3>
+<p>The following example retrieves all the albums with <code class="parameter">GenreId</code> equal to <code class="value">1</code> and outputs their titles to the Console window.</p>
+<pre class="brush:csharp">var albums = Database.Open().Albums.FindAllByGenreId(1);
+	
+// The named parameter equivalent call to FindAllBy() is
+// var albums = Database.Open().Albums.FindAllBy(GenreId:1);
+	
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when <code class="variable">album</code> is evaluated.</p>
+<pre class="brush:sql">SELECT
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  
+where 
+    [dbo].[Album].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+<hr />
+<p>The following example retrieves all the albums with  <code class="parameter">GenreId</code> equal to <code class="value">1</code> and <code class="parameter">ArtistId</code> equal to <code class="value">120</code> and outputs their titles to the Console window.</p>
+<pre class="brush:csharp">var albums = Database.Open().Albums.FindAllByGenreIdAndArtistId(1,120);
+	
+// The named parameter equivalent call to FindAllBy() is
+// var albums = Database.Open().Albums.FindAllBy(GenreId:1,ArtistId:120);
+	
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when album is evaluated.</p>
+<pre class="brush:sql">SELECT
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  
+where 
+    ([dbo].[Album].[GenreId] = @p1 AND [dbo].[Album].[ArtistId] = @p2)
+@p1 (Int32) = 1
+@p2 (Int32) = 120</pre>
 </body>
 </html>
