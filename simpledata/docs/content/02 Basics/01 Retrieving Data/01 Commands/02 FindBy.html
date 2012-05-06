@@ -58,7 +58,7 @@ public SimpleRecord FindBycolumnName1[AndcolumnName2&#8230;](
 <p>If you wish to include a column name in a filter that contains the string &#8220;and&#8221; in it, 
 you must use the named parameter form of <code class="method">FindBy</code>. If you have a column called, for example, <code class="value">HandlingCode</code>, and you try to call </p>
 <pre class="brush:csharp">FindByHandlingCode(1);</pre>
-<p>the parser will split that into two columns, H & lingCode, and throw an <code class="type">ArgumentException</code>. So you have to use the named parameter form for columns with &#8220;and&#8221; in the name. For example,</p>
+<p>the parser will split that into two columns, H &amp; lingCode, and throw an <code class="type">ArgumentException</code>. So you have to use the named parameter form for columns with &#8220;and&#8221; in the name. For example,</p>
 <pre class="brush:csharp">FindBy(HandlingCode:1);</pre>
 <h3>Examples</h3>
 <p>The following example retrieves the first album with <code class="parameter">GenreId</code> equal to <code class="value">1</code> and outputs its title to the Console window.</p>
