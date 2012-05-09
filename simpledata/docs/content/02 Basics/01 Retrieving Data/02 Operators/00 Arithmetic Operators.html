@@ -43,12 +43,12 @@
 <h3>- (Divide)</h3>
 <h4>Simple.Data:</h4>
 <pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id * _db.Users.Age == 42);
+  var user = db.Users.Find(_db.Users.Id / _db.Users.Age == 42);
 </pre>
 <h4>Generated SQL:</h4>
 <pre class="brush: sql">
   @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] * [dbo].[Users].[Age] = @p0
+  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] / [dbo].[Users].[Age] = @p0
 </pre>
 
 <h3>% (Modulo)</h3>
