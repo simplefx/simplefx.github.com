@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>IResponse Interface (Simple.Web.Http)</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script src="../scripts.js" type="text/javascript"></script>
+	<style type="text/css">
+		.csharp { display: inline; }
+		.vb { display: none; }
+		.cpp { display: none; }
+	</style>
+</head>
+<body id="top">
+
+<div id="header">
+<p id="title">Simple.Web</p>
+<h1><span class="csharp">IResponse</span><span class="vb">IResponse</span><span class="cpp">IResponse</span> Interface</h1>
+<div id="functions" style="display:none"><a id="collapseAll" href="javascript:collapseAll();">Collapse All</a><a id="expandAll" href="javascript:expandAll();">Expand All</a></div>
+</div>
+<div id="content">
+<div id="contentTop">
+<div id="summary">
+<p class="preliminary">[This is preliminary documentation and is subject to change.]</p>
+<div>
+Abstraction for an HTTP response, to be implemented by hosting.
+</div>
+</div>
+
+<p>
+	<b>Namespace:</b> <a href="Simple.Web.Http.html"><span class="csharp">Simple.Web.Http</span><span class="vb">Simple.Web.Http</span><span class="cpp">Simple::Web::Http</span></a><br/>
+	<b>Assembly:</b> Simple.Web (in Simple.Web.dll)
+</p>
+
+<h2 id="syntax">Syntax</h2>
+<div>
+<div id="syntaxPanel">
+<div class="code-block default" lang="x-csharp">
+<div class="code-header"><span class="title">C#</span></div>
+<div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">interface</span>&nbsp;<span class="type">IResponse</span></p>
+</div>
+</div>
+<div class="code-block" lang="x-vb">
+<div class="code-header"><span class="title">VB</span></div>
+<div class="code"><p><span class="keyword">Public</span>&nbsp;<span class="keyword">Interface</span>&nbsp;<span class="type">IResponse</span></p>
+</div>
+</div>
+<div class="code-block" lang="x-cpp">
+<div class="code-header"><span class="title">C++</span></div>
+<div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">interface</span>&nbsp;<span class="keyword">class</span>&nbsp;<span class="type">IResponse</span></p>
+</div>
+</div>
+</div>
+</div>
+<p>The <span class="csharp">IResponse</span><span class="vb">IResponse</span><span class="cpp">IResponse</span> type exposes the following members.</p>
+<p id="showInherited" style="display: none;"><a href="javascript:showInherited();">Show inherited members</a></p>
+<p id="hideInherited" style="display: none;"><a href="javascript:hideInherited();">Hide inherited members</a></p>
+
+<h2 id="properties">Properties</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.ContentType.html"><span class="csharp">ContentType</span><span class="vb">ContentType</span><span class="cpp">ContentType</span></a></td>
+		<td>Gets or sets the type of the content.</td>
+	</tr>
+	<tr>
+		<td><span class="public-readonly icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.Cookies.html"><span class="csharp">Cookies</span><span class="vb">Cookies</span><span class="cpp">Cookies</span></a></td>
+		<td>Gets the cookies.</td>
+	</tr>
+	<tr>
+		<td><span class="public-readonly icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.OutputStream.html"><span class="csharp">OutputStream</span><span class="vb">OutputStream</span><span class="cpp">OutputStream</span></a></td>
+		<td>Gets the output stream.</td>
+	</tr>
+	<tr>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.StatusCode.html"><span class="csharp">StatusCode</span><span class="vb">StatusCode</span><span class="cpp">StatusCode</span></a></td>
+		<td>Gets or sets the status code.</td>
+	</tr>
+	<tr>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.StatusDescription.html"><span class="csharp">StatusDescription</span><span class="vb">StatusDescription</span><span class="cpp">StatusDescription</span></a></td>
+		<td>Gets or sets the status description.</td>
+	</tr>
+</table>
+<a href="#top">Top</a>
+</div>
+
+<h2 id="methods">Methods</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.DisableCache.html"><span class="csharp">DisableCache()</span><span class="vb">DisableCache()</span><span class="cpp">DisableCache()</span></a></td>
+		<td>Disables caching of the resource.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheAbsoluteExpiry.html"><span class="csharp">SetCacheAbsoluteExpiry(DateTime)</span><span class="vb">SetCacheAbsoluteExpiry(DateTime)</span><span class="cpp">SetCacheAbsoluteExpiry(DateTime)</span></a></td>
+		<td>Sets the cache absolute expiry.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheSlidingExpiry.html"><span class="csharp">SetCacheSlidingExpiry(TimeSpan)</span><span class="vb">SetCacheSlidingExpiry(TimeSpan)</span><span class="cpp">SetCacheSlidingExpiry(TimeSpan)</span></a></td>
+		<td>Sets the cache sliding expiry.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByContentEncodings.html"><span class="csharp">SetCacheVaryByContentEncodings(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByContentEncodings(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByContentEncodings(ICollection&lt;String^&gt;^)</span></a></td>
+		<td>Sets the cache vary by content encodings.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByHeaders.html"><span class="csharp">SetCacheVaryByHeaders(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByHeaders(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByHeaders(ICollection&lt;String^&gt;^)</span></a></td>
+		<td>Sets the cache vary by headers.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByParams.html"><span class="csharp">SetCacheVaryByParams(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByParams(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByParams(ICollection&lt;String^&gt;^)</span></a></td>
+		<td>Sets the cache vary by params.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetETag.html"><span class="csharp">SetETag(string)</span><span class="vb">SetETag(String)</span><span class="cpp">SetETag(String^)</span></a></td>
+		<td>Sets the ETag.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetHeader.html"><span class="csharp">SetHeader(string, string)</span><span class="vb">SetHeader(String, String)</span><span class="cpp">SetHeader(String^, String^)</span></a></td>
+		<td>Sets a header value.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetLastModified.html"><span class="csharp">SetLastModified(DateTime)</span><span class="vb">SetLastModified(DateTime)</span><span class="cpp">SetLastModified(DateTime)</span></a></td>
+		<td>Sets the last modified date.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.TransmitFile.html"><span class="csharp">TransmitFile(string)</span><span class="vb">TransmitFile(String)</span><span class="cpp">TransmitFile(String^)</span></a></td>
+		<td>Transmits a file to the client using whatever optimizations are available.</td>
+	</tr>
+</table>
+<a href="#top">Top</a>
+</div>
+
+<h2 id="extensions">Extension Methods</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Helpers.ResponseExtensions.SetStatus.html"><span class="csharp">SetStatus(IResponse, Status)</span><span class="vb">SetStatus(IResponse, Status)</span><span class="cpp">SetStatus(IResponse^, Status)</span></a></td>
+		<td>Sets the status code and description from a <a href="Simple.Web.Status.html"><span class="csharp">Status</span><span class="vb">Status</span><span class="cpp">Status</span></a>. (Defined by <a href="Simple.Web.Helpers.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Helpers.ResponseExtensions.Write.html"><span class="csharp">Write(IResponse, string)</span><span class="vb">Write(IResponse, String)</span><span class="cpp">Write(IResponse^, String^)</span></a></td>
+		<td>Writes text to the response body. (Defined by <a href="Simple.Web.Helpers.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+</table>
+<a href="#top">Top</a>
+</div>
+
+<h2 id="seealso">See Also</h2>
+<div>
+	<div><a href="Simple.Web.Http.html"><span class="csharp">Simple.Web.Http</span><span class="vb">Simple.Web.Http</span><span class="cpp">Simple::Web::Http</span> Namespace</a></div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">init();</script>
+</body>
+</html>

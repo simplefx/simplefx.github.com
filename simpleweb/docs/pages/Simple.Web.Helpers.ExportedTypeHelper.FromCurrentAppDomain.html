@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>ExportedTypeHelper.FromCurrentAppDomain Method (Simple.Web.Helpers)</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script src="../scripts.js" type="text/javascript"></script>
+	<style type="text/css">
+		.csharp { display: inline; }
+		.vb { display: none; }
+		.cpp { display: none; }
+	</style>
+</head>
+<body id="top">
+
+<div id="header">
+<p id="title">Simple.Web</p>
+<h1><span class="csharp">ExportedTypeHelper.FromCurrentAppDomain</span><span class="vb">ExportedTypeHelper.FromCurrentAppDomain</span><span class="cpp">ExportedTypeHelper::FromCurrentAppDomain</span> Method</h1>
+<div id="functions" style="display:none"><a id="collapseAll" href="javascript:collapseAll();">Collapse All</a><a id="expandAll" href="javascript:expandAll();">Expand All</a></div>
+</div>
+<div id="content">
+<div id="contentTop">
+<div id="summary">
+<p class="preliminary">[This is preliminary documentation and is subject to change.]</p>
+<div>
+Gets the exported types from all assemblies currently loaded, except for those which are dynamically generated or in the GAC.
+</div>
+</div>
+
+<p>
+	<b>Namespace:</b> <a href="Simple.Web.Helpers.html"><span class="csharp">Simple.Web.Helpers</span><span class="vb">Simple.Web.Helpers</span><span class="cpp">Simple::Web::Helpers</span></a><br/>
+	<b>Assembly:</b> Simple.Web (in Simple.Web.dll)
+</p>
+
+<h2 id="syntax">Syntax</h2>
+<div>
+<div id="syntaxPanel">
+<div class="code-block default" lang="x-csharp">
+<div class="code-header"><span class="title">C#</span></div>
+<div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">static</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/9eekhta0" target="blank">IEnumerable</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>&gt;&nbsp;FromCurrentAppDomain(</p>
+<div>
+<p><a class="type" href="http://msdn.microsoft.com/en-us/library/bb549151" target="blank">Func</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>, <span class="keyword">bool</span>&gt;&nbsp;predicate</p>
+</div>
+<p>)</p>
+</div>
+</div>
+<div class="code-block" lang="x-vb">
+<div class="code-header"><span class="title">VB</span></div>
+<div class="code"><p><span class="keyword">Public</span>&nbsp;<span class="keyword">Shared</span>&nbsp;<span class="keyword">Function</span>&nbsp;FromCurrentAppDomain(&nbsp;_</p>
+<div>
+<p>predicate <span class="keyword">As</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/bb549151" target="blank">Func</a>(<span class="keyword">Of</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>, <span class="keyword">Boolean</span>)&nbsp;_</p>
+</div>
+<p>) <span class="keyword">As</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/9eekhta0" target="blank">IEnumerable</a>(<span class="keyword">Of</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>)</p>
+</div>
+</div>
+<div class="code-block" lang="x-cpp">
+<div class="code-header"><span class="title">C++</span></div>
+<div class="code"><p><span class="keyword">public</span>:</p>
+<p><span class="keyword">static</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/9eekhta0" target="blank">IEnumerable</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>^&gt;^&nbsp;FromCurrentAppDomain(</p>
+<div>
+<p><a class="type" href="http://msdn.microsoft.com/en-us/library/bb549151" target="blank">Func</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>^, <span class="keyword">bool</span>&gt;^ predicate</p>
+</div>
+<p>)</p>
+</div>
+</div>
+</div>
+<h3>Parameters</h3><div class="param">
+predicate
+<div class="description">
+Type: <a href="http://msdn.microsoft.com/en-us/library/bb549151" target="blank"><span class="csharp">System.Func&lt;Type, bool&gt;</span><span class="vb">System.Func(Of&nbsp;Type, Boolean)</span><span class="cpp">System::Func&lt;Type^, bool&gt;</span></a><br/>
+A predicate to filter the types.
+</div>
+</div>
+<h3>Return Value</h3><div>
+Type: <a href="http://msdn.microsoft.com/en-us/library/9eekhta0" target="blank"><span class="csharp">System.Collections.Generic.IEnumerable&lt;Type&gt;</span><span class="vb">System.Collections.Generic.IEnumerable(Of&nbsp;Type)</span><span class="cpp">System.Collections.Generic::IEnumerable&lt;Type^&gt;</span></a><br/>
+A list of types.
+</div>
+</div>
+
+<h2 id="seealso">See Also</h2>
+<div>
+	<div><a href="Simple.Web.Helpers.ExportedTypeHelper.html"><span class="csharp">ExportedTypeHelper</span><span class="vb">ExportedTypeHelper</span><span class="cpp">ExportedTypeHelper</span> Class</a></div>
+	<div><a href="Simple.Web.Helpers.html"><span class="csharp">Simple.Web.Helpers</span><span class="vb">Simple.Web.Helpers</span><span class="cpp">Simple::Web::Helpers</span> Namespace</a></div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">init();</script>
+</body>
+</html>

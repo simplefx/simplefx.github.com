@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>Simple.Web.Behaviors Namespace</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script src="../scripts.js" type="text/javascript"></script>
+	<style type="text/css">
+		.csharp { display: inline; }
+		.vb { display: none; }
+		.cpp { display: none; }
+	</style>
+</head>
+<body id="top">
+
+<div id="header">
+<p id="title">Simple.Web</p>
+<h1><span class="csharp">Simple.Web.Behaviors</span><span class="vb">Simple.Web.Behaviors</span><span class="cpp">Simple::Web::Behaviors</span> Namespace</h1>
+<div id="functions" style="display:none"><a id="collapseAll" href="javascript:collapseAll();">Collapse All</a><a id="expandAll" href="javascript:expandAll();">Expand All</a></div>
+</div>
+<div id="content">
+<div id="contentTop">
+<div id="summary">
+<p class="preliminary">[This is preliminary documentation and is subject to change.]</p>
+<div>
+Contains interfaces for specifying requirements and actions for a Handler.
+</div>
+</div>
+
+<h2 id="classes">Classes</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-class icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.BehaviorAttribute.html"><span class="csharp">BehaviorAttribute</span><span class="vb">BehaviorAttribute</span><span class="cpp">BehaviorAttribute</span></a></td>
+		<td>Base class for <a href="Simple.Web.Behaviors.RequestBehaviorAttribute.html"><span class="csharp">RequestBehaviorAttribute</span><span class="vb">RequestBehaviorAttribute</span><span class="cpp">RequestBehaviorAttribute</span></a>, <a href="Simple.Web.Behaviors.ResponseBehaviorAttribute.html"><span class="csharp">ResponseBehaviorAttribute</span><span class="vb">ResponseBehaviorAttribute</span><span class="cpp">ResponseBehaviorAttribute</span></a> and <a href="Simple.Web.Behaviors.OutputBehaviorAttribute.html"><span class="csharp">OutputBehaviorAttribute</span><span class="vb">OutputBehaviorAttribute</span><span class="cpp">OutputBehaviorAttribute</span></a>.</td>
+	</tr>
+	<tr>
+		<td><span class="public-class icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.OutputBehaviorAttribute.html"><span class="csharp">OutputBehaviorAttribute</span><span class="vb">OutputBehaviorAttribute</span><span class="cpp">OutputBehaviorAttribute</span></a></td>
+		<td>Should be applied to behavior interfaces that work in the Output phase of a request/response cycle.</td>
+	</tr>
+	<tr>
+		<td><span class="public-class icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.RequestBehaviorAttribute.html"><span class="csharp">RequestBehaviorAttribute</span><span class="vb">RequestBehaviorAttribute</span><span class="cpp">RequestBehaviorAttribute</span></a></td>
+		<td>Should be applied to behavior interfaces that work in the Request phase of a request/response cycle.</td>
+	</tr>
+	<tr>
+		<td><span class="public-class icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.ResponseBehaviorAttribute.html"><span class="csharp">ResponseBehaviorAttribute</span><span class="vb">ResponseBehaviorAttribute</span><span class="cpp">ResponseBehaviorAttribute</span></a></td>
+		<td>Should be applied to behavior interfaces that work in the Response phase of a request/response cycle.</td>
+	</tr>
+</table>
+</div>
+
+<h2 id="interfaces">Interfaces</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.ICacheability.html"><span class="csharp">ICacheability</span><span class="vb">ICacheability</span><span class="cpp">ICacheability</span></a></td>
+		<td>Indicates that a handler exposes caching information.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IETag.html"><span class="csharp">IETag</span><span class="vb">IETag</span><span class="cpp">IETag</span></a></td>
+		<td>Indicates that the resource for a handler has an ETag.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IInput(TInput).html"><span class="csharp">IInput&lt;TInput&gt;</span><span class="vb">IInput(Of&nbsp;TInput)</span><span class="cpp">IInput&lt;TInput&gt;</span></a></td>
+		<td>Represents a handler that is expecting input.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.ILogin.html"><span class="csharp">ILogin</span><span class="vb">ILogin</span><span class="cpp">ILogin</span></a></td>
+		<td>Represents the handler which processes the login for a Forms-based authentication application.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.ILoginPage.html"><span class="csharp">ILoginPage</span><span class="vb">ILoginPage</span><span class="cpp">ILoginPage</span></a></td>
+		<td>Represents the handler which serves the Login Page for a Forms-based authentication application.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IMayRedirect.html"><span class="csharp">IMayRedirect</span><span class="vb">IMayRedirect</span><span class="cpp">IMayRedirect</span></a></td>
+		<td>Represents an handler that may respond with a 301, 302, 303 or 307 Redirect status.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IModified.html"><span class="csharp">IModified</span><span class="vb">IModified</span><span class="cpp">IModified</span></a></td>
+		<td>Indicates that a handler works with the If-Modified-Since and Last-Modified headers.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.INeedContext.html"><span class="csharp">INeedContext</span><span class="vb">INeedContext</span><span class="cpp">INeedContext</span></a></td>
+		<td><span class="obsolete">Obsolete.</span> Represents a handler which requires access to the underlying <a href="Simple.Web.Http.IContext.html"><span class="csharp">IContext</span><span class="vb">IContext</span><span class="cpp">IContext</span></a> for the operation.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IOutput(TOutput).html"><span class="csharp">IOutput&lt;TOutput&gt;</span><span class="vb">IOutput(Of&nbsp;TOutput)</span><span class="cpp">IOutput&lt;TOutput&gt;</span></a></td>
+		<td>Adds output functionality to an handler.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IOutputStream.html"><span class="csharp">IOutputStream</span><span class="vb">IOutputStream</span><span class="cpp">IOutputStream</span></a></td>
+		<td>Adds functionality for handlers which return raw streams.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IReadCookies.html"><span class="csharp">IReadCookies</span><span class="vb">IReadCookies</span><span class="cpp">IReadCookies</span></a></td>
+		<td>Indicates that a handler requires access to the Cookies from a Request.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IRequireAuthentication.html"><span class="csharp">IRequireAuthentication</span><span class="vb">IRequireAuthentication</span><span class="cpp">IRequireAuthentication</span></a></td>
+		<td>Indicates that a handler resource is only available to authenticated users.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.ISetCookies.html"><span class="csharp">ISetCookies</span><span class="vb">ISetCookies</span><span class="cpp">ISetCookies</span></a></td>
+		<td>Indicates that a handler will set Cookies in a Response.</td>
+	</tr>
+	<tr>
+		<td><span class="public-interface icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Behaviors.IUploadFiles.html"><span class="csharp">IUploadFiles</span><span class="vb">IUploadFiles</span><span class="cpp">IUploadFiles</span></a></td>
+		<td>Represents a handler which accepts uploaded files.</td>
+	</tr>
+</table>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">init();</script>
+</body>
+</html>
