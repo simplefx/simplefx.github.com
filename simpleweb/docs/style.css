@@ -1,4 +1,4 @@
-/*
+﻿/*
 YUI 3.4.1 (build 4118)
 Copyright 2011 Yahoo! Inc. All rights reserved.
 Licensed under the BSD License.
@@ -12,66 +12,67 @@ html
 }
 body
 {
-	font-size: 10pt;
-	font-family: 'Segoe UI', Verdana, Arial;
+	font-size: 9pt;
+	font-family: 'Segoe UI', 'Lucida Grande', Verdana, Arial;
 }
 
 /* ----------------------------------------------- */
 /*   Main sections                                 */
 /* ----------------------------------------------- */
 
+#header
+{
+	padding: 15px;
+}
 #title
 {
 	margin: 0px;
-	padding: 7px 0px 0px 15px;
+	padding-left: 3px;
 }
 #functions
 {
-	border-bottom: 1px solid #E5E5E5;
-	padding: 2px 8px 6px 8px;
+	border-bottom: 1px solid #DBDBDB;
+	padding: 8px 1px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-#functions a
-{
-	color: #1364C4;
-}
 #headingLinks span
 {
-	margin-right: 10px;
-	padding-left: 10px;
-	border-left: 1px solid #BDBDBD;
+	margin-left: 15px;
 }
-#headingLinks span:first-child
+#functions a
 {
-	border-left: none;
+	color: #707070;
+}
+#functions a:hover
+{
+	color: #2A2A2A;
 }
 #collapseAll,
 #expandAll
 {
 	display: inline-block; /* IE7 hack */
-	margin-left: 7px;
-	margin-right: 10px;
+	margin-right: 5px;
 	padding-left: 14px;
 }
 #collapseAll
 {
-	background: Transparent url('images/collapse_all.png') no-repeat 0px 5px;
+	background: Transparent url('images/collapse_all.png') no-repeat left center;
 }
 #expandAll
 {
-	background: Transparent url('images/expand_all.png') no-repeat 0px 5px;
+	background: Transparent url('images/expand_all.png') no-repeat left center;
 }
 #content
 {
-	padding: 13px;
+	padding: 15px;
 }
 #footer
 {
 	margin-top: 20px;
-	padding-top: 10px;
-	border-top: 1px solid #BBB;
+	padding-top: 15px;
+	border-top: 1px solid #DBDBDB;
 }
 
 /* ----------------------------------------------- */
@@ -80,55 +81,47 @@ body
 
 h1, h2, h3
 {
-	color: #3F529C;
-	font-weight: bold;
+	font-family: 'Segoe UI Light', 'Segoe UI', 'Lucida Grande', Verdana, Arial;
 }
 h1
 {
-	font-size: 17pt;
-	margin-left: 15px;
-	padding-bottom: 5px;
+	color: #707070;
+	font-size: 27pt;
+	margin-bottom: 5px;
 }
 h2
 {
-	font-size: 15pt;
-	margin: 15px 0px;
+	margin: 30px 0px 25px 0px;
+	color: #DB7100;
+	font-size: 13.5pt;
 }
 h2:first-child
 {
 	margin-top: 0px;
 }
-h2.scripted
-{
-	border-bottom: 1px solid #E5E5E5;
-	position: relative;
-	top: -6px;
-}
-h2.scripted span
-{
-	border-bottom: 1px solid White;
-	position: relative;
-	top: 6px;
-}
 h2 .open
 {
-	padding-left: 15px;
-	background: White url('images/open.png') no-repeat bottom left;
+	padding-left: 21px;
+	background: White url('images/up.png') no-repeat 0px 11px;
 }
 h2 .closed
 {
-	padding-left: 15px;
-	background: White url('images/closed.png') no-repeat bottom left;
+	padding-left: 21px;
+	background: White url('images/down.png') no-repeat 0px 11px;
 }
 h3
 {
-	font-size: 10pt;
-	margin: 13px 0px;
+	margin-top: 25px;
+	margin-bottom: 12px;
+	font-size: 9pt;
+	font-family: 'Segoe UI', 'Lucida Grande', 'Verdana', 'Arial';
+	font-weight: bold;
 }
 
 div.indented
 {
 	margin-left: 15px;
+	margin-bottom: 20px;
 }
 
 p
@@ -145,33 +138,29 @@ p:last-child
 }
 a
 {
-	color: #1364C4;
+	color: #00709F;
 	text-decoration: none;
 }
 a:visited
 {
-	color: #960BB4;
+	color: #03697A;
 }
 a:hover
 {
-	text-decoration: underline;
+	color: #3390B1;
 }
 
 /* ----------------------------------------------- */
 /*   Syntax block                                  */
 /* ----------------------------------------------- */
 
-#syntaxPanel
-{
-	margin-bottom: 25px;
-}
 .code
 {
 	clear: both;
 	overflow: auto;
 	margin-top: 15px;
-	padding: 13px;
-	border: 1px solid #BBB;
+	padding: 15px 20px;
+	border: 1px solid #939393;
 	font-size: 10pt;
 	font-family: Consolas, 'Lucida Console', 'Courier New', Courier, Monospace;
 }
@@ -194,9 +183,8 @@ a:hover
 .code-header .title
 {
 	float: left;
-	color: #E66A38;
+	color: #707070;
 	background-color: White;
-	font-weight: bold;
 	position: relative;
 	top: 8px;
 	left: 7px;
@@ -205,7 +193,6 @@ a:hover
 .code-header + .code
 {
 	margin-top: 0px;
-	padding-top: 15px;
 }
 .copy-code
 {
@@ -215,20 +202,16 @@ a:hover
 	right: 7px;
 	padding-left: 28px;
 	padding-right: 7px;
-	background: White url('images/copy.png') no-repeat 8px 2px;
+	background: White url('images/copy.png') no-repeat 8px 1px;
 }
 .code-panel .copy-code
 {
-	top: 12px;
+	top: 16px;
 }
 .tab
 {
 	float: left;
-	padding: 1px 8px;
-	font-weight: bold;
-	border: 1px solid #BBB;
-	border-left: none;
-	background-color: #EFF5FF;
+	padding: 3px 16px 5px 16px;
 }
 .tab-container
 {
@@ -237,29 +220,21 @@ a:hover
 	top: 1px;
 	z-index: 1;
 }
-.tab:first-child
-{
-	border-left: 1px solid #BBB;
-	border-top-left-radius: 4px;
-}
-.tab:last-child
-{
-	border-top-right-radius: 4px;
-}
 .tab span
 {
-	color: #1364C4;
+	color: #2A2A2A;
 }
 .tab span:hover
 {
-	color: #E66A38;
+	color: #707070;
 	cursor: pointer;
 }
 .active
 {
-	padding-bottom: 2px;
-	color: #E66A38;
-	background-color: White;
+	padding: 2px 15px 5px 15px;
+	border: 1px solid #939393;
+	color: #707070;
+	background-color: #F8F8F8;
 	border-bottom: none;
 }
 .code div
@@ -285,6 +260,10 @@ a:hover
 .code a.type:visited
 {
 	color: #2B91AF;
+}
+.code a.type:hover
+{
+	text-decoration: underline;
 }
 .code .comment
 {
@@ -330,7 +309,7 @@ a:hover
 ul
 {
 	margin-left: 40px;
-	list-style: disc url('images/disk.gif') outside;
+	list-style: disc outside;
 }
 ol
 {
@@ -345,21 +324,21 @@ li
 table
 {
 	width: 100%;
-	border: 1px solid #BBB;
 }
 table th, table td
 {
-	border: 1px solid #BBB;
-	padding: 5px;
+	padding: 10px 8px;
 }
 table th
 {
-	border: 1px solid #BBB;
-	background-color: #E5E5E5;
-	font-size: 10.5pt;
+	color: #707070;
+	font-weight: bold;
+	background-color: #EDEDED;
 }
 table td
 {
+	border-top: 1px solid #DBDBDB;
+	border-bottom: 1px solid #DBDBDB;
 	vertical-align: top;
 }
 table.members th:first-child
@@ -374,12 +353,7 @@ table.members th, table.members td,
 table.enum-members th, table.enum-members td,
 table.namespaces th, table.namespaces td
 {
-	padding-top: 7px;
-	padding-bottom: 7px;
 	vertical-align: middle;
-}
-td.member-name
-{
 }
 table.exceptions td:first-child
 {
@@ -387,7 +361,7 @@ table.exceptions td:first-child
 }
 table.exceptions .condition
 {
-	border-top: dashed 1px #BBB;
+	border-top: dashed 1px #DBDBDB;
 	margin-top: 8px;
 	padding-top: 7px;
 }
@@ -409,28 +383,18 @@ table.list:last-child
 {
 	margin-bottom: 0px;
 }
-table.list th, table.list td
-{
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-.langword
-{
-	font-weight: bold;
-}
 
 .param,
 .typeparam
 {
 	font-style: italic;
-	margin-bottom: 13px;
+	margin-bottom: 12px;
 }
 .param .description,
 .typeparam .description
 {
 	font-style: normal;
-	margin: 13px 0px 0px 40px;
+	margin-left: 40px;
 }
 
 .paramref,
@@ -439,7 +403,6 @@ table.list th, table.list td
 	font-style: italic;
 }
 
-.self-link,
 .missing-link
 {
 	font-weight: bold;
@@ -461,22 +424,27 @@ table.list th, table.list td
 
 #syntax + div
 {
-	margin-bottom: 25px;
+	margin-bottom: 30px;
 }
 #showInherited
 {
-	padding-left: 20px;
+	padding: 1px 0px 0px 20px;
 	background: url('images/lightbulb_on.png') no-repeat;
 }
 #hideInherited
 {
-	padding-left: 20px;
+	padding: 1px 0px 0px 20px;
 	background: url('images/lightbulb_off.png') no-repeat;
 }
 #showInherited a:visited,
 #hideInherited a:visited
 {
-	color: #1364C4;
+	color: #00709F;
+}
+#showInherited a:hover,
+#hideInherited a:hover
+{
+	color: #3390B1;
 }
 
 /* ----------------------------------------------- */
