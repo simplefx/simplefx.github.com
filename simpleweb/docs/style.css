@@ -1,0 +1,552 @@
+﻿/*
+YUI 3.4.1 (build 4118)
+Copyright 2011 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}input,textarea,select{font-size:100%}legend{color:#000}
+
+html
+{
+	overflow: auto;
+}
+body
+{
+	font-size: 9pt;
+	font-family: 'Segoe UI', 'Lucida Grande', Verdana, Arial;
+}
+
+/* ----------------------------------------------- */
+/*   Main sections                                 */
+/* ----------------------------------------------- */
+
+#header
+{
+	padding: 15px;
+}
+#title
+{
+	margin: 0px;
+	padding-left: 3px;
+}
+#functions
+{
+	border-bottom: 1px solid #DBDBDB;
+	padding: 8px 1px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+#headingLinks span
+{
+	margin-left: 15px;
+}
+#functions a
+{
+	color: #707070;
+}
+#functions a:hover
+{
+	color: #2A2A2A;
+}
+#collapseAll,
+#expandAll
+{
+	display: inline-block; /* IE7 hack */
+	margin-right: 5px;
+	padding-left: 14px;
+}
+#collapseAll
+{
+	background: Transparent url('images/collapse_all.png') no-repeat left center;
+}
+#expandAll
+{
+	background: Transparent url('images/expand_all.png') no-repeat left center;
+}
+#content
+{
+	padding: 15px;
+}
+#footer
+{
+	margin-top: 20px;
+	padding-top: 15px;
+	border-top: 1px solid #DBDBDB;
+}
+
+/* ----------------------------------------------- */
+/*   Common elements                               */
+/* ----------------------------------------------- */
+
+h1, h2, h3
+{
+	font-family: 'Segoe UI Light', 'Segoe UI', 'Lucida Grande', Verdana, Arial;
+}
+h1
+{
+	color: #707070;
+	font-size: 27pt;
+	margin-bottom: 5px;
+}
+h2
+{
+	margin: 30px 0px 25px 0px;
+	color: #DB7100;
+	font-size: 13.5pt;
+}
+h2:first-child
+{
+	margin-top: 0px;
+}
+h2 .open
+{
+	padding-left: 21px;
+	background: White url('images/up.png') no-repeat 0px 11px;
+}
+h2 .closed
+{
+	padding-left: 21px;
+	background: White url('images/down.png') no-repeat 0px 11px;
+}
+h3
+{
+	margin-top: 25px;
+	margin-bottom: 12px;
+	font-size: 9pt;
+	font-family: 'Segoe UI', 'Lucida Grande', 'Verdana', 'Arial';
+	font-weight: bold;
+}
+
+div.indented
+{
+	margin-left: 15px;
+	margin-bottom: 20px;
+}
+
+p
+{
+	margin: 10px 0px;
+}
+p:first-child
+{
+	margin-top: 0px;
+}
+p:last-child
+{
+	margin-bottom: 0px;
+}
+a
+{
+	color: #00709F;
+	text-decoration: none;
+}
+a:visited
+{
+	color: #03697A;
+}
+a:hover
+{
+	color: #3390B1;
+}
+
+/* ----------------------------------------------- */
+/*   Syntax block                                  */
+/* ----------------------------------------------- */
+
+.code
+{
+	clear: both;
+	overflow: auto;
+	margin-top: 15px;
+	padding: 15px 20px;
+	border: 1px solid #939393;
+	font-size: 10pt;
+	font-family: Consolas, 'Lucida Console', 'Courier New', Courier, Monospace;
+}
+.code-panel
+{
+	margin-top: 15px;
+	margin-bottom: 20px;
+	overflow: auto;
+}
+.code-panel .code
+{
+	margin-top: 0px;
+}
+.code-block
+{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	overflow: auto;
+}
+.code-header .title
+{
+	float: left;
+	color: #707070;
+	background-color: White;
+	position: relative;
+	top: 8px;
+	left: 7px;
+	padding: 0px 8px;
+}
+.code-header + .code
+{
+	margin-top: 0px;
+}
+.copy-code
+{
+	float: right;
+	position: relative;
+	top: 8px;
+	right: 7px;
+	padding-left: 28px;
+	padding-right: 7px;
+	background: White url('images/copy.png') no-repeat 8px 1px;
+}
+.code-panel .copy-code
+{
+	top: 16px;
+}
+.tab
+{
+	float: left;
+	padding: 3px 16px 5px 16px;
+}
+.tab-container
+{
+	float: left;
+	position: relative;
+	top: 1px;
+	z-index: 1;
+}
+.tab span
+{
+	color: #2A2A2A;
+}
+.tab span:hover
+{
+	color: #707070;
+	cursor: pointer;
+}
+.active
+{
+	padding: 2px 15px 5px 15px;
+	border: 1px solid #939393;
+	color: #707070;
+	background-color: #F8F8F8;
+	border-bottom: none;
+}
+.code div
+{
+	margin-left: 28px;
+}
+.code p
+{
+	margin: 0px;
+	padding-left: 28px;
+	text-indent: -28px;
+}
+.code .keyword
+{
+	color: Blue;
+}
+.code .char,
+.code .string
+{
+	color: #A31515;
+}
+.code .type,
+.code a.type:visited
+{
+	color: #2B91AF;
+}
+.code a.type:hover
+{
+	text-decoration: underline;
+}
+.code .comment
+{
+	color: Green;
+}
+.code .preprocessor
+{
+	color: Blue;
+}
+.code .xml-delimiter
+{
+	color: Blue;
+}
+.code .xml-tagname
+{
+	color: #A31515;
+}
+.code .xml-attrname
+{
+	color: Red;
+}
+.code .xml-attrvalue
+{
+	color: Blue;
+}
+.code .xml-attrquote
+{
+	color: Black;
+}
+.code .xml-comment
+{
+	color: Green;
+}
+.code .xml-cdata
+{
+	color: Gray;
+}
+
+/* ----------------------------------------------- */
+/*   Specific elements                             */
+/* ----------------------------------------------- */
+
+ul
+{
+	margin-left: 40px;
+	list-style: disc outside;
+}
+ol
+{
+	margin-left: 40px;
+	list-style: decimal outside;
+}
+li 
+{
+	margin: 10px 0px;
+}
+
+table
+{
+	width: 100%;
+}
+table th, table td
+{
+	padding: 10px 8px;
+}
+table th
+{
+	color: #707070;
+	font-weight: bold;
+	background-color: #EDEDED;
+}
+table td
+{
+	border-top: 1px solid #DBDBDB;
+	border-bottom: 1px solid #DBDBDB;
+	vertical-align: top;
+}
+table.members th:first-child
+{
+	width: 40px;
+}
+table.enum-members th:first-child
+{
+	width: 20px;
+}
+table.members th, table.members td,
+table.enum-members th, table.enum-members td,
+table.namespaces th, table.namespaces td
+{
+	vertical-align: middle;
+}
+table.exceptions td:first-child
+{
+	width: 20%;
+}
+table.exceptions .condition
+{
+	border-top: dashed 1px #DBDBDB;
+	margin-top: 8px;
+	padding-top: 7px;
+}
+table.exceptions .condition:first-child
+{
+	border-top: none;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+table.list
+{
+	margin: 10px 0px;
+}
+table.list:first-child
+{
+	margin-top: 0px;
+}
+table.list:last-child
+{
+	margin-bottom: 0px;
+}
+
+.param,
+.typeparam
+{
+	font-style: italic;
+	margin-bottom: 12px;
+}
+.param .description,
+.typeparam .description
+{
+	font-style: normal;
+	margin-left: 40px;
+}
+
+.paramref,
+.typeparamref
+{
+	font-style: italic;
+}
+
+.missing-link
+{
+	font-weight: bold;
+}
+.missing-doc
+{
+	color: #DC143C;
+	font-weight: bold;
+}
+
+.preliminary
+{
+	color: Red;
+}
+.obsolete
+{
+	font-weight: bold;
+}
+
+#syntax + div
+{
+	margin-bottom: 30px;
+}
+#showInherited
+{
+	padding: 1px 0px 0px 20px;
+	background: url('images/lightbulb_on.png') no-repeat;
+}
+#hideInherited
+{
+	padding: 1px 0px 0px 20px;
+	background: url('images/lightbulb_off.png') no-repeat;
+}
+#showInherited a:visited,
+#hideInherited a:visited
+{
+	color: #00709F;
+}
+#showInherited a:hover,
+#hideInherited a:hover
+{
+	color: #3390B1;
+}
+
+/* ----------------------------------------------- */
+/*   Member icons                                  */
+/* ----------------------------------------------- */
+
+.icon
+{
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background-image: url('images/icons.png');
+	background-repeat: no-repeat;
+}
+
+.public-class    { background-position: 0px   0px; }
+.protint-class   { background-position: 0px -16px; }
+.protected-class { background-position: 0px -32px; }
+.internal-class  { background-position: 0px -48px; }
+.private-class   { background-position: 0px -64px; }
+
+.public-interface    { background-position: -16px   0px; }
+.protint-interface   { background-position: -16px -16px; }
+.protected-interface { background-position: -16px -32px; }
+.internal-interface  { background-position: -16px -48px; }
+.private-interface   { background-position: -16px -64px; }
+
+.public-structure    { background-position: -32px   0px; }
+.protint-structure   { background-position: -32px -16px; }
+.protected-structure { background-position: -32px -32px; }
+.internal-structure  { background-position: -32px -48px; }
+.private-structure   { background-position: -32px -64px; }
+
+.public-delegate    { background-position: -48px   0px; }
+.protint-delegate   { background-position: -48px -16px; }
+.protected-delegate { background-position: -48px -32px; }
+.internal-delegate  { background-position: -48px -48px; }
+.private-delegate   { background-position: -48px -64px; }
+
+.public-enum    { background-position: -64px   0px; }
+.protint-enum   { background-position: -64px -16px; }
+.protected-enum { background-position: -64px -32px; }
+.internal-enum  { background-position: -64px -48px; }
+.private-enum   { background-position: -64px -64px; }
+
+.public-field    { background-position: -80px   0px; }
+.protint-field   { background-position: -80px -16px; }
+.protected-field { background-position: -80px -32px; }
+.internal-field  { background-position: -80px -48px; }
+.private-field   { background-position: -80px -64px; }
+
+.public-constant    { background-position: -96px   0px; }
+.protint-constant   { background-position: -96px -16px; }
+.protected-constant { background-position: -96px -32px; }
+.internal-constant  { background-position: -96px -48px; }
+.private-constant   { background-position: -96px -64px; }
+
+.public-method    { background-position: -112px   0px; }
+.protint-method   { background-position: -112px -16px; }
+.protected-method { background-position: -112px -32px; }
+.internal-method  { background-position: -112px -48px; }
+.private-method   { background-position: -112px -64px; }
+
+.public-constructor    { background-position: -128px   0px; }
+.protint-constructor   { background-position: -128px -16px; }
+.protected-constructor { background-position: -128px -32px; }
+.internal-constructor  { background-position: -128px -48px; }
+.private-constructor   { background-position: -128px -64px; }
+
+.public-operator    { background-position: -144px   0px; }
+.protint-operator   { background-position: -144px -16px; }
+.protected-operator { background-position: -144px -32px; }
+.internal-operator  { background-position: -144px -48px; }
+.private-operator   { background-position: -144px -64px; }
+
+.public-property    { background-position: -160px   0px; }
+.protint-property   { background-position: -160px -16px; }
+.protected-property { background-position: -160px -32px; }
+.internal-property  { background-position: -160px -48px; }
+.private-property   { background-position: -160px -64px; }
+
+.public-readonly    { background-position: -176px   0px; }
+.protint-readonly   { background-position: -176px -16px; }
+.protected-readonly { background-position: -176px -32px; }
+.internal-readonly  { background-position: -176px -48px; }
+.private-readonly   { background-position: -176px -64px; }
+
+.public-writeonly    { background-position: -192px   0px; }
+.protint-writeonly   { background-position: -192px -16px; }
+.protected-writeonly { background-position: -192px -32px; }
+.internal-writeonly  { background-position: -192px -48px; }
+.private-writeonly   { background-position: -192px -64px; }
+
+.public-event    { background-position: -208px   0px; }
+.protint-event   { background-position: -208px -16px; }
+.protected-event { background-position: -208px -32px; }
+.internal-event  { background-position: -208px -48px; }
+.private-event   { background-position: -208px -64px; }
+
+.public-extension   { background-position: -224px 0px; }
+.internal-extension { background-position: -224px -48px; }
+.private-extension  { background-position: -224px -64px; }
+
+.static      { background-position: -224px -16px; }
+.enum-member { background-position: -224px -32px; }
