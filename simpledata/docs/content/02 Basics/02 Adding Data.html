@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Inserting Data</title>
+</head>
+<body>
+<h2>Insert</h2>
+<p>The <strong>Insert</strong> method allows the insertion of data into your database. </p>
+<p>The return value of an Insert method is a single row of data that has just been inserted.</p>
+
+<p>You can insert using two forms, Named parameters and by object. The object can be a POCO or a dynamic (i.e. ExpandoObject).</p>
+<p><strong>Note</strong>: There are differences in the generated SQL when using Named Parameters or object, where the
+object includes all properties included on the object, but the Named Parameters only includes those you specify.</p>
+
+<h3>Insert (Named Parameters)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+  var user = _db.Users.Insert(Name: "Steve", Age: 50);            
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    @p0 = 'Steve'
+    @p1 = 50
+  insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1)
+</pre>
+
+<h3>Insert (by object)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+    var user = new User { Name = "Steve", Age = 50 };
+    _db.Users.Insert(user);           
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    @p0 = 'Steve'
+    @p1 = null
+    @p2 = 50
+  insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1,@p2)
+</pre>
+
+</body>
+</html>
