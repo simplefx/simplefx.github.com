@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Deleting Data</title>
+</head>
+<body>
+<h2>Delete</h2>
+<p>The <strong>Delete</strong> and DeleteAll methods allows the deletion of data already in your database. </p>
+<p>The return value of an Delete method is a row or rowSet of data that has just been deleted.</p>
+
+<p>You can Delete using two forms, Named arguments and using the primary key with the By clause.</p>
+
+<h3>Delete (Named Parameters)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+    _db.Users.Delete(Id: 1);     
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    @p0 = 1
+    delete from [dbo].[Users] where [dbo].[Users].[Id] = @p0
+</pre>
+
+<h3>Delete (By)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+    _db.Users.DeleteById(1);             
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+    @p0 = 1
+    delete from [dbo].[Users] where [dbo].[Users].[Id] = @p0
+</pre>
+
+<h2>DeleteAll</h2>
+<p>The <strong>DeleteAll</strong> method allows a user more control over the WHERE clause on your delete statement. 
+You may omit the WHERE clause entirely (<strong>thus causing an delete on a whole table</strong>) or you may specify criteria to delete a 
+set within your table. There are two forms of specifying a criteria, by named arguments or by passing in an expression.
+</p>
+
+<h3>Delete (with no Where clause)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Users.DeleteAll();         
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+            delete from [dbo].[Users]
+</pre>
+
+<h3>Delete (with criteria)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Users.DeleteAll(_db.Users.Age > 42);       
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+@p0 = 42
+delete from [dbo].[Users] where [dbo].[Users].[Age] > @p0
+</pre>
+
+<h3>Delete (with criteria, complex example)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Users.DeleteAll(_db.Users.Age > 42 && _db.Users.Name.Like("J%"));     
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+@p0 = 42
+@p1 = 'J%'
+delete from [dbo].[Users] where ([dbo].[Users].[Age] > @p1 AND [dbo].[Users].[Name] LIKE @p2)
+</pre>
+
+
+</body>
+</html>

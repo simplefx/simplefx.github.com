@@ -5,21 +5,98 @@
 </head>
 <body>
 <h2>FindAll</h2>
-<p>The <strong>Find</strong> and <strong>FindAll</strong> methods are used when the criteria is more
-complicated than simple equality tests. Criteria can be constructed just using regular C# expressions,
-with all operators supported and precedence-grouping honoured.</p>
-<p>More complex criteria can be expressed using the Find and FindAll methods, which accept an expression, kind of similar to LINQ. Except not LINQ.</p>
-<h3>Simple.Data:</h3>
-<pre class="brush:csharp">db.Users.Find(db.Users.JoinDate <= "2010-01-01")</pre>
-<h4>SQL:</h4>
-<pre class="brush:sql">SELECT * FROM [Users] WHERE [Users].[JoinDate] <= @p1</pre>
-<p>Criteria can be combined using the && and || operators. Parentheses for altering grouping of expressions are supported:</p>
-<h3>Simple.Data:</h3>
-<pre class="brush:csharp">db.Users.Find(
-    db.Users.Active.Like("Y") && 
-    db.Users.JoinDate <= "2010-01-01")</pre>
-<h4>SQL:</h4>
-<pre class="brush:sql">SELECT * FROM [Users] 
-WHERE ([Users].[Active] LIKE @p1 AND [Users].[JoinDate]) <= @p2</pre>
+<p><code class="method">FindAll</code> returns all data from a table based on a SimpleExpression defining the criteria for the search.</p>
+<h3>Syntax</h3>
+<pre class="brush:csharp">public SimpleQuery FindAll(
+		SimpleExpression criteria
+	)</pre>
+<h4>Parameters</h4>
+<dl>
+    <dt><code class="parameter">criteria</code></dt>
+<dd>Type: <code class="type">SimpleExpression</code><br>
+A (concatenated sequence of) search criteria. For example, <code>dbo.Album.GenreId == 1</code>.</dd></dl>
+<h4>Return Value</h4>
+<p>Type: <code class="type">SimpleQuery</code><br />
+A collection of <code class="type">SimpleRecord</code> objects  which can be iterated over.</p>
+<h3>Exceptions</h3>
+<table>
+<tr>
+		<th>Exception</th>
+		<th>Condition</th>
+	</tr>
+<tr>
+		<td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">RuntimeBinderExpression</code></td>
+		<td>Malformed <code class="type">SimpleExpression</code></td>
+	</tr>
+</table>
+<h3>Remarks</h3>
+<p>The <code class="method">FindAll</code> method is used instead of <code class="method">FindAllBy</code> when the criteria is more complicated than simple equality tests. Criteria can be constructed just using regular C# expressions, with all operators supported and precedence-grouping honoured.</p>
+<p>These C# expressions are represented internally as a <code class="type">SimpleExpression</code> object. For more on SimpleExpressions, please <a href="content/04 Architecture/04 SimpleExpression.html">read this page</a>. Read also the <a href="content/02 Basics/01 Retrieving Data/03 Column Selection.html">Column Selection page</a> for more on how to identify the columns in a SimpleExpression.</p>
+<p>You must call <code class="method">FindAll</code> with a single valid <code class="type">SimpleExpression</code> as a parameter.</p>
+<ul>
+	<li>If you include zero or two parameters, <code class="method">FindAll</code> returns <code>null</code> and does not query the database at all.</li>
+	<li>If the SimpleExpression is invalid in any way, an Exception will be thrown.</li>
+</ul>
+<h3>Examples</h3>
+<p>The following example retrieves all the albums with <code class="parameter">GenreId</code> equal to <code class="value">1</code> and outputs their titles to the Console window.</p>
+<pre class="brush:csharp">var album = Database.Open().Albums.FindAll(db.Albums.GenreId == 1);
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when <code class="variable">album</code> is evaluated for the first time.</p>
+<pre class="brush:sql">SELECT 
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  
+where 
+    [dbo].[Album].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+<hr />
+<p>The following example retrieves all the albums with  <code class="parameter">GenreId</code> equal to <code class="value">1</code> and <code class="parameter">ArtistId</code> equal to <code class="value">120</code> and outputs their titles to the Console window.</p>
+<pre class="brush:csharp">var album = Database.Open().Albums
+   .FindAll(db.Albums.GenreId == 1 && db.Albums.ArtistId == 120);	
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when <code class="variable">album</code> is evaluated for the first time.</p>
+<pre class="brush:sql">SELECT 
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  
+where 
+    ([dbo].[Album].[GenreId] = @p1 AND [dbo].[Album].[ArtistId] = @p2)
+@p1 (Int32) = 1
+@p2 (Int32) = 120</pre>
+<hr />
+<p>The following example retrieves all the albums with  <code class="parameter">GenreId</code> greater than <code class="value">2</code> or <code class="parameter">ArtistId</code> less than or equal to <code class="value">200</code> and outputs their titles to the Console window.</p>
+<pre class="brush:csharp">var album = Database.Open().Albums
+   .FindAll(db.Albums.GenreId > 2 || db.Albums.ArtistId <= 200);	
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title);
+}</pre>
+<p>Simple.Data sends the following SQL to the database when <code class="variable">album</code> is evaluated for the first time.</p>
+<pre class="brush:sql">SELECT 
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  
+where 
+    ([dbo].[Album].[GenreId] &gt; @p1 OR [dbo].[Album].[ArtistId] &lt;= @p2)
+@p1 (Int32) = 2
+@p2 (Int32) = 200</pre>
 </body>
 </html>
