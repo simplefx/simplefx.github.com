@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sorting Data</title>
+</head>
+<body>
+
+<h3>Sorting Data</h3>
+
+<p>Once you have run a Finding Data query, you can then sort the returned data at the Sql Level by using the Order By clause. 
+This clause comes in two forms, OrderBy with the column name as part of the method call, or with an expression supplied
+to the method.</p>
+
+<h3>Order By (Method name form)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Customers.FindAll(_db.Customers.CustomerName == "Arthur")
+                .OrderByCustomerName();
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p1 = 'Arthur'
+  select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
+  from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
+</pre>
+
+<h3>Order By (Expression form)</h3>
+<h4>Simple.Data:</h4>
+<pre class="brush: csharp">
+            _db.Customers.FindAll(_db.Customers.CustomerName == "Arthur").OrderBy(_db.Customers.CustomerName)
+</pre>
+<h4>Generated SQL:</h4>
+<pre class="brush: sql">
+  @p1 = 'Arthur'
+  select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
+  from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
+</pre>
+
+</body>
+</html>
