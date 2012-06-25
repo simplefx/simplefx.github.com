@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Testing with the InMemoryAdapter</title>
+</head>
+<body>
+<h2>Testing with the InMemoryAdapter</h2>
+<p>Simple.Data has a great support for unit testing of your whole application stack with the InMemoryAdapter. The InMemoryAdapter is found in the core namespace Simple.Data since "testing is a core feature" as Mark Rendle put's it. This is the reason we've put the documentation under Basic also.</p>
+<p>The great thing about the InMemoryAdapter is that you can test all your data access code against per test definied data, in memory. So it's very fast and you don't have to change a thing in your data access code. Simplest thing is probably just to explain this with an example:</p>
+<p>Let's say that you have this simple method to retrieve a Customer by Id</p>
+<pre class="brush:csharp">
+private dynamic GetCustomer(int id)
+{
+  var db = Database.Open();
+  return db.Test.FindById(id);
+}
+</pre>
+<p>If you want to test that method call you need to call into the underlying database. Not only is that slow but also does that mean that you need to seed the database with some data first... And remember to clean it up later. </p>
+<p>With the InMemoryAdapter that is much cleaner:</p>
+<pre class="brush:csharp">
+[Test]
+public void should_get_a_customer()
+{
+    // Arrange
+    // Set up the InMemoryAdapter
+    var adapter = new InMemoryAdapter();
+    Database.UseMockAdapter(adapter);
+
+    // Insert some test data
+    var db = Database.Open();
+    db.Test.Insert(Id: 1, Name: "Alice");
+
+    // Act
+    var record = GetCustomer(1);
+
+    // Assert
+    Assert.IsNotNull(record);
+    Assert.AreEqual(1, record.Id);
+    Assert.AreEqual("Alice", record.Name);
+}
+</pre>
+<p>The first two lines configure the InMemoryAdapter and tells Simple.Data to use it with the static method .UseMockAdapter([adapter]). All subsequent calls to Simple.Data will use that adapter</p>
+<p>Then we insert some data into the "database" (which now is run in-memory) with the usual syntax for inserting.</p>
+<p>The method GetCustomer knows nothing about the InMemoryAdapter-stuff and the code is run just as it was written. Only this time the InMemoryAdapter is used and the data we just inserted is returned.</p>
+
+<h2>InMemoryAdapter configuration</h2>
+<p>There's a couple of configurations for the InMemoryAdapter that is not found on the other adapters. This has to do with the fact that you need to set it up to replicate the actual state in the database. For example, the relations (for joins), autoincremented columns, keys and stored procedures.</p>
+<p>If you do a lot of testing against the same tables these configuration should probably go into a separate method that returns you your fully configured InMemoryAdapter.</p>
+<h3>SetKeyColumn</h3>
+<p>With the SetKeyColumn you can tell Simple.Data that a certain column is the key. And by that you can use the Get-methods, for example, to get records by the key.
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set Id as the key column of the Test table
+adapter.SetKeyColumn("Test", "Id");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Get the record by the key (id)
+var record = db.Test.Get(1);
+
+Assert.IsNotNull(record);
+Assert.AreEqual(1, record.Id);
+Assert.AreEqual("Alice", record.Name);
+</pre>
+<h3>SetAutoIncrementColumn</h3>
+<p>SetAutoIncrementColumn is used to replicate that some columns are incremented for each insert. For examples for IDENTITY columns</p>
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Increment the Id-column of the Users-table for each insert
+adapter.SetAutoIncrementColumn("Users", "Id");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+var newId = db.Users.Insert(Name: "Marcus").Id;
+Assert.AreEqual(1, newId);
+</pre>
+<h3>AddFunction</h3>
+<p>With the AddFunction you can supply a delegate that will be called when the stored procedure is to be called in the production code
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Setup a simple delegate that is called instead of the Test-stored procedure
+adapter.AddFunction("Test", () => 
+        new Dictionary<string, object> { { "Foo", "Bar" } });
+        
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+foreach (var row in db.Test())
+{
+    Assert.AreEqual("Bar", row.Foo);
+}
+</pre>
+<h3>ConfigureJoin and Join.Master().Detail()</h3>
+<p>There are 2 ways to configure joins (or the relations) on the InMemoryAdapter; with the ConfigureJoin-method ir with the more fluent interface Join.Master().Detail().</p>
+<p>These two examples are equivalent</p>
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the relation from Users to categories
+adapter.ConfigureJoin("Users", "Id", "User", "Categories", "UserId", "Categories");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+db.Users.Insert(Id: 1, Name: "Marcus");
+db.Users.Insert(Id: 2, Name: "Per");
+db.Categories.Insert(Id: 1, UserId: 1, Name: "Category 1");
+db.Categories.Insert(Id: 2, UserId: 2, Name: "Category 2");
+
+var categories = db.Users.FindAll(db.User.Categories.Name == "Category 1").ToList();
+Assert.NotNull(categories);
+Assert.AreEqual(1, categories.Count);
+</pre>
+
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the relation from Users to categories
+adapter.Join.Master("Users", "Id").Detail("Categories", "UserId");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+db.Users.Insert(Id: 1, Name: "Marcus");
+db.Users.Insert(Id: 2, Name: "Per");
+db.Categories.Insert(Id: 1, UserId: 1, Name: "Category 1");
+db.Categories.Insert(Id: 2, UserId: 2, Name: "Category 2");
+
+var categories = db.Users.FindAll(db.User.Categories.Name == "Category 1").ToList();
+Assert.NotNull(categories);
+Assert.AreEqual(1, categories.Count);
+</pre>
+
+
+<h2>More advanced usages</h2>
+<p>The examples above is very simplified, but have no fear; the InMemoryAdapter supports all the actions and methods that all the other adapters does; including joins, transactions and even stored procedures. Here are a few examples:
+<h3>Update</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert a record
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Update record and get number of updated rows
+int updated = db.Test.UpdateById(Id: 1, Name: "Allyce");
+Assert.AreEqual(1, updated);
+
+// Find and assert the updated record
+var record = db.Test.FindById(1);
+Assert.AreEqual("Allyce", record.Name);
+</pre>
+<h3>DeleteBy</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert a record
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Delete by Id and get the number of deleted records
+int deleted = db.Test.DeleteById(1);
+Assert.AreEqual(1, deleted);
+
+// Try to find the record and assert that it's gone!
+var record = db.Test.FindById(1);
+Assert.IsNull(record);
+</pre>
+<h3>OrderBy</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert 10 records
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+for (int i = 0; i < 10; i++)
+{
+    db.Test.Insert(Id: i, Name: "Alice");
+}
+
+// Return records OrderBy Id Descending
+var records = db.Test.All().OrderByIdDescending().ToList();
+
+// Assert that the first record has Id 9
+Assert.AreEqual(9, records[0].Id);
+</pre>
+<h3>Join</h3>
+<pre class="brush:csharp">
+// Configure the adapter with the Master/Detail-relation
+// Make sure the naming in the strings here are aligned with the naming used in your code
+var adapter = new InMemoryAdapter();
+adapter.Join.Master("Customer", "ID").Detail("Order", "CustomerID");
+Database.UseMockAdapter(adapter);
+
+// Insert data in the 2 tables
+var db = Database.Open();
+db.Customer.Insert(ID: 1, Name: "NASA");
+db.Customer.Insert(ID: 2, Name: "ACME");
+db.Order.Insert(ID: 1, CustomerID: 1, Date: new DateTime(1997, 1, 12));
+db.Order.Insert(ID: 2, CustomerID: 2, Date: new DateTime(2001, 1, 1));
+
+// Retrieve the data and use the relation (db.Customer.Order)
+var customers = db.Customer.FindAll(db.Customer.Order.Date < new DateTime(1999, 12, 31)).ToList();
+Assert.IsNotNull(customers);
+Assert.AreEqual(1, customers.Count);
+</pre>
+<h3>Stored procedure</h3>
+<p>Yes, it's amazing but the InMemoryAdapter actually supports calling into stored procedures. You have to supply a delegate that returns what's expected but that can easily be faked for tests. </p>
+<p>In this example we are testing a stored procedure called "Test" (yeah, it's a funky name, right :)) with 2 parameters. And the delegate we supply simply returns a Dictionary<string, object> with the values sent to the function. Why a Dictionary<string, object>? Well that's how the rows are stored within the InMemoryAdapter.
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the stored procedure
+adapter.AddFunction<string, object, 
+    IDictionary<string, object>>("Test", (key, value) => 
+        new Dictionary<string, object> { { key, value } });
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+// Call the Test stored procedure (db.Test) and assert the result
+foreach (var row in db.Test("Foo", "Bar"))
+{
+    Assert.AreEqual("Bar", row.Foo);
+}
+</pre>
+<h3>Transactions</h3>
+<pre class="brush:csharp">
+// Configure adapater
+var adapter = new InMemoryAdapter();
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+// Insert under transaction and make sure it's returned
+using (var tx = db.BeginTransaction())
+{
+    tx.Test.Insert(Id: 1, Name: "Alice");
+    var record = tx.Test.FindById(1);
+    Assert.IsNotNull(record);
+    Assert.AreEqual(1, record.Id);
+    Assert.AreEqual("Alice", record.Name);
+}
+</pre>
+</body>
+</html>
