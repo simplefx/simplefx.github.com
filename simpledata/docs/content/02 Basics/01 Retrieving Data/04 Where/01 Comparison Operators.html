@@ -5,71 +5,34 @@
 	<title>Comparison Operators</title>
 </head>
 <body>
-	<h2>Comparison Operators</h2> <a href="http://msdn.microsoft.com/en-us/library/ms188074.aspx">Sql Examples (MSDN)</a>
-<h3>= (Equals)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id == 1);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 1
-  select [dbo].[users].* from [dbo].[users] where [dbo].[users].[id] = @p0
-</pre>
+	<h2>Comparison Operators</h2>
+    <p>Simple.Data supports the use of the following comparison operators within SimpleExpressions</p>
+<ul>
+	<li><code class="operator">==</code> (equals)</li>
+	<li><code class="operator">!=</code> (not equals)</li>
+	<li><code class="operator">&lt; </code> (less than)</li>
+	<li><code class="operator">&lt;=</code> (less than or equal to)</li>
+	<li><code class="operator">&gt; </code> (greater than)</li>
+	<li><code class="operator">&gt;=</code> (greater than or equal to)</li>
+</ul>
+<p>For example:</p>
+<pre class="brush:csharp">// Equals
+db.Albums.All().Where(db.Albums.ArtistId == 120);
 
-<h3>&gt; (Greater Than)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id > 1);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 1
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] > @p0
-</pre>
+// Not Equals
+db.Albums.All().Where(db.Albums.GenreId != 1);
 
-<h3>&lt; (Less Than)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id < 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] < @p0
-</pre>
+// Less than
+db.Albums.All().Where(db.Albums.Price < 8.99);
 
-<h3>&gt;= (Greater Than or Equal To)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id >= 1);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 1
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] >= @p0
-</pre>
+// Less than or equal to
+db.Albums.All().Where(db.Albums.Price <= 8.99);
 
-<h3>&lt;= (Less Than or Equal To)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id <= 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] <= @p0
-</pre>
+// Greater than
+db.Albums.All().Where(db.Albums.Price > 7.99);
 
-<h3>&lt;&gt; (Not Equal To)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id != 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] <> @p0
-</pre>
+// Greater than or equal to
+db.Albums.All().Where(db.Albums.Price >= 7.99);</pre>
+
 </body>
 </html>

@@ -5,61 +5,33 @@
 	<title>Arithemtic Operators</title>
 </head>
 <body>
-	<h2>Arithmetic Operators</h2> <a href="http://msdn.microsoft.com/en-us/library/ms187716.aspx">Sql Examples (MSDN)</a>
+	<h2>Arithmetic Operators</h2>
+    <p>Simple.Data supports the use of the following arithmetic operators within SimpleExpressions</p>
+<ul>
+	<li><code class="operator">+</code> (Add)</li>
+	<li><code class="operator">-</code> (Subtract)</li>
+	<li><code class="operator">*</code> (Multiply)</li>
+	<li><code class="operator">/</code> (Divide)</li>
+	<li><code class="operator">%</code> (Modulo)</li>
+</ul>
+<p>For example:</p>
+<pre class="brush:csharp">// Add
+db.Albums.All().Where(db.Albums.AlbumId + db.Albums.ArtistId > 120);
 
-<h3>+ (Add)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id + _db.Users.Age == 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] + [dbo].[Users].[Age] = @p0
-</pre>
+// Subtract
+db.Albums.All().Where(db.Albums.AlbumId - db.Albums.ArtistId < 130);
 
-<h3>- (Subtract)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id - _db.Users.Age == 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] - [dbo].[Users].[Age] = @p0
-</pre>
+// Multiply
+db.OrderDetails.All()
+   .Where(db.OrderDetails.Quantity * db.OrderDetails.UnitPrice >= 50);
 
-<h3>* (Multiply)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id * _db.Users.Age == 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] * [dbo].[Users].[Age] = @p0
-</pre>
+// Divide
+db.OrderDetails.All()
+   .Where(db.OrderDetails.UnitPrice / db.OrderDetails.Quantity <= 3);
 
-<h3>- (Divide)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id / _db.Users.Age == 42);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 42
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] / [dbo].[Users].[Age] = @p0
-</pre>
+// Modulo
+db.OrderDetails.All()
+   .Where(db.OrderDetails.UnitPrice % db.OrderDetails.Quantity != 4);</pre>
 
-<h3>% (Modulo)</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-  var user = db.Users.Find(_db.Users.Id % 2 == 1);
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 1
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[Id] % 2 = @p0
-</pre>
 </body>
 </html>
