@@ -100,7 +100,7 @@ code
   font-family: Georgia, serif;
   font-style:italic;
 }
-code.method
+code.method, code.operator
 {
   color: #7f006e; 
 }

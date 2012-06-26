@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>IS NULL and IS NOT NULL</title>
 </head>
 <body>
-	<h2>IS NULL and IS NOT NULL</h2>
+<h3>Null values (IS NULL and IS NOT NULL)</h3>
+<p>Simple.Data supports the generation of IS NULL and IS NOT NULL criteria using the following comparisons</p>
+<ul>
+	<li><code class="operator">== null</code> (IS NULL)</li>
+	<li><code class="operator">!= null</code> (IS NOT NULL)</li>
+</ul>
+<p>For example</p>
+<pre class="brush:csharp">// Embedded in a FindAllBy* or FindBy* method
+db.Albums.FindAllByGenreId(null);
+db.Albums.FindAllby(GenreId:null);
+
+// As part of the SimpleExpression parameter for Find or FindAll
+db.Albums.FindAll(db.Albums.GenreId == null);
+
+// As part of the SimpleExpression parameter for Where
+db.Albums.All().Where(db.Albums.GenreId == null);</pre>
+<p>All four calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] IS NULL</pre>
+<p>An IS NOT NULL clause is written as an inequality statement so can only be created in two ways as FindAllBy* and FindBy* only support equality expressions.</p>
+<pre class="brush:csharp">// As part of the SimpleExpression parameter for Find or FindAll
+db.Albums.FindAll(db.Albums.GenreId != null);
+
+// As part of the SimpleExpression parameter for Where
+db.Albums.All().Where(db.Albums.GenreId != null);</pre>
+<p>Both these calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] IS NULL</pre>
 </body>
 </html>
