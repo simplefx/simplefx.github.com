@@ -2,27 +2,39 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>IN</title>
+	<title>IN and NOT IN</title>
 </head>
 <body>
-	<h2>IN</h2>
-  <p>It is possible to use Simple.Data to perform Range and Array operations. In SQL terminology, a Range uses the BETWEEN
-clause and an Array uses the IN (n..n1..n2) clause. These work work with the FindAll methods described elsewhere.</p>
+<h2>Finding rows that are in a list of values</h2>
+<p>Simple.Data supports the use of arrays to set a list of values which should (not) contain a field value, generating an IN or NOT IN clause as appropriate.
+As this translates to equating a field to an array, we can generate an IN clause in several ways. For example</p>
+<pre class="brush:csharp">// Embedded in a FindAllBy* or FindBy* method
+db.Albums.FindAllByTitle(new []{"Nevermind", "Ten"}); 
 
-  <h3>FindAll with Integer Array</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-            _db.Users.FindAllById(new[] { 1, 2, 3 });
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-@p1_0 (Object) = 1
-@p1_1 (Object) = 2
-@p1_2 (Object) = 3
+// As the SimpleExpression parameter for Find or FindAll.
+db.Albums.FindAll(db.Albums.Title == new[] {"Nevermind", "Ten" });
 
-select [dbo].[Users].[Id],[dbo].[Users].[Name],[dbo].[Users].[Password],[dbo].[Users].[Age],[dbo].[Users].[JoinDate] from [dbo].[Users]
-WHERE [dbo].[Users].[Id] IN (@p1_0,@p1_1,@p1_2)
+// As part of the SimpleExpression parameter for the Where method
+db.Albums.All().Where(db.Albums.Title == new[] {"Nevermind", "Ten"});</pre>
+<p>All three calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[Title] IN (@p1_0,@p1_1)
 
-</pre>
+@p1_0 (String) = Nevermind
+@p1_1 (String) = Ten</pre>
+<p>A NOT IN clause is written as an inequality statement so can only be created in two ways as <code class="method">FindAllBy*</code> and <code class="method">FindBy*</code> only support equality expressions.</p>
+<pre class="brush:csharp">// As the SimpleExpression parameter for Find or FindAll.
+db.Albums.FindAll(db.Albums.GenreId != new[] {1, 3, 7});
+
+// As part of the SimpleExpression parameter for the Where method
+db.Albums.All().Where(db.Albums.GenreId != new[] {1, 3, 7});</pre>
+<p>These two calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] NOT IN (@p1_0,@p1_1,@p1_2)
+
+@p1_0 (Int32) = 1
+@p1_1 (Int32) = 3
+@p1_2 (Int32) = 7</pre>
+
 </body>
 </html>

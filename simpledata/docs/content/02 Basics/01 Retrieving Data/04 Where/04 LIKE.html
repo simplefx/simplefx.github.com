@@ -2,18 +2,16 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>LIKE</title>
+	<title>LIKE and NOT LIKE</title>
 </head>
 <body>
-	<h3>Like</h3>
-<h4>Simple.Data:</h4>
-<pre class="brush: csharp">
-            _db.Users.Find(_db.Users.Name.Like("Foo%"));
-</pre>
-<h4>Generated SQL:</h4>
-<pre class="brush: sql">
-  @p0 = 'Foo%'
-  select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[name] like @p0
-</pre>
+<h2>Finding rows that (do not) contain a value as a part of a string</h2>
+<p>Simple.Data uses the <code class="method">Like</code> and <code class="method">NotLike</code> functions to allow substring searches in string fields. Wildcard characters are supported</p>
+<p>For example</p>
+<pre class="brush:csharp">// LIKE
+db.Albums.All().Where(db.Albums.Title.Like("%Side Of The%");
+
+// NOT LIKE
+db.Albums.All().Where(db.Albums.Title.NotLike("%a%");</pre>
 </body>
 </html>
