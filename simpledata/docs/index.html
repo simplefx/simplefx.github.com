@@ -1,37 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>SimpleData Documentation</title>
-  <link type="text/css" rel="stylesheet" href="css/shCore.css" />
-  <link type="text/css" rel="stylesheet" href="css/shThemeDefault.css" />
-  <link type="text/css" rel="stylesheet" href="css/docs.css" />
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-  <script type="text/javascript" src="js/jquery.address-1.4.js"></script>
-  <script type="text/javascript" src="js/shCore.js"></script>
-  <script type="text/javascript" src="js/shBrushCSharp.js"></script>
-  <script type="text/javascript" src="js/shBrushSql.js"></script>
-  <script type="text/javascript" src="js/shBrushXml.js"></script>
-  <script type="text/javascript" src="js/docs.js"></script>
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="less/metro.less" />
+   <script type="text/javascript" src="scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="scripts/jquery.metro.js"></script>
+   <style>
+      section#start h3, section#start a
+      {
+         color: brown;
+         opacity: 1.0;
+      }
+      section#retrieveData h3, section#retrieveData a
+      {
+         color: purple;
+         opacity: 1.0;
+      }
+      section#modifyData h3, section#modifyData a
+      {
+         color: green;
+         opacity: 1.0;
+      }
+      section#testing h3, section#testing a
+      {
+         color: blue;
+         opacity: 1.0;
+      }
+      section#tasks h3, section#tasks a
+      {
+         color: magenta;
+         opacity: 1.0;
+      }      
+      section em
+      { 
+          opacity: 0.6;
+      }      
+   </style>
 </head>
 <body>
-  <a href="https://github.com/markrendle/Simple.Data"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-  <div id="wrap">
-    <div id="header">
-      <h1><img class="logo" src="../../images/simpledata100x100.png" />Documentation</h1>
-    </div>
-    <div id="nav">
-      <h2>Contents</h2>
-    </div>
-    <div id="main">
-      <h2>Hello.</h2>
-      <p>This documentation is a work in progress. Contributions are appreciated.</p>
-      <p><a href="https://github.com/simplefx/simplefx.github.com">Fork this documentation site.</a></p>
-    </div>
-    <div id="footer"><a href='http://www.pledgie.com/campaigns/15965'><img alt='Click here to lend your support to: Simple.Data and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15965.png?skin_name=chrome' border='0' /></a></div>
-  </div>
-  <script type="text/javascript">
-     SyntaxHighlighter.all()
-</script>
+<a href="https://github.com/markrendle/Simple.Data"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+   <h1>
+      Simple.Data</h1>
+   <section>
+        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
+    </section>
+           <div id="pledge"><p>
+           	<a href='http://www.pledgie.com/campaigns/15965'><img alt='Click here to lend your support to: Simple.Data and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15965.png?skin_name=chrome' border='0' /></a>
+           </p></div>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                        <h2>Index</h2>
+                        <p>Use the index below to find the information you require.</p>
+                        <section id="start">
+                        <h3>Getting Started</h3>
+                        <ul>
+                        <li><a href="pages/Start/WhatIsSimpleData.html">What Is Simple.Data?</a></li>
+                        <li><a href="pages/Start/SupportedDatabases.html">Supported Databases</a></li>
+                        <li><a href="pages/Start/RequirementsAndDependencies.html">Requirements And Dependencies</a></li>
+                        <li><a href="pages/Start/WhereToGetIt.html">Where To Download It</a></li>
+                        <li><a href="pages/Start/Configuration.html">Configuration</a></li>
+                        </ul>
+                        <ul>
+                        <li><a href="pages/Start/OpeningAConnection.html">Opening A Connection</a></li>
+                        <li><a href="pages/Start/SharingAConnection.html">Sharing A Connection</a></li>
+                        <li style="font-weight:bold;"><a href="pages/Start/NamingConventions.html">Naming Conventions</a>  <em>!!!</em></li>
+                        </ul>
+	                  </section>
+                     <section id="retrieveData">
+                        <h3>Retrieving Data</h3>
+                        <p>Commands that retrieve multiple results as a <a href="pages/Architecture/SimpleQuery.html">SimpleQuery object</a>.</p>
+                        <ul>
+                        	<li><a href="pages/Retrieve/Commands/All.html">All</a></li>
+                        	<li><a href="pages/Retrieve/Commands/FindAll.html">FindAll</a></li>
+                        	<li><a href="pages/Retrieve/Commands/FindAllBy.html">FindAllBy</a></li>
+                        	<li><code class="method">Query</code> and <code class="method">QueryBy</code> are now deprecated in favour of using <a href="pages/Retrieve/Commands/All.html">All</a> and <a href="pages/Retrieve/Commands/FindAllBy.html">FindAllBy</a> respectively.</li>
+                        </ul>
+                        <p>Commands that return a single result as a <a href="pages/Architecture/SimpleRecord.html">SimpleRecord object</a></p>
+                        <ul>
+                        	<li><a href="pages/Retrieve/Commands/Find.html">Find</a></li>
+                        	<li><a href="pages/Retrieve/Commands/FindBy.html">FindBy</a></li>
+                        	<li><a href="pages/Retrieve/Commands/Get.html">Get</a></li>
+                        </ul>
+                        <p>Query modifiers</p>
+                        <ul>
+                        	<li><a href="pages/Retrieve/ColumnSelection.html">Column Selection</a> : Select</li>
+                           <li><a href="pages/Retrieve/GetDistinctValues.html">Retrieving Distinct Values</a> : Distinct <em>(preliminary)</em></li>
+                           <li><a href="pages/Retrieve/ColumnAliasing.html">Column Aliasing</a> : As</li>
+                           <li><a href="pages/Retrieve/JoiningTables.html">Joining Tables</a> : Natural Joins &amp; Explicit Joins <em>(preliminary)</em></li>
+                        	<li><a href="pages/Retrieve/WhereClauses.html">Where Clauses</a> : Where, Operators, IN, BETWEEN, LIKE, IS NULL</li>
+                           <li><a href="pages/Retrieve/OrderingResults.html">Ordering Results</a> : OrderBy <em>(preliminary)</em></li>
+                        </ul>
+                     </section>
+                     <section id="modifyData">
+                        <h3>Modifying Data</h3>
+                        <ul>
+                        	<li><a href="pages/Modify/AddingData.html">Adding Data</a> : Insert <em>(preliminary)</em></li>
+                        	<li><a href="pages/Modify/UpdatingData.html">Updating Data</a> : Update, UpdateAll <em>(preliminary)</em></li>
+                        	<li>Upserting Data : Upsert <em>(forthcoming)</em></li>
+                        	<li><a href="pages/Modify/DeletingData.html">Deleting Data</a> : Delete, DeleteAll <em>(preliminary)</em></li>
+                        </ul>
+                     </section>
+                     <section id="testing">
+                     <h3>Testing Your Code</h3>
+                     <p>Simple.Data provides the InMemoryAdapter for unit testing</p>
+                     <ul>
+                     	<li><a href="pages/Test/Basics.htm">Basics</a> : Testing Data Retrieval</li>
+                     	<li><a href="pages/Test/Advanced.htm">Advanced</a> : Testing Data Modification, Stored Procedures and Transactions</li>
+                     	<li><a href="pages/Test/Configuration.htm">Configuring the InMemoryAdapter</a> : SetKeyColumn, SetAutoincrementColumn, ConfigureJoin</li>
+                     </ul>
+                     </section>
+                     <section id="tasks">
+                        <h3>Further Tasks</h3>
+                        <ul>
+                        	<li><a href="pages/Tasks/UsingSprocs.html">Calling Stored Procedures</a> from Simple.Data <em>(preliminary)</em></li>
+                        	<li><a href="pages/Tasks/UsingTransactions.html">Wrapping your data store calls in a transaction</a> <em>(preliminary)</em></li>
+                        </ul>
+                     </section>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                            <h2>About</h2>
+                            <p>Simple.Data offers you the opportunity to code against many databases in more IDEs, so for the purposes of this documentation the following choices have been made</p>
+                            <ul>
+                                <li><em>IDE</em> : Visual Studio 2010</li>
+                                <li><em>Server</em> : SQL Server 2008</li>
+                                <li><em>Database</em> : MVCMusicStore</li>
+                                <li><em>Language</em> : C#</li>
+                            </ul>
+                            <h3>Sample Code</h3>
+                            <p>All samples in this documentation are part of the Simple.Data.Sample package which you can download as a NuGet package or from github at <a href="https://github.com/markrendle/Simple.Data.Sample">https://github.com/markrendle/Simple.Data.Sample</a></p>
+                            <h3>Sample Database</h3>
+                            <p>MVCMusicStore is part of an open source ASP.NET MVC project created by the ASP.NET team. You can find the complete project on <a href="http://mvcmusicstore.codeplex.com/">Codeplex</a>. Thanks to Jon Galloway for letting us use it.</p>
+                            <p>
+                                <img src="images/MvcMusicStore.png" alt="MVC Music Store DB Schema" />
+                            </p>
+                            <h3>Additional Resources</h3>
+                            <p>There are several places to check for information about Simple.Data</p>
+                            <ul>
+                                <li><a href="https://github.com/markrendle">Mark&#8217;s github page</a> contains the project for Simple.Data.Core, as well as all the providers for various DBs, the sample code and the source for this documentation</li>
+                                <li>The <a href="https://groups.google.com/forum/?fromgroups#!forum/simpledata">Simple.Data Google group</a> is the place to ask for help and discussion</li>
+                                <li><a href="http://blog.markrendle.net/">Mark&#8217;s blog</a> is the place to learn about new developments in Simple.Data</li>
+                                <li><a href="http://simplefx.org/simpledata/docs/">This documentation site</a> will continue to be updated via its github project. Please fork it and contribute</li>
+                            </ul>
+                            <h3>Simple.Data.Pad</h3>
+                            <p>Simple.Data.Pad (<a href="https://github.com/downloads/markrendle/Simple.Data/Simple.Data.Pad-1.0.zip">download here</a>) is a GUI tool a bit like LINQPad, except it only works with Simple.Data. To use it, extract it from its zip archive onto a local disk, and run Simple.Data.Pad.exe.</p>
+<p>The drop-down at the top left lets you choose an Open... method, and you can enter the parameters in the text boxes that appear when you've chosen one. Simple.Data.Pad comes with the SqlServer assembly, but you can drop any of the other adapter or provider assemblies in the app folder and it should pick them up.</p>
+<p>To run a query, type it into the big text box. As you type, you should get an autocomplete box showing you available methods and properties, generated from the schema of the database you&#8217;re connected to.</p>
+<p>Press F5 to run queries.</p>
+<p>The Trace tab should show the SQL that was run against the database for the most recent query.</p>
+<p>v1.0.0.0 is in no way anywhere near production quality. In particular, it doesn&#8217;t handle exceptions yet. It won&#8217;t kill you, though, or do bad things to your database, although stick to data retrieval queries for the time being.</p>
+                            <h2>Credits</h2>
+                            <p>Simple.Data was created by Mark Rendle (<a href="http://blog.markrendle.net/">http://blog.markrendle.net/</a>)</p>
+
+                            <p>Six plug-ins have been additionally created</p>
+                            <ul>
+                                <li><a href="http://github.com/craiggwilson/Simple.Data.MongoDB">MongoDB Adapter</a> by Craig G Wilson</li>
+                                <li><a href="http://github.com/Vidarls/Simple.Data.Mysql">MySQL ADO Provider</a> by Vidar L. S&oslash;mme</li>
+                                <li><a href="https://github.com/flq/Simple.Data.Oracle">Oracle ADO Provider</a> by Frank L. Quednau</li>
+                                <li><a href="https://github.com/NotMyself/Simple.Data.Sqlite">SQLite ADO Provider</a> by Bobby Johnson</li>
+                                <li><a href="http://github.com/RichardHopton/Simple.Data.SqlAnywhere">SQL Anywhere ADO Provider</a> by Richard Hopton</li>
+                                <li><a href="https://github.com/ChrisMH/Simple.Data.PostgreSql">PostgreSQL ADO Provider</a> by Chris Hogan</li>
+                            </ul>
+                            <p>Documentation collated and written by Dan Maharry (<a href="http://about.me/danmaharry">http://about.me/danmaharry</a>)</p>
+                        </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script>
+      $(function () {
+         $("div.metro-pivot").metroPivot();
+      });
+   </script>
 </body>
 </html>

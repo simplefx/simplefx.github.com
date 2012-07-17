@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>InMemoryAdapter Configuration : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+      Simple.Data has always been designed with "testing as a core feature" and supports unit testing your whole application stack using the InMemoryAdapter found in the Core namespace. There are several configuration methods for the InMemoryAdapter that are not found on other adapters. These are used to replicate the actual state in the database (table relations, autoincremented columns, keys and stored procedures) 
+    </section>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                  <h2>SetKeyColumn</h2>
+                  <p>With the SetKeyColumn you can tell Simple.Data that a certain column is the key. And by that you can use the Get-methods, for example, to get records by the key.
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set Id as the key column of the Test table
+adapter.SetKeyColumn("Test", "Id");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Get the record by the key (id)
+var record = db.Test.Get(1);
+
+Assert.IsNotNull(record);
+Assert.AreEqual(1, record.Id);
+Assert.AreEqual("Alice", record.Name);
+</pre>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>SetAutoIncrementColumn</h2>
+                  <p>SetAutoIncrementColumn is used to replicate that some columns are incremented for each insert. For examples for IDENTITY columns</p>
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Increment the Id-column of the Users-table for each insert
+adapter.SetAutoIncrementColumn("Users", "Id");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+var newId = db.Users.Insert(Name: "Marcus").Id;
+Assert.AreEqual(1, newId);
+</pre>
+<h3>AddFunction</h3>
+<p>With the AddFunction you can supply a delegate that will be called when the stored procedure is to be called in the production code
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Setup a simple delegate that is called instead of the Test-stored procedure
+adapter.AddFunction("Test", () => 
+        new Dictionary<string, object> { { "Foo", "Bar" } });
+        
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+foreach (var row in db.Test())
+{
+    Assert.AreEqual("Bar", row.Foo);
+}
+</pre>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>ConfigureJoin</h2>
+                  <p>There are 2 ways to configure joins (or the relations) on the InMemoryAdapter; with the ConfigureJoin-method or with the more fluent interface Join.Master().Detail().</p>
+<p>These two examples are equivalent</p>
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the relation from Users to categories
+adapter.ConfigureJoin("Users", "Id", "User", "Categories", "UserId", "Categories");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+db.Users.Insert(Id: 1, Name: "Marcus");
+db.Users.Insert(Id: 2, Name: "Per");
+db.Categories.Insert(Id: 1, UserId: 1, Name: "Category 1");
+db.Categories.Insert(Id: 2, UserId: 2, Name: "Category 2");
+
+var categories = db.Users.FindAll(db.User.Categories.Name == "Category 1").ToList();
+Assert.NotNull(categories);
+Assert.AreEqual(1, categories.Count);
+</pre>
+
+<h3>Join.Master().Detail()</h3>
+<p>The equivalent call to ConfigureJoin above is as follows</p>
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the relation from Users to categories
+adapter.Join.Master("Users", "Id").Detail("Categories", "UserId");
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+db.Users.Insert(Id: 1, Name: "Marcus");
+db.Users.Insert(Id: 2, Name: "Per");
+db.Categories.Insert(Id: 1, UserId: 1, Name: "Category 1");
+db.Categories.Insert(Id: 2, UserId: 2, Name: "Category 2");
+
+var categories = db.Users.FindAll(db.User.Categories.Name == "Category 1").ToList();
+Assert.NotNull(categories);
+Assert.AreEqual(1, categories.Count);
+</pre>
+                  </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+      <script>
+         $(function () {
+            $("div.metro-pivot").metroPivot();
+         });
+   </script>
+</body>
+</html>

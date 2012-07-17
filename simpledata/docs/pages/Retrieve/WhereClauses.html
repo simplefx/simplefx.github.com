@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>Where Clauses : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+    <section>
+        There are a number of ways you can filter a data query within Simple.Data. Some are built into the basic commands
+        themselves and others are a little more subtle. Use the Where command to specify any number of filter criteria as part of a SimpleExpression.
+    </section>
+    <div class="items">
+        <div style="display: block;" class="pivotItem current">
+            <div class="pivot-item">
+                <div class="metro-pivot">
+                    <div class="pivot-item">
+                        <article>
+                                <h2>
+        Where</h2>
+    <p>
+        Use the <em>Where</em> method to add further filtering criteria to a <code class="type">
+            SimpleQuery</code>. If criteria already exist, old and new criteria are combined
+        with the <code class="operator">AND</code> operator.</p>
+    <h3>
+        Syntax</h3>
+    <pre class="brush:csharp">public ICommand Where(
+		SimpleExpression criteria
+	)</pre>
+    <h4>
+        Parameters</h4>
+    <dl>
+        <dt><code class="parameter">criteria</code></dt>
+        <dd>
+            Type: <code class="type">SimpleExpression</code><br>
+            A (concatenated sequence of) search criteria. For example, <code>dbo.Album.GenreId == 1</code>.</dd></dl>
+    <h4>
+        Return Value</h4>
+    <p>
+        Type: <code class="interface">ICommand</code><br>
+        An object representation of the data retrieval query to be sent to a data store</p>
+    <h3>
+        Exceptions</h3>
+    <table>
+        <tr>
+            <th>
+                Exception
+            </th>
+            <th>
+                Condition
+            </th>
+        </tr>
+        <tr>
+        	<td><code class="type">RuntimeBinderException</code></td>
+        	<td><code class="method">Where</code> called without a query command to qualify</td>
+        </tr>
+        <tr>
+        	<td><code class="type">System.Reflection.TargetParameterCountException</code></td>
+        	<td>Zero or more than one <code class="type">SimpleExpression</code>s have been supplied to <code class="method">Where</code> as parameters</td>
+        </tr>
+        <tr>
+            <td>
+                <code class="type">FormatException</code><br />
+                <em>- or -</em><br />
+                <code class="type">RuntimeBinderException</code><br />
+                <em>- or -</em><br />
+                <code class="type">Simple.Data.UnresolvableObjectException</code>
+            </td>
+            <td>
+                Malformed <code class="type">SimpleExpression</code> supplied to <code class="method">Where</code> as parameter
+            </td>
+        </tr>
+    </table>
+    <h3>
+        Remarks</h3>
+        <p>Using the <code class="method">Where</code> method allows you to add to the filtering criteria you may have already given your
+        	<code class="method">Find*</code>, <code class="method">Add</code> and <code class="method">Get</code> queries. For example, the following commands all produce the same SQL.</p> 
+<pre class="brush:csharp">db.Albums
+    .FindAllByGenreId(1)
+    .Select(db.Albums.Title)
+    .Where(db.Albums.AlbumId > 400);
+    
+db.Albums
+    .FindAll(db.Albums.GenreId == 1 && db.Albums.AlbumId > 400)
+    .Select(db.Albums.Title);
+    
+db.Albums
+    .All()
+    .Select(db.Albums.Title)
+    .Where(db.Albums.GenreId == 1 && db.Albums.AlbumId > 400);</pre>     
+        <p>You must call <code class="method">Where</code> with a single valid <code class="type">SimpleExpression</code> 
+        as a parameter else an <code class="object">Exception</code> will be thrown.</p>
+        <p>You can find examples of setting common search conditions as <code class="type">SimpleExpression</code>s here</p>
+<h4>Building Complex SimpleExpressions</h4>
+<p><code class="method">Where</code> takes a single <code class="type">SimpleExpression</code> as a parameter. 
+If the command it is qualifying already has filtering criteria on it, the new criteria is appending to the old 
+using the <code class="operator">AND</code> operator. For example, both these commands:</p>
+<pre class="brush:csharp">db.Albums
+    .All()
+    .Select(db.Albums.Title)
+    .Where(db.Albums.GenreId == 1 || db.Albums.GenreId == 2)
+    .Where(db.Albums.ArtistId == 120);
+    	
+    db.Albums
+    .FindAll(db.Albums.GenreId == 1 || db.Albums.GenreId == 2)
+    .Select(db.Albums.Title)
+    .Where(db.Albums.ArtistId == 120);</pre>
+<p>produce the following SQL. Note that parentheses are generated to maintain the correct interpretation of each filter criteria.</p>
+<pre class="brush:sql">select [dbo].[Album].[Title]
+FROM [dbo].[Album] 
+WHERE (
+    ([dbo].[Album].[GenreId] = @p1 OR [dbo].[Album].[GenreId] = @p2) 
+	AND [dbo].[Album].[ArtistId] = @p3)
+
+@p1 (Int32) = 1
+@p2 (Int32) = 2
+@p3 (Int32) = 120</pre>
+<p>If you wish to build up a set of filter criteria based on a set of business rules however, you may find it easier to build 
+	up a <code class="type">SimpleExpression</code> separately and then add it to the command with a single call to Where rather than multiple calls. For example,</p>
+<pre class="brush:csharp">var expr1 = db.Albums.GenreId == 1;
+var expr2 = db.Albums.GenreId == 2;
+var expr3 = db.Albums.ArtistId == 120;
+return db.Albums.All().Where((expr1 || expr2) && expr3);</pre>
+<p>This approach has the added advantage that you can concatenate <code class="type">SimpleExpression</code>s with <code class="operator">OR</code> as well as <code class="operator">AND</code>.</p>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>Operators</h2>
+                            <p>Simple.Data supports the use of the following operators within SimpleExpressions</p>
+                            	<h3>Arithmetic Operators</h3>
+<ul>
+	<li><code class="operator">+</code> (Add)</li>
+	<li><code class="operator">-</code> (Subtract)</li>
+	<li><code class="operator">*</code> (Multiply)</li>
+	<li><code class="operator">/</code> (Divide)</li>
+	<li><code class="operator">%</code> (Modulo)</li>
+</ul>
+<p>For example:</p>
+<pre class="brush:csharp">// Add
+db.Albums.All().Where(db.Albums.AlbumId + db.Albums.ArtistId > 120);
+
+// Subtract
+db.Albums.All().Where(db.Albums.AlbumId - db.Albums.ArtistId < 130);
+
+// Multiply
+db.OrderDetails.All()
+   .Where(db.OrderDetails.Quantity * db.OrderDetails.UnitPrice >= 50);
+
+// Divide
+db.OrderDetails.All()
+   .Where(db.OrderDetails.UnitPrice / db.OrderDetails.Quantity <= 3);
+
+// Modulo
+db.OrderDetails.All()
+   .Where(db.OrderDetails.UnitPrice % db.OrderDetails.Quantity != 4);</pre>
+                            	<h3>Comparison Operators</h3>
+<ul>
+	<li><code class="operator">==</code> (equals)</li>
+	<li><code class="operator">!=</code> (not equals)</li>
+	<li><code class="operator">&lt; </code> (less than)</li>
+	<li><code class="operator">&lt;=</code> (less than or equal to)</li>
+	<li><code class="operator">&gt; </code> (greater than)</li>
+	<li><code class="operator">&gt;=</code> (greater than or equal to)</li>
+</ul>
+<p>For example:</p>
+<pre class="brush:csharp">// Equals
+db.Albums.All().Where(db.Albums.ArtistId == 120);
+
+// Not Equals
+db.Albums.All().Where(db.Albums.GenreId != 1);
+
+// Less than
+db.Albums.All().Where(db.Albums.Price < 8.99);
+
+// Less than or equal to
+db.Albums.All().Where(db.Albums.Price <= 8.99);
+
+// Greater than
+db.Albums.All().Where(db.Albums.Price > 7.99);
+
+// Greater than or equal to
+db.Albums.All().Where(db.Albums.Price >= 7.99);</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>IN</h2>
+<p>Simple.Data supports the use of arrays to set a list of values which should (not) contain a field value, generating an IN or NOT IN clause as appropriate.
+As this translates to equating a field to an array, we can generate an IN clause in several ways. For example</p>
+<pre class="brush:csharp">// Embedded in a FindAllBy* or FindBy* method
+db.Albums.FindAllByTitle(new []{"Nevermind", "Ten"}); 
+
+// As the SimpleExpression parameter for Find or FindAll.
+db.Albums.FindAll(db.Albums.Title == new[] {"Nevermind", "Ten" });
+
+// As part of the SimpleExpression parameter for the Where method
+db.Albums.All().Where(db.Albums.Title == new[] {"Nevermind", "Ten"});</pre>
+<p>All three calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[Title] IN (@p1_0,@p1_1)
+
+@p1_0 (String) = Nevermind
+@p1_1 (String) = Ten</pre>
+<p>A NOT IN clause is written as an inequality statement so can only be created in two ways as <code class="method">FindAllBy*</code> and <code class="method">FindBy*</code> only support equality expressions.</p>
+<pre class="brush:csharp">// As the SimpleExpression parameter for Find or FindAll.
+db.Albums.FindAll(db.Albums.GenreId != new[] {1, 3, 7});
+
+// As part of the SimpleExpression parameter for the Where method
+db.Albums.All().Where(db.Albums.GenreId != new[] {1, 3, 7});</pre>
+<p>These two calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] NOT IN (@p1_0,@p1_1,@p1_2)
+
+@p1_0 (Int32) = 1
+@p1_1 (Int32) = 3
+@p1_2 (Int32) = 7</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>BETWEEN</h2>
+<p>Simple.Data supports the use of the <code class="method">to</code> method to create integer and datetime ranges which should (not) contain a field value, generating a BETWEEN or NOT BETWEEN clause as appropriate.</p>
+As this translates to equating a field to a range of values, we can generate an BETWEEN clause in several ways. For example</p>
+<pre class="brush:csharp">//Add this using statement to use the to function
+using Simple.Data;
+
+// Embedded in a FindAllBy* or FindBy* method
+db.Albums.FindAllByAlbumId(400.to(410)));
+
+// As part of the SimpleExpression parameter for Find or FindAll
+db.Albums.FindAll(db.Albums.AlbumId == 400.to(410)));
+
+// As part of the SimpleExpression parameter for Where
+db.Albums.All().Where(db.Albums.AlbumId == 400.to(410)));</pre>
+<p>All three calls generate the same SQL statement</p>
+<pre class="brush:sql">
+select * from [dbo].[Album] 
+WHERE [dbo].[Album].[AlbumId] BETWEEN @p1_start AND @p1_end
+
+@p1_start (Int32) = 400
+@p1_end (Int32) = 410</pre>
+<p>A NOT BETWEEN clause is written as an inequality statement so can only be created in two ways as FindAllBy* and FindBy* only support equality expressions.</p>
+<pre class="brush:csharp">//Add this using statement to use the to function
+using Simple.Data;
+
+// As part of the SimpleExpression parameter for Find or FindAll
+db.Orders.FindAll(
+   db.Orders.OrderDate != SqlDateTime.MinValue.Value.to(DateTime.Now)));
+
+// As part of the SimpleExpression parameter for Where
+db.Orders.All().Where(
+   db.Orders.OrderDate != SqlDateTime.MinValue.Value.to(DateTime.Now)));</pre>
+<p>Both calls generate the same SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Order] 
+WHERE [dbo].[Order].[OrderDate] NOT BETWEEN @p1_start AND @p1_end
+	
+@p1_start (DateTime) = 01/01/1753 00:00:00
+@p1_end (DateTime) = 26/06/2012 13:49:54</pre>
+<p class="alert">[ADOAdapter Only]</p>
+<p>Note that Simple.Data will throw a <code class="type">System.Data.SqlTypes.SqlTypeException</code> if the dates in the range are not valid SQL dates.</p>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>LIKE</h2>
+<p>Simple.Data uses the <code class="method">Like</code> and <code class="method">NotLike</code> functions to allow substring searches in string fields. Wildcard characters are supported</p>
+<p>For example</p>
+<pre class="brush:csharp">// LIKE
+db.Albums.All().Where(db.Albums.Title.Like("%Side Of The%");
+
+// NOT LIKE
+db.Albums.All().Where(db.Albums.Title.NotLike("%a%");</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>Null values</h2>
+<p>Simple.Data supports the generation of IS NULL and IS NOT NULL criteria using the following comparisons</p>
+<ul>
+	<li><code class="operator">== null</code> (IS NULL)</li>
+	<li><code class="operator">!= null</code> (IS NOT NULL)</li>
+</ul>
+<p>For example</p>
+<pre class="brush:csharp">// Embedded in a FindAllBy* or FindBy* method
+db.Albums.FindAllByGenreId(null);
+db.Albums.FindAllby(GenreId:null);
+
+// As part of the SimpleExpression parameter for Find or FindAll
+db.Albums.FindAll(db.Albums.GenreId == null);
+
+// As part of the SimpleExpression parameter for Where
+db.Albums.All().Where(db.Albums.GenreId == null);</pre>
+<p>All four calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] IS NULL</pre>
+<p>An IS NOT NULL clause is written as an inequality statement so can only be created in two ways as FindAllBy* and FindBy* only support equality expressions.</p>
+<pre class="brush:csharp">// As part of the SimpleExpression parameter for Find or FindAll
+db.Albums.FindAll(db.Albums.GenreId != null);
+
+// As part of the SimpleExpression parameter for Where
+db.Albums.All().Where(db.Albums.GenreId != null);</pre>
+<p>Both these calls generate the following SQL statement</p>
+<pre class="brush:sql">select * from [dbo].[Album] 
+WHERE [dbo].[Album].[GenreId] IS NOT NULL</pre>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var defaults = {
+            animationDuration: 350,
+            headerOpacity: 0.25,
+            fixedHeaders: false,
+            headerSelector: function (item) { return item.children("article").children("h2").first(); },
+            itemSelector: function (item) { return item.children(".pivot-item"); },
+            headerItemTemplate: function () { return $("<span class='header' />"); },
+            pivotItemTemplate: function () { return $("<div class='pivotItem' />"); },
+            itemsTemplate: function () { return $("<div class='items' />"); },
+            headersTemplate: function () { return $("<nav class='pivot-headers' />"); },
+            controlInitialized: undefined,
+            selectedItemChanged: undefined
+        };
+
+        $(function () {
+            $("div.metro-pivot").metroPivot(defaults);
+        });
+    </script>
+</body>
+</html>
