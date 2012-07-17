@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
+    </section>
+<h2>Stored Procedures</h2>
+<p>Simple.Data allows you to call your existing stored procedures. There are three variations on calling procedures, Parameterless,
+Positional and with Named Parameters.</p>
+<h3>Procedure (Parameterless form)</h3>
+<p>The example procedure</p>
+<pre class="brush: sql">
+CREATE PROCEDURE ProcedureWithoutParameters 
+AS
+
+SELECT * FROM Customers
+</pre>
+<p>Call it in Simple.Data with</p>
+<pre class="brush: csharp">
+db.ProcedureWithoutParameters();
+</pre>
+<p>This generates the following SQL</p>
+<pre class="brush: sql">
+[ProcedureWithoutParameters]
+</pre>
+<h3>Procedure (Positional Parameters form)</h3>
+<p>The example procedure</p>
+<pre class="brush: sql">
+CREATE PROCEDURE ProcedureWithParameters 
+@One VARCHAR(MAX),
+@Two VARCHAR(MAX)
+AS
+
+SELECT * FROM Customers WHERE Firstname = @One and Lastname like @Two
+</pre>
+<p>Call it in Simple.Data with</p>
+<pre class="brush: csharp">
+db.ProcedureWithParameters(1, 2);
+</pre>
+<p>This generates the following SQL</p>
+<pre class="brush: sql">
+[ProcedureWithParameters] @One, @Two
+@One (AnsiString) = 1
+@Two (AnsiString) = 2
+</pre>
+<h3>Procedure (Named Parameters form)</h3>
+<p>The example procedure</p>
+<pre class="brush: sql">
+CREATE PROCEDURE ProcedureWithParameters 
+@One VARCHAR(MAX),
+@Two VARCHAR(MAX)
+AS
+
+SELECT * FROM Customers WHERE Firstname = @One and Lastname like @Two
+</pre>
+<p>Call it in Simple.Data with</p>
+<pre class="brush: csharp">
+db.ProcedureWithParameters(One: 1, Two: 2);
+</pre>
+<p>This generates the following SQL</p>
+<pre class="brush: sql">
+[ProcedureWithParameters] @One, @Two
+@One (AnsiString) = 1
+@Two (AnsiString) = 2
+</pre>
+</body>
+</html>

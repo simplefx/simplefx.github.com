@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>Basic Testing : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+      Simple.Data has always been designed with "testing as a core feature" and supports unit testing your whole application stack using the InMemoryAdapter found in the Core namespace.
+    </section>
+    <h2>Testing Basics : The InMemoryAdapter</h2>
+    <p>The great thing about the InMemoryAdapter is that you can test all your data access code against per test definied data, in memory. So it's very fast and you don't have to change a thing in your data access code. Simplest thing is probably just to explain this with an example:</p>
+<p>Let's say that you have this simple method to retrieve a Customer by Id</p>
+<pre class="brush:csharp">
+private dynamic GetCustomer(int id)
+{
+  var db = Database.Open();
+  return db.Test.FindById(id);
+}
+</pre>
+<p>If you want to test that method call you need to call into the underlying database. Not only is that slow but also does that mean that you need to seed the database with some data first... And remember to clean it up later. </p>
+<p>With the InMemoryAdapter that is much cleaner:</p>
+<pre class="brush:csharp">
+[Test]
+public void should_get_a_customer()
+{
+    // Arrange
+    // Set up the InMemoryAdapter
+    var adapter = new InMemoryAdapter();
+    Database.UseMockAdapter(adapter);
+
+    // Insert some test data
+    var db = Database.Open();
+    db.Test.Insert(Id: 1, Name: "Alice");
+
+    // Act
+    var record = GetCustomer(1);
+
+    // Assert
+    Assert.IsNotNull(record);
+    Assert.AreEqual(1, record.Id);
+    Assert.AreEqual("Alice", record.Name);
+}
+</pre>
+<p>The first two lines configure the InMemoryAdapter and tells Simple.Data to use it with the static method .UseMockAdapter([adapter]). All subsequent calls to Simple.Data will use that adapter</p>
+<p>Then we insert some data into the "database" (which now is run in-memory) with the usual syntax for inserting.</p>
+<p>The method GetCustomer knows nothing about the InMemoryAdapter-stuff and the code is run just as it was written. Only this time the InMemoryAdapter is used and the data we just inserted is returned.</p>
+</body>
+</html>
