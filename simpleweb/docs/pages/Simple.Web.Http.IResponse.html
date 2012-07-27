@@ -66,100 +66,18 @@ Abstraction for an HTTP response, to be implemented by hosting.
 	</tr>
 	<tr>
 		<td><span class="public-property icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.ContentType.html"><span class="csharp">ContentType</span><span class="vb">ContentType</span><span class="cpp">ContentType</span></a></td>
-		<td>Gets or sets the type of the content.</td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.Headers.html"><span class="csharp">Headers</span><span class="vb">Headers</span><span class="cpp">Headers</span></a></td>
+		<td>The response headers.</td>
 	</tr>
 	<tr>
-		<td><span class="public-readonly icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.OutputStream.html"><span class="csharp">OutputStream</span><span class="vb">OutputStream</span><span class="cpp">OutputStream</span></a></td>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.Status.html"><span class="csharp">Status</span><span class="vb">Status</span><span class="cpp">Status</span></a></td>
+		<td>Gets or sets the status code and description.</td>
+	</tr>
+	<tr>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.IResponse.WriteFunction.html"><span class="csharp">WriteFunction</span><span class="vb">WriteFunction</span><span class="cpp">WriteFunction</span></a></td>
 		<td>Gets the output stream.</td>
-	</tr>
-	<tr>
-		<td><span class="public-property icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.StatusCode.html"><span class="csharp">StatusCode</span><span class="vb">StatusCode</span><span class="cpp">StatusCode</span></a></td>
-		<td>Gets or sets the status code.</td>
-	</tr>
-	<tr>
-		<td><span class="public-property icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.StatusDescription.html"><span class="csharp">StatusDescription</span><span class="vb">StatusDescription</span><span class="cpp">StatusDescription</span></a></td>
-		<td>Gets or sets the status description.</td>
-	</tr>
-</table>
-<a href="#top">Top</a>
-</div>
-
-<h2 id="methods">Methods</h2>
-<div>
-<table class="members">
-	<tr>
-		<th></th>
-		<th>Name</th>
-		<th>Description</th>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.DisableCache.html"><span class="csharp">DisableCache()</span><span class="vb">DisableCache()</span><span class="cpp">DisableCache()</span></a></td>
-		<td>Disables caching of the resource.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.RemoveCookie.html"><span class="csharp">RemoveCookie(string)</span><span class="vb">RemoveCookie(String)</span><span class="cpp">RemoveCookie(String^)</span></a></td>
-		<td>Removes the named cookie.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheAbsoluteExpiry.html"><span class="csharp">SetCacheAbsoluteExpiry(DateTime)</span><span class="vb">SetCacheAbsoluteExpiry(DateTime)</span><span class="cpp">SetCacheAbsoluteExpiry(DateTime)</span></a></td>
-		<td>Sets the cache absolute expiry.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheSlidingExpiry.html"><span class="csharp">SetCacheSlidingExpiry(TimeSpan)</span><span class="vb">SetCacheSlidingExpiry(TimeSpan)</span><span class="cpp">SetCacheSlidingExpiry(TimeSpan)</span></a></td>
-		<td>Sets the cache sliding expiry.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByContentEncodings.html"><span class="csharp">SetCacheVaryByContentEncodings(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByContentEncodings(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByContentEncodings(ICollection&lt;String^&gt;^)</span></a></td>
-		<td>Sets the cache vary by content encodings.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByHeaders.html"><span class="csharp">SetCacheVaryByHeaders(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByHeaders(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByHeaders(ICollection&lt;String^&gt;^)</span></a></td>
-		<td>Sets the cache vary by headers.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCacheVaryByParams.html"><span class="csharp">SetCacheVaryByParams(ICollection&lt;string&gt;)</span><span class="vb">SetCacheVaryByParams(ICollection(Of&nbsp;String))</span><span class="cpp">SetCacheVaryByParams(ICollection&lt;String^&gt;^)</span></a></td>
-		<td>Sets the cache vary by params.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCookie_4CB21B4C.html"><span class="csharp">SetCookie(string, IDictionary&lt;string, string&gt;, DateTime?, bool, bool, string, string)</span><span class="vb">SetCookie(String, IDictionary(Of&nbsp;String, String), Nullable(Of&nbsp;DateTime), Boolean, Boolean, String, String)</span><span class="cpp">SetCookie(String^, IDictionary&lt;String^, String^&gt;^, Nullable&lt;DateTime&gt;, bool, bool, String^, String^)</span></a></td>
-		<td>Sets a multi-value cookie.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetCookie_BA839E88.html"><span class="csharp">SetCookie(string, string, DateTime?, bool, bool, string, string)</span><span class="vb">SetCookie(String, String, Nullable(Of&nbsp;DateTime), Boolean, Boolean, String, String)</span><span class="cpp">SetCookie(String^, String^, Nullable&lt;DateTime&gt;, bool, bool, String^, String^)</span></a></td>
-		<td>Sets a cookie.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetETag.html"><span class="csharp">SetETag(string)</span><span class="vb">SetETag(String)</span><span class="cpp">SetETag(String^)</span></a></td>
-		<td>Sets the ETag.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetHeader.html"><span class="csharp">SetHeader(string, string)</span><span class="vb">SetHeader(String, String)</span><span class="cpp">SetHeader(String^, String^)</span></a></td>
-		<td>Sets a header value.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.SetLastModified.html"><span class="csharp">SetLastModified(DateTime)</span><span class="vb">SetLastModified(DateTime)</span><span class="cpp">SetLastModified(DateTime)</span></a></td>
-		<td>Sets the last modified date.</td>
-	</tr>
-	<tr>
-		<td><span class="public-method icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IResponse.TransmitFile.html"><span class="csharp">TransmitFile(string)</span><span class="vb">TransmitFile(String)</span><span class="cpp">TransmitFile(String^)</span></a></td>
-		<td>Transmits a file to the client using whatever optimizations are available.</td>
 	</tr>
 </table>
 <a href="#top">Top</a>
@@ -175,8 +93,48 @@ Abstraction for an HTTP response, to be implemented by hosting.
 	</tr>
 	<tr>
 		<td><span class="public-extension icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Helpers.ResponseExtensions.SetStatus.html"><span class="csharp">SetStatus(IResponse, Status)</span><span class="vb">SetStatus(IResponse, Status)</span><span class="cpp">SetStatus(IResponse^, Status)</span></a></td>
-		<td>Sets the status code and description from a <a href="Simple.Web.Status.html"><span class="csharp">Status</span><span class="vb">Status</span><span class="cpp">Status</span></a>. (Defined by <a href="Simple.Web.Helpers.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.AddHeader.html"><span class="csharp">AddHeader(IResponse, string, string)</span><span class="vb">AddHeader(IResponse, String, String)</span><span class="cpp">AddHeader(IResponse^, String^, String^)</span></a></td>
+		<td>Adds a response header. Current values for the specified header field are retained. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.DisableCache.html"><span class="csharp">DisableCache(IResponse)</span><span class="vb">DisableCache(IResponse)</span><span class="cpp">DisableCache(IResponse^)</span></a></td>
+		<td>Disables response caching by setting the Cache-Control header to &quot;no-cache&amp; no-store&quot;. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.RemoveCookie.html"><span class="csharp">RemoveCookie(IResponse, string)</span><span class="vb">RemoveCookie(IResponse, String)</span><span class="cpp">RemoveCookie(IResponse^, String^)</span></a></td>
+		<td>Removes a cookie (by setting its Expiry one year in the past). (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetCacheOptions.html"><span class="csharp">SetCacheOptions(IResponse, CacheOptions)</span><span class="vb">SetCacheOptions(IResponse, CacheOptions)</span><span class="cpp">SetCacheOptions(IResponse^, CacheOptions^)</span></a></td>
+		<td>Sets the Cache-Control header and optionally the Expires and Vary headers. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetContentType.html"><span class="csharp">SetContentType(IResponse, string)</span><span class="vb">SetContentType(IResponse, String)</span><span class="cpp">SetContentType(IResponse^, String^)</span></a></td>
+		<td>Sets the response Content-Type header. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetCookie.html"><span class="csharp">SetCookie(IResponse, string, string, int, bool, bool, string)</span><span class="vb">SetCookie(IResponse, String, String, Integer, Boolean, Boolean, String)</span><span class="cpp">SetCookie(IResponse^, String^, String^, int, bool, bool, String^)</span></a></td>
+		<td>Sets a cookie. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetETag.html"><span class="csharp">SetETag(IResponse, string)</span><span class="vb">SetETag(IResponse, String)</span><span class="cpp">SetETag(IResponse^, String^)</span></a></td>
+		<td>Sets the ETag header. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetHeader.html"><span class="csharp">SetHeader(IResponse, string, string)</span><span class="vb">SetHeader(IResponse, String, String)</span><span class="cpp">SetHeader(IResponse^, String^, String^)</span></a></td>
+		<td>Sets a response header. Any current values for the specified header field are replaced. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetLastModified.html"><span class="csharp">SetLastModified(IResponse, DateTime)</span><span class="vb">SetLastModified(IResponse, DateTime)</span><span class="cpp">SetLastModified(IResponse^, DateTime)</span></a></td>
+		<td>Sets the Last-Modified header. (Defined by <a href="Simple.Web.Http.ResponseExtensions.html"><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span></a>.)</td>
 	</tr>
 	<tr>
 		<td><span class="public-extension icon"></span></td>

@@ -40,8 +40,7 @@ This method supports the framework directly and should not be used from your cod
 <div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">static</span>&nbsp;<span class="keyword">bool</span>&nbsp;Impl(</p>
 <div>
 <p><a class="type" href="Simple.Web.Behaviors.IMayRedirect.html">IMayRedirect</a>&nbsp;handler,</p>
-<p><a class="type" href="Simple.Web.Http.IContext.html">IContext</a>&nbsp;context,</p>
-<p><a class="type" href="Simple.Web.Status.html">Status</a>&nbsp;status</p>
+<p><a class="type" href="Simple.Web.Http.IContext.html">IContext</a>&nbsp;context</p>
 </div>
 <p>)</p>
 </div>
@@ -51,8 +50,7 @@ This method supports the framework directly and should not be used from your cod
 <div class="code"><p><span class="keyword">Public</span>&nbsp;<span class="keyword">Shared</span>&nbsp;<span class="keyword">Function</span>&nbsp;Impl(&nbsp;_</p>
 <div>
 <p>handler <span class="keyword">As</span>&nbsp;<a class="type" href="Simple.Web.Behaviors.IMayRedirect.html">IMayRedirect</a>,&nbsp;_</p>
-<p>context <span class="keyword">As</span>&nbsp;<a class="type" href="Simple.Web.Http.IContext.html">IContext</a>,&nbsp;_</p>
-<p>status <span class="keyword">As</span>&nbsp;<a class="type" href="Simple.Web.Status.html">Status</a>&nbsp;_</p>
+<p>context <span class="keyword">As</span>&nbsp;<a class="type" href="Simple.Web.Http.IContext.html">IContext</a>&nbsp;_</p>
 </div>
 <p>) <span class="keyword">As</span>&nbsp;<span class="keyword">Boolean</span></p>
 </div>
@@ -63,8 +61,7 @@ This method supports the framework directly and should not be used from your cod
 <p><span class="keyword">static</span>&nbsp;<span class="keyword">bool</span>&nbsp;Impl(</p>
 <div>
 <p><a class="type" href="Simple.Web.Behaviors.IMayRedirect.html">IMayRedirect</a>^ handler,</p>
-<p><a class="type" href="Simple.Web.Http.IContext.html">IContext</a>^ context,</p>
-<p><a class="type" href="Simple.Web.Status.html">Status</a> status</p>
+<p><a class="type" href="Simple.Web.Http.IContext.html">IContext</a>^ context</p>
 </div>
 <p>)</p>
 </div>
@@ -84,16 +81,9 @@ Type: <a href="Simple.Web.Http.IContext.html"><span class="csharp">Simple.Web.Ht
 The context.
 </div>
 </div>
-<div class="param">
-status
-<div class="description">
-Type: <a href="Simple.Web.Status.html"><span class="csharp">Simple.Web.Status</span><span class="vb">Simple.Web.Status</span><span class="cpp">Simple::Web::Status</span></a><br/>
-The <a href="Simple.Web.Status.html"><span class="csharp">Status</span><span class="vb">Status</span><span class="cpp">Status</span></a> returned by the Handler.
-</div>
-</div>
 <h3>Return Value</h3><div>
 Type: <a href="http://msdn.microsoft.com/en-us/library/system.boolean" target="blank"><span class="csharp">System.Boolean</span><span class="vb">System.Boolean</span><span class="cpp">System::Boolean</span></a><br/>
-<span class="missing-doc">Missing &lt;returns&gt; documentation for <span class="csharp">Simple.Web.Behaviors.Implementations.Redirect.Impl</span><span class="vb">Simple.Web.Behaviors.Implementations.Redirect.Impl</span><span class="cpp">Simple::Web::Behaviors::Implementations::Redirect::Impl</span></span>
+<code>false</code> (to prevent response output) if the status is a redirect code; otherwise, <code>true</code>.
 </div>
 </div>
 
