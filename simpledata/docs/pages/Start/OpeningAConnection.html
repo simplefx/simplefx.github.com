@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>Opening A COnnection : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks. In this section, we see why and how to get started with Simple.Data.
+    </section>
+<h2>Opening A Connection</h2>
+<p>Once you&#8217;ve set up your connection strings in your configuration file (or not), the first action to have your code take is to open your data store. You can use one of four methods to do this.</p>
+<h3>Open</h3>
+<p>Tries to open a connection to a data store using the connection string named <code class="value">Simple.Data.Properties.Settings.DefaultConnectionString</code> in your configuration file</p>
+<pre class="brush:csharp">var defaultDb = Database.Open();
+var artist = defaultDb.Artists.FindByName("Aerosmith");
+Console.WriteLine("Id: {0}, Name: {1}", artist.ArtistId, artist.Name);</pre>
+<h3>OpenNamedConnection(string connectionName)</h3>
+<p>Tries to open a connection to a data store using the connection string with the given <code class="parameter">connectionName</code> in your configuration file</p>
+<pre class="brush:csharp">var namedDb = Database.OpenNamedConnection("MvcMusicStoreDb");
+var artist2 = namedDb.Artists.FindByName("Metallica");
+Console.WriteLine("Id: {0}, Name: {1}", artist2.ArtistId, artist2.Name);</pre>
+<h3>OpenConnection(string connectionString)</h3>
+<p>Tries to open a connection to a data store with the given literal <code class="parameter">connectionString</code>.</p>
+<pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--");
+var artist3 = magicDb.Artists.FindByName("Iron Maiden");
+Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
+<h3>OpenFile(string filepath)</h3>
+<p>Tries to open a connection to a data store with the given <code class="parameter">filepath</code>.</p>
+<pre class="brush:csharp">var fileDb = Database.OpenConnection("MvcMusicStore.sdf");
+var artist4 = fileDb.Artists.FindByName("Alanis Morrisette");
+Console.WriteLine("Id: {0}, Name: {1}", artist4.ArtistId, artist4.Name);</pre>
+<p>Simple.Data is quite aggressive in closing connections and holds no open connections to a data store by default, so you can keep the <code class="type">Database</code> object returned from the <code class="method">Open*()</code> methods hanging around without worrying.</p> 
+</body>
+</html>

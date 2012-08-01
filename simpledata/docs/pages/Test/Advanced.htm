@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+              Simple.Data has always been designed with "testing as a core feature" and supports unit testing your whole application stack using the InMemoryAdapter found in the Core namespace.  The InMemoryAdapter supports all the actions and methods that all the other adapters does; including joins, transactions and stored procedures.
+    </section>
+<h2>Testing : Advanced Scenarios</h2>
+<p>The examples above is very simplified, but have no fear; the InMemoryAdapter supports all the actions and methods that all the other adapters does; including joins, transactions and even stored procedures. Here are a few examples:
+<h3>Update</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert a record
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Update record and get number of updated rows
+int updated = db.Test.UpdateById(Id: 1, Name: "Allyce");
+Assert.AreEqual(1, updated);
+
+// Find and assert the updated record
+var record = db.Test.FindById(1);
+Assert.AreEqual("Allyce", record.Name);
+</pre>
+<h3>DeleteBy</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert a record
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+db.Test.Insert(Id: 1, Name: "Alice");
+
+// Delete by Id and get the number of deleted records
+int deleted = db.Test.DeleteById(1);
+Assert.AreEqual(1, deleted);
+
+// Try to find the record and assert that it's gone!
+var record = db.Test.FindById(1);
+Assert.IsNull(record);
+</pre>
+<h3>OrderBy</h3>
+<pre class="brush:csharp">
+// Configure adapter and insert 10 records
+Database.UseMockAdapter(new InMemoryAdapter());
+var db = Database.Open();
+for (int i = 0; i < 10; i++)
+{
+    db.Test.Insert(Id: i, Name: "Alice");
+}
+
+// Return records OrderBy Id Descending
+var records = db.Test.All().OrderByIdDescending().ToList();
+
+// Assert that the first record has Id 9
+Assert.AreEqual(9, records[0].Id);
+</pre>
+<h3>Join</h3>
+<pre class="brush:csharp">
+// Configure the adapter with the Master/Detail-relation
+// Make sure the naming in the strings here are aligned with the naming used in your code
+var adapter = new InMemoryAdapter();
+adapter.Join.Master("Customer", "ID").Detail("Order", "CustomerID");
+Database.UseMockAdapter(adapter);
+
+// Insert data in the 2 tables
+var db = Database.Open();
+db.Customer.Insert(ID: 1, Name: "NASA");
+db.Customer.Insert(ID: 2, Name: "ACME");
+db.Order.Insert(ID: 1, CustomerID: 1, Date: new DateTime(1997, 1, 12));
+db.Order.Insert(ID: 2, CustomerID: 2, Date: new DateTime(2001, 1, 1));
+
+// Retrieve the data and use the relation (db.Customer.Order)
+var customers = db.Customer.FindAll(db.Customer.Order.Date < new DateTime(1999, 12, 31)).ToList();
+Assert.IsNotNull(customers);
+Assert.AreEqual(1, customers.Count);
+</pre>
+<h3>Stored procedure</h3>
+<p>The InMemoryAdapter supports calling into stored procedures. You have to supply a delegate that returns what's expected but that can easily be faked for tests. </p>
+<p>In this example we are testing a stored procedure called "Test" with 2 parameters. And the delegate we supply simply returns a Dictionary&lt;string, object&gt; with the values sent to the function. Why a Dictionary&lt;string, object&gt;? Well that's how the rows are stored within the InMemoryAdapter.
+<pre class="brush:csharp">
+var adapter = new InMemoryAdapter();
+
+// Set up the stored procedure
+adapter.AddFunction&lt;string, object, 
+    IDictionary&lt;string, object&gt;&gt;("Test", (key, value) =&gt; 
+        new Dictionary&lt;string, object&gt; { { key, value } });
+
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+// Call the Test stored procedure (db.Test) and assert the result
+foreach (var row in db.Test("Foo", "Bar"))
+{
+    Assert.AreEqual("Bar", row.Foo);
+}
+</pre>
+<h3>Transactions</h3>
+<pre class="brush:csharp">
+// Configure adapater
+var adapter = new InMemoryAdapter();
+Database.UseMockAdapter(adapter);
+var db = Database.Open();
+
+// Insert under transaction and make sure it's returned
+using (var tx = db.BeginTransaction())
+{
+    tx.Test.Insert(Id: 1, Name: "Alice");
+    var record = tx.Test.FindById(1);
+    Assert.IsNotNull(record);
+    Assert.AreEqual(1, record.Id);
+    Assert.AreEqual("Alice", record.Name);
+}
+</pre>
+</body>
+</html>

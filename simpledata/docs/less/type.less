@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'RobotoRegular';
+    src: url('../fonts/Roboto-Regular-webfont.eot');
+    src: url('../fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-Regular-webfont.woff') format('woff'),
+         url('../fonts/Roboto-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/Roboto-Regular-webfont.svg#RobotoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RobotoLight';
+    src: url('../fonts/Roboto-Light-webfont.eot');
+    src: url('../fonts/Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-Light-webfont.woff') format('woff'),
+         url('../fonts/Roboto-Light-webfont.ttf') format('truetype'),
+         url('../fonts/Roboto-Light-webfont.svg#RobotoLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#headingstyles {
+	font-family: @headingfonts;
+	font-weight: 100;
+    margin-top: 5px;
+    margin-bottom: 0px;
+//	text-transform: lowercase;
+}
+
+body {
+	font-family: @fonts;
+	font-size: @baseFontSize;
+}
+
+h1, h2, h3, h4, h5, h6 
+{
+	#headingstyles;
+}
+
+h1 { font-size: @h1fontSize; }
+h2 { font-size: @h2fontSize; }
+h3 { font-size: @h3fontSize; opacity: 0.6; }
+h4, h5, h6 {
+	font-weight: normal;
+	text-transform: uppercase;
+}
+
+
+/*  Lists   */
+
+ul.metro-list, ol.metro-list { padding: 0; }
+
+ul.metro-list li, ol.metro-list li 
+{
+    display: block;
+    list-style-type: none;
+    border-left: solid 30px @accent;
+    height: 20px;
+    list-style-position: inside;
+    margin: 10px 0;
+    padding:5px;
+
+}
+ul.metro-list { 
+    overflow: hidden; 
+}
+ol.metro-list { 
+    text-indent: -25px;
+    counter-reset: item;
+}
+ol.metro-list li:before { 
+    color:white;
+    margin-right:25px;
+    content: counter(item) "  "; 
+    counter-increment: item;
+}
