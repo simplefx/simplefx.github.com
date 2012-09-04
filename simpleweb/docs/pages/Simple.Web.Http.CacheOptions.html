@@ -102,24 +102,19 @@ Carries information on how to cache a resource.
 		<td>Gets a value indicating whether caching should be disabled for a resource.</td>
 	</tr>
 	<tr>
+		<td><span class="public-property icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.Level.html"><span class="csharp">Level</span><span class="vb">Level</span><span class="cpp">Level</span></a></td>
+		<td>Gets or sets a value indicating the level at which the response may be cached.</td>
+	</tr>
+	<tr>
 		<td><span class="public-readonly icon"></span></td>
 		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.SlidingExpiry.html"><span class="csharp">SlidingExpiry</span><span class="vb">SlidingExpiry</span><span class="cpp">SlidingExpiry</span></a></td>
 		<td>Gets the sliding expiry time.</td>
 	</tr>
 	<tr>
 		<td><span class="public-property icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.VaryByContentEncodings.html"><span class="csharp">VaryByContentEncodings</span><span class="vb">VaryByContentEncodings</span><span class="cpp">VaryByContentEncodings</span></a></td>
-		<td>Gets or sets names of content encodings which should be considered by the caching systems.</td>
-	</tr>
-	<tr>
-		<td><span class="public-property icon"></span></td>
 		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.VaryByHeaders.html"><span class="csharp">VaryByHeaders</span><span class="vb">VaryByHeaders</span><span class="cpp">VaryByHeaders</span></a></td>
 		<td>Gets or sets names of headers which should be considered by the caching systems.</td>
-	</tr>
-	<tr>
-		<td><span class="public-property icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.VaryByParams.html"><span class="csharp">VaryByParams</span><span class="vb">VaryByParams</span><span class="cpp">VaryByParams</span></a></td>
-		<td>Gets or sets names of query parameters which should be considered by the caching systems.</td>
 	</tr>
 </table>
 <a href="#top">Top</a>
@@ -157,6 +152,11 @@ Carries information on how to cache a resource.
 		<td><span class="protected-method icon"></span></td>
 		<td class="member-name"><a href="http://msdn.microsoft.com/en-us/library/system.object.memberwiseclone" target="blank"><span class="csharp">MemberwiseClone()</span><span class="vb">MemberwiseClone()</span><span class="cpp">MemberwiseClone()</span></a></td>
 		<td>Creates a shallow copy of the current <a href="http://msdn.microsoft.com/en-us/library/system.object" target="blank">Object</a>. (Inherited from <a href="http://msdn.microsoft.com/en-us/library/system.object" target="blank"><span class="csharp">Object</span><span class="vb">Object</span><span class="cpp">Object</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.CacheOptions.ToHeaderString.html"><span class="csharp">ToHeaderString()</span><span class="vb">ToHeaderString()</span><span class="cpp">ToHeaderString()</span></a></td>
+		<td>Formats the options as a Cache-Control header value.</td>
 	</tr>
 	<tr class="inherited">
 		<td><span class="public-method icon"></span></td>

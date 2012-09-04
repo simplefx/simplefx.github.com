@@ -66,21 +66,6 @@ Abstraction for an HTTP request
 	</tr>
 	<tr>
 		<td><span class="public-readonly icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IRequest.AcceptTypes.html"><span class="csharp">AcceptTypes</span><span class="vb">AcceptTypes</span><span class="cpp">AcceptTypes</span></a></td>
-		<td>Gets the content types accepted by the client making the request.</td>
-	</tr>
-	<tr>
-		<td><span class="public-readonly icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IRequest.ContentType.html"><span class="csharp">ContentType</span><span class="vb">ContentType</span><span class="cpp">ContentType</span></a></td>
-		<td>Gets the type of the content.</td>
-	</tr>
-	<tr>
-		<td><span class="public-readonly icon"></span></td>
-		<td class="member-name"><a href="Simple.Web.Http.IRequest.Cookies.html"><span class="csharp">Cookies</span><span class="vb">Cookies</span><span class="cpp">Cookies</span></a></td>
-		<td>Gets the cookies.</td>
-	</tr>
-	<tr>
-		<td><span class="public-readonly icon"></span></td>
 		<td class="member-name"><a href="Simple.Web.Http.IRequest.Files.html"><span class="csharp">Files</span><span class="vb">Files</span><span class="cpp">Files</span></a></td>
 		<td>Gets the list of uploaded files.</td>
 	</tr>
@@ -108,6 +93,33 @@ Abstraction for an HTTP request
 		<td><span class="public-readonly icon"></span></td>
 		<td class="member-name"><a href="Simple.Web.Http.IRequest.Url.html"><span class="csharp">Url</span><span class="vb">Url</span><span class="cpp">Url</span></a></td>
 		<td>Gets the URL.</td>
+	</tr>
+</table>
+<a href="#top">Top</a>
+</div>
+
+<h2 id="extensions">Extension Methods</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.RequestExtensions.GetAccept.html"><span class="csharp">GetAccept(IRequest)</span><span class="vb">GetAccept(IRequest)</span><span class="cpp">GetAccept(IRequest^)</span></a></td>
+		<td>Gets the Accept header entry. (Defined by <a href="Simple.Web.Http.RequestExtensions.html"><span class="csharp">RequestExtensions</span><span class="vb">RequestExtensions</span><span class="cpp">RequestExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.RequestExtensions.GetContentType.html"><span class="csharp">GetContentType(IRequest)</span><span class="vb">GetContentType(IRequest)</span><span class="cpp">GetContentType(IRequest^)</span></a></td>
+		<td>Gets the Content-Type header entry. (Defined by <a href="Simple.Web.Http.RequestExtensions.html"><span class="csharp">RequestExtensions</span><span class="vb">RequestExtensions</span><span class="cpp">RequestExtensions</span></a>.)</td>
+	</tr>
+	<tr>
+		<td><span class="public-extension icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.RequestExtensions.TryGetCookieValue.html"><span class="csharp">TryGetCookieValue(IRequest, string, string)</span><span class="vb">TryGetCookieValue(IRequest, String, String)</span><span class="cpp">TryGetCookieValue(IRequest^, String^, String^)</span></a></td>
+		<td>Tries to get the value of a Cookie. (Defined by <a href="Simple.Web.Http.RequestExtensions.html"><span class="csharp">RequestExtensions</span><span class="vb">RequestExtensions</span><span class="cpp">RequestExtensions</span></a>.)</td>
 	</tr>
 </table>
 <a href="#top">Top</a>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>ResponseExtensions Class (Simple.Web.Http)</title>
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<script src="../scripts.js" type="text/javascript"></script>
+	<style type="text/css">
+		.csharp { display: inline; }
+		.vb { display: none; }
+		.cpp { display: none; }
+	</style>
+</head>
+<body id="top">
+
+<div id="header">
+<p id="title">Simple.Web</p>
+<h1><span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span> Class</h1>
+<div id="functions" style="display:none"><a id="collapseAll" href="javascript:collapseAll();">Collapse All</a><a id="expandAll" href="javascript:expandAll();">Expand All</a></div>
+</div>
+<div id="content">
+<div id="contentTop">
+<div id="summary">
+<p class="preliminary">[This is preliminary documentation and is subject to change.]</p>
+<div>
+Extension methods for the <a href="Simple.Web.Http.IResponse.html"><span class="csharp">IResponse</span><span class="vb">IResponse</span><span class="cpp">IResponse</span></a> interface.
+</div>
+</div>
+
+<h2 id="hierarchy">Inheritance Hierarchy</h2>
+<div>
+	<a href="http://msdn.microsoft.com/en-us/library/system.object" target="blank"><span class="csharp">System.Object</span><span class="vb">System.Object</span><span class="cpp">System::Object</span></a><br/>
+	&nbsp;&nbsp;<span class="self-in-hierarchy"><span class="csharp">Simple.Web.Http.ResponseExtensions</span><span class="vb">Simple.Web.Http.ResponseExtensions</span><span class="cpp">Simple::Web::Http::ResponseExtensions</span></span><br/>
+</div>
+<p>
+	<b>Namespace:</b> <a href="Simple.Web.Http.html"><span class="csharp">Simple.Web.Http</span><span class="vb">Simple.Web.Http</span><span class="cpp">Simple::Web::Http</span></a><br/>
+	<b>Assembly:</b> Simple.Web (in Simple.Web.dll)
+</p>
+
+<h2 id="syntax">Syntax</h2>
+<div>
+<div id="syntaxPanel">
+<div class="code-block default" lang="x-csharp">
+<div class="code-header"><span class="title">C#</span></div>
+<div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">static</span>&nbsp;<span class="keyword">class</span>&nbsp;<span class="type">ResponseExtensions</span></p>
+</div>
+</div>
+<div class="code-block" lang="x-vb">
+<div class="code-header"><span class="title">VB</span></div>
+<div class="code"><p><span class="keyword">Public</span>&nbsp;<span class="keyword">Class</span>&nbsp;<span class="type">ResponseExtensions</span></p>
+</div>
+</div>
+<div class="code-block" lang="x-cpp">
+<div class="code-header"><span class="title">C++</span></div>
+<div class="code"><p><span class="keyword">public</span>&nbsp;<span class="keyword">ref</span>&nbsp;<span class="keyword">class</span>&nbsp;<span class="type">ResponseExtensions</span> <span class="keyword">abstract</span>&nbsp;<span class="keyword">sealed</span></p>
+</div>
+</div>
+</div>
+</div>
+<p>The <span class="csharp">ResponseExtensions</span><span class="vb">ResponseExtensions</span><span class="cpp">ResponseExtensions</span> type exposes the following members.</p>
+<p id="showInherited" style="display: none;"><a href="javascript:showInherited();">Show inherited members</a></p>
+<p id="hideInherited" style="display: none;"><a href="javascript:hideInherited();">Hide inherited members</a></p>
+
+<h2 id="methods">Methods</h2>
+<div>
+<table class="members">
+	<tr>
+		<th></th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.AddHeader.html"><span class="csharp">AddHeader(IResponse, string, string)</span><span class="vb">AddHeader(IResponse, String, String)</span><span class="cpp">AddHeader(IResponse^, String^, String^)</span></a></td>
+		<td>Adds a response header. Current values for the specified header field are retained.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.DisableCache.html"><span class="csharp">DisableCache(IResponse)</span><span class="vb">DisableCache(IResponse)</span><span class="cpp">DisableCache(IResponse^)</span></a></td>
+		<td>Disables response caching by setting the Cache-Control header to &quot;no-cache&amp; no-store&quot;.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.RemoveCookie.html"><span class="csharp">RemoveCookie(IResponse, string)</span><span class="vb">RemoveCookie(IResponse, String)</span><span class="cpp">RemoveCookie(IResponse^, String^)</span></a></td>
+		<td>Removes a cookie (by setting its Expiry one year in the past).</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetCacheOptions.html"><span class="csharp">SetCacheOptions(IResponse, CacheOptions)</span><span class="vb">SetCacheOptions(IResponse, CacheOptions)</span><span class="cpp">SetCacheOptions(IResponse^, CacheOptions^)</span></a></td>
+		<td>Sets the Cache-Control header and optionally the Expires and Vary headers.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetContentType.html"><span class="csharp">SetContentType(IResponse, string)</span><span class="vb">SetContentType(IResponse, String)</span><span class="cpp">SetContentType(IResponse^, String^)</span></a></td>
+		<td>Sets the response Content-Type header.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetCookie.html"><span class="csharp">SetCookie(IResponse, string, string, int, bool, bool, string)</span><span class="vb">SetCookie(IResponse, String, String, Integer, Boolean, Boolean, String)</span><span class="cpp">SetCookie(IResponse^, String^, String^, int, bool, bool, String^)</span></a></td>
+		<td>Sets a cookie.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetETag.html"><span class="csharp">SetETag(IResponse, string)</span><span class="vb">SetETag(IResponse, String)</span><span class="cpp">SetETag(IResponse^, String^)</span></a></td>
+		<td>Sets the ETag header.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetHeader.html"><span class="csharp">SetHeader(IResponse, string, string)</span><span class="vb">SetHeader(IResponse, String, String)</span><span class="cpp">SetHeader(IResponse^, String^, String^)</span></a></td>
+		<td>Sets a response header. Any current values for the specified header field are replaced.</td>
+	</tr>
+	<tr>
+		<td><span class="public-method icon"></span>&nbsp;<span class="static icon"></span></td>
+		<td class="member-name"><a href="Simple.Web.Http.ResponseExtensions.SetLastModified.html"><span class="csharp">SetLastModified(IResponse, DateTime)</span><span class="vb">SetLastModified(IResponse, DateTime)</span><span class="cpp">SetLastModified(IResponse^, DateTime)</span></a></td>
+		<td>Sets the Last-Modified header.</td>
+	</tr>
+</table>
+<a href="#top">Top</a>
+</div>
+
+<h2 id="seealso">See Also</h2>
+<div>
+	<div><a href="Simple.Web.Http.html"><span class="csharp">Simple.Web.Http</span><span class="vb">Simple.Web.Http</span><span class="cpp">Simple::Web::Http</span> Namespace</a></div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">init();</script>
+</body>
+</html>

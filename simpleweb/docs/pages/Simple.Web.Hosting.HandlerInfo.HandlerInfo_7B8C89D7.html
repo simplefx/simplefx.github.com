@@ -40,7 +40,7 @@ Initializes a new instance of the <a href="Simple.Web.Hosting.HandlerInfo.html">
 <div class="code"><p><span class="keyword">public</span>&nbsp;HandlerInfo(</p>
 <div>
 <p><a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>&nbsp;handlerType,</p>
-<p><a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;&nbsp;variables,</p>
+<p><a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>&lt;<span class="keyword">string</span>, <span class="keyword">string</span>[]&gt;&nbsp;variables,</p>
 <p><span class="keyword">string</span>&nbsp;httpMethod</p>
 </div>
 <p>)</p>
@@ -51,7 +51,7 @@ Initializes a new instance of the <a href="Simple.Web.Hosting.HandlerInfo.html">
 <div class="code"><p><span class="keyword">Public</span>&nbsp;<span class="keyword">Sub</span>&nbsp;<span class="keyword">New</span>(&nbsp;_</p>
 <div>
 <p>handlerType <span class="keyword">As</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>,&nbsp;_</p>
-<p>variables <span class="keyword">As</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>(<span class="keyword">Of</span>&nbsp;<span class="keyword">String</span>, <span class="keyword">String</span>),&nbsp;_</p>
+<p>variables <span class="keyword">As</span>&nbsp;<a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>(<span class="keyword">Of</span>&nbsp;<span class="keyword">String</span>, <span class="keyword">String</span>()),&nbsp;_</p>
 <p>httpMethod <span class="keyword">As</span>&nbsp;<span class="keyword">String</span>&nbsp;_</p>
 </div>
 <p>)</p>
@@ -63,7 +63,7 @@ Initializes a new instance of the <a href="Simple.Web.Hosting.HandlerInfo.html">
 <p>HandlerInfo(</p>
 <div>
 <p><a class="type" href="http://msdn.microsoft.com/en-us/library/system.type" target="blank">Type</a>^ handlerType,</p>
-<p><a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.string" target="blank">String</a>^, <a class="type" href="http://msdn.microsoft.com/en-us/library/system.string" target="blank">String</a>^&gt;^ variables,</p>
+<p><a class="type" href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank">IDictionary</a>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.string" target="blank">String</a>^, <span class="keyword">array</span>&lt;<a class="type" href="http://msdn.microsoft.com/en-us/library/system.string" target="blank">String</a>^&gt;^&gt;^ variables,</p>
 <p><a class="type" href="http://msdn.microsoft.com/en-us/library/system.string" target="blank">String</a>^ httpMethod</p>
 </div>
 <p>)</p>
@@ -80,7 +80,7 @@ Type of the handler.
 <div class="param">
 variables
 <div class="description">
-Type: <a href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank"><span class="csharp">System.Collections.Generic.IDictionary&lt;string, string&gt;</span><span class="vb">System.Collections.Generic.IDictionary(Of&nbsp;String, String)</span><span class="cpp">System.Collections.Generic::IDictionary&lt;String^, String^&gt;</span></a><br/>
+Type: <a href="http://msdn.microsoft.com/en-us/library/s4ys34ea" target="blank"><span class="csharp">System.Collections.Generic.IDictionary&lt;string, string[]&gt;</span><span class="vb">System.Collections.Generic.IDictionary(Of&nbsp;String, String())</span><span class="cpp">System.Collections.Generic::IDictionary&lt;String^, array&lt;String^&gt;^&gt;</span></a><br/>
 The variables.
 </div>
 </div>
