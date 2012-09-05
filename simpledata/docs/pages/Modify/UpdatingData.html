@@ -21,7 +21,7 @@
                   <article>
 <h2>Update</h2>
 <p>The <strong>Update</strong> and UpdateAll methods allows the updating of data already in your database. </p>
-<p>The return value of an Update method is a row or rowSet of data that has just been updated.</p>
+<p>The return value of an Update method is the primary key for the row that has just been updated.</p>
 <p>You can Update using two forms, Named parameters and by object. The object can be a POCO or a dynamic (i.e.ExpandoObject).</p>
 <p><strong>Note</strong>: There are differences in the generated SQL when using Named Parameters or object, where the
 object includes all properties including on the object, but the Named Parameters only includes those you specify</p>
@@ -34,9 +34,9 @@ object includes all properties including on the object, but the Named Parameters
     @p0 = 1
     @p1 = 'Steve'
     @p2 = 50
-    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p3
+    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p0
 </pre>
-<h3>Insert (object)</h3>
+<h3>Update (object)</h3>
 <pre class="brush: csharp">
     dynamic record = new SimpleRecord();
     record.Id = 1;
@@ -49,7 +49,7 @@ object includes all properties including on the object, but the Named Parameters
     @p0 = 1
     @p1 = 'Steve'
     @p2 = 50
-    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p3
+    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p0
 </pre>
 <p>This is also equivalent to the following with a POCO</p>
 <pre class="brush: csharp">
@@ -66,7 +66,7 @@ _db.Users.UpdateById(user);
     @p0 = 1
     @p1 = 'Steve'
     @p2 = 50
-    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p3
+    update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p0
 </pre>
 <h2>Update by primary key</h2>
 <p>You can use the Update without specifying a condition if your table has a primary key:</p>
@@ -83,7 +83,7 @@ _db.Users.Update(record);
 @p0 = 1
 @p1 = 'Steve'
 @p2 = 50
-update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p3
+update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p0
 </pre>
 <p>This is also equivalent to the following with a POCO</p>
 <pre class="brush: csharp">
@@ -100,7 +100,7 @@ _db.Users.Update(user);
 @p0 = 1
 @p1 = 'Steve'
 @p2 = 50
-update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p3
+update [dbo].[Users] set [Name] = @p1, [Age] = @p2 where [dbo].[Users].[Id] = @p0
 </pre>
                   </article>
                </div>
