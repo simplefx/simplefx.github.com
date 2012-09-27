@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>GetCount : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../../less/metro.less" />
+   <script type="text/javascript" src="../../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
+    </section>
+<h2>GetCount</h2>
+<p>The <code class="method">GetCount</code> method returns an integer count of non-null data fields given a set of criteria. For example</p>
+  <pre class="brush:csharp">db.Orders.GetCount(db.Orders.Total >= 30);</pre>
+</body>
+</html>

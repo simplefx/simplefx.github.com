@@ -82,6 +82,8 @@
     column after selecting only <code class="parameter">AlbumId</code> and <code class="parameter">Title</code> - throws a <code class="type">Simple.Data.UnresolvableObjectException</code>
     exception
   </p>
+  <h4>Retrieving All Columns In A Table Using AllColumns() and Star()</h4>
+  <p>Simple.Data defines two synonymous methods, <code class="method">AllColumns</code> and <code class="method">Star</code>, which when appended to a table reference will return all columns for that table. This comes in handy in join queries where you may want to return all the fields in one table but not in another. See Example 3 for the syntax.</p>
   <h3>Examples</h3>
   <h4>1</h4>
   <p>
@@ -154,5 +156,25 @@ db["Albums"].FindAll(db["Albums"].GenreId == 1)
 from [dbo].[Album]  
 where [dbo].[Album].[GenreId] = @p1
 @p1 (Int32) = 1</pre>
+    <hr />
+  <h4>3</h4>
+  <p>
+    To return all the fields from the <code class="parameter">Albums</code> table using the <code class="method">AllColumns</code> or <code class="method">Star</code> methods, use the following syntax.
+  </p>
+<pre class="brush:csharp">db.Albums.All()
+   .Select(db.Albums.Star());
+
+db.Albums.All()
+   .Select(db.Albums.AllColumns());
+</pre>
+<p>Either will produce the following SQL</p>
+<pre class="brush:sql">SELECT 
+  [dbo].[Albums].[AlbumId],
+  [dbo].[Albums].[GenreId],
+  [dbo].[Albums].[ArtistId],
+  [dbo].[Albums].[Title],
+  [dbo].[Albums].[Price],
+  [dbo].[Albums].[AlbumArtUrl] 
+from [dbo].[Albums]</pre>
 </body>
 </html>

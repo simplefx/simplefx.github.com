@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>GetCountBy : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../../less/metro.less" />
+   <script type="text/javascript" src="../../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
+    </section>
+<h2>GetCountBy</h2>
+<p>The <code class="method">GetCountBy</code> method returns a integer count of fields based on at least one column name and value to filter by.</p>
+   <pre class="brush:csharp">db.Orders.GetCountByState("Hawaii");</pre>
+</body>
+</html>
