@@ -23,7 +23,10 @@
                   <article>
                   <h2>Count</h2>
                     <p>Daisychain the <code class="method">Count</code> method to the end of a column selection return the number of non-null items in that group.</p>
-                    <p>Note that unless otherwise aliased, or <a href="ScalarValues.htm">cast to a scalar value</a>, you can access the count value in the returned SimpleRecord object using the empty string as a key</p>
+                    <ul>
+                    <li>Unless otherwise aliased, or <a href="ScalarValues.htm">cast to a scalar value</a>, you can access the count value in the returned SimpleRecord object using the empty string as a key</li>
+                      <li>To return the number of null and non-null items using a count(*) statement, please use the <a href="Commands/GetCount.html">GetCount</a> or <a href="Commands/GetCountBy.html">GetCountBy</a> methods.</li>
+                    </ul>
                     <h3>Examples</h3>
                     <h4>1</h4>
                     <p>To return a count of the non-null values for the OrderId column in OrderDetails, use the following command:</p>

@@ -12,7 +12,26 @@
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
     </section>
 <h2>GetCount</h2>
-<p>The <code class="method">GetCount</code> method returns an integer count of non-null data fields given a set of criteria. For example</p>
-  <pre class="brush:csharp">db.Orders.GetCount(db.Orders.Total >= 30);</pre>
+<p>Use the <code class="method">GetCount</code> method to return an integer count of null and non-null data fields in a table given a set of criteria.</p>
+<h3>Examples</h3>
+  <h4>1</h4>
+  <p>Run GetCount() on a Table reference with no criteria</p>
+  <pre class="brush:csharp">db.Albums.GetCount();</pre>
+  <p>Results in the following SQL</p>
+  <pre class="brush:sql">select count(*) from albums</pre>
+  <hr />
+  <h4>2</h4>
+  <p>Run GetCount() on a Table reference with a simple criteria</p>
+    <pre class="brush:csharp">db.Albums.GetCount(db.Albums.GenreId != null);</pre>
+  <p>Results in the following SQL</p>
+  <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] WHERE [dbo].[Albums].[GenreId] IS NOT NULL</pre>
+  <hr />
+  <h4>3</h4>
+    <p>Run GetCount() on a Table reference with complex criteria</p>
+    <pre class="brush:csharp">db.Albums.GetCount(db.Albums.GenreId == 2 || db.Albums.ArtistId == 160);</pre>
+  <p>Results in the following SQL</p>
+  <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] WHERE ([dbo].[Albums].[GenreId] = @p1 OR [dbo].[Albums].[ArtistId] = @p2)
+@p1 (Int32) = 2
+@p2 (Int32) = 160</pre>
 </body>
 </html>
