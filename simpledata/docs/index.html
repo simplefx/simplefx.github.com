@@ -35,7 +35,7 @@
       section em
       { 
           opacity: 0.6;
-      }      
+      }   
    </style>
 </head>
 <body>
@@ -68,7 +68,7 @@
                         <ul>
                         <li><a href="pages/Start/OpeningAConnection.html">Opening A Connection</a></li>
                         <li><a href="pages/Start/SharingAConnection.html">Sharing A Connection</a></li>
-                        <li style="font-weight:bold;"><a href="pages/Start/NamingConventions.html">Naming Conventions</a>  <em>!!!</em></li>
+                        <li><strong><a href="pages/Start/NamingConventions.html">Naming Conventions</a>  <em>!!!</em></strong> : The &#8216;Fluid&#8217; and the &#8216;Indexer&#8217; way <mark>Updated</mark></li>
                         </ul>
 	                  </section>
                      <section id="retrieveData">
@@ -86,15 +86,29 @@
                         	<li><a href="pages/Retrieve/Commands/FindBy.html">FindBy</a></li>
                         	<li><a href="pages/Retrieve/Commands/Get.html">Get</a></li>
                         </ul>
+                       <p>Commands that return a single scalar result</p>
+                       <ul>
+                         <li><a href="pages/Retrieve/Commands/GetCount.html">GetCount</a>  <em>(preliminary - <mark>new</mark>)</em></li>
+                         <li><a href="pages/Retrieve/Commands/GetCountBy.html">GetCountBy</a>  <em>(preliminary - <mark>new</mark>)</em></li>
+                         <li><a href="pages/Retrieve/Commands/GetScalar.html">GetScalar</a>  <em>(preliminary - <mark>new</mark>)</em></li>
+                       </ul>
                         <p>Query modifiers</p>
                         <ul>
-                        	<li><a href="pages/Retrieve/ColumnSelection.html">Column Selection</a> : Select</li>
-                           <li><a href="pages/Retrieve/GetDistinctValues.html">Retrieving Distinct Values</a> : Distinct <em>(preliminary)</em></li>
+                        	<li><a href="pages/Retrieve/ColumnSelection.html">Column Selection</a> : Select, Star and AllColumns <mark>Updated</mark></li>
+                           <li><a href="pages/Retrieve/GetDistinctValues.html">Retrieving Distinct Values</a> : Distinct <mark>Updated</mark></li>
                            <li><a href="pages/Retrieve/ColumnAliasing.html">Column Aliasing</a> : As</li>
                            <li><a href="pages/Retrieve/JoiningTables.html">Joining Tables</a> : Natural Joins &amp; Explicit Joins <em>(preliminary)</em></li>
                         	<li><a href="pages/Retrieve/WhereClauses.html">Where Clauses</a> : Where, Operators, IN, BETWEEN, LIKE, IS NULL</li>
                            <li><a href="pages/Retrieve/OrderingResults.html">Ordering Results</a> : OrderBy <em>(preliminary)</em></li>
                         </ul>
+                       <p>Aggregate Functions</p>
+                       <ul>
+                         <li><a href="pages/Retrieve/ColumnCounts.htm">Counting Columns</a> : Count, CountDistinct <mark>New</mark></li>
+                       </ul>
+                       <p>Helper Functions</p>
+                       <ul>
+                         <li><a href="pages/Retrieve/ScalarValues.htm">Casting from SimpleRecord \ SimpleQuery to Scalar values</a><br />    ToScalar, ToScalarList, ToScalarArray, ToScalarOrDefault <em>(preliminary - <mark>new</mark>)</em></li>
+                       </ul>
                      </section>
                      <section id="modifyData">
                         <h3>Modifying Data</h3>

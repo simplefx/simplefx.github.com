@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
+        For example, Simple.Data includes four similar methods to cast the result of a query back into its simple type or a collection of scalar types instead of having to retrieve it as the property of a SimpleRecord with an empty string.
+    </section>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                  <h2>ToScalar</h2>
+                  </article>
+                 <p>ToScalar() returns an object.</p>
+                 <p>ToScalar&lt;T&gt; returns a scalar value of simple type T.</p>
+                 <p>As long as your query returns one row with one column, it will return that single value. If there is not exactly one row, an exception will be thrown</p>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>ToScalarList</h2>
+                 <p>ToScalarList() returns a List of objects.</p>
+                 <p>ToScalarList&lt;T&gt; returns a List of type T. </p>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>ToScalarArray</h2>
+                 <p>ToScalarArray() returns an array of objects.</p>
+                 <p>ToScalarArray&lt;T&gt; returns an array of type T. </p>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>ToScalarOrDefault</h2>
+                 <p>ToScalarOrDefault() returns a single value or null if no row is found. </p>
+                 <p>ToScalarOrDefault&lt;T&gt; returns a value of type T or default&lt;T&gt; if no row is found. </p>
+                  <p>If more than one row is returned, an exception will be thrown</p>
+                  </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+      <script>
+         $(function () {
+            $("div.metro-pivot").metroPivot();
+         });
+   </script>
+</body>
+</html>
