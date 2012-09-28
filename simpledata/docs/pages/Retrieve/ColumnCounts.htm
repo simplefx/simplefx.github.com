@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
+        For example, Simple.Data includes two similar methods to include a count in your query.
+    </section>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                  <h2>Count</h2>
+                    <p>Daisychain the <code class="method">Count</code> method to the end of a column selection return the number of non-null items in that group.</p>
+                    <ul>
+                    <li>Unless otherwise aliased, or <a href="ScalarValues.htm">cast to a scalar value</a>, you can access the count value in the returned SimpleRecord object using the empty string as a key</li>
+                      <li>To return the number of null and non-null items using a count(*) statement, please use the <a href="Commands/GetCount.html">GetCount</a> or <a href="Commands/GetCountBy.html">GetCountBy</a> methods.</li>
+                    </ul>
+                    <h3>Examples</h3>
+                    <h4>1</h4>
+                    <p>To return a count of the non-null values for the OrderId column in OrderDetails, use the following command:</p>
+                      <pre class="brush:csharp">var details = db.OrderDetails.All()
+  .Select(
+    db.OrderDetails.OrderId.Count());</pre>
+  <p>Simple.Data sends the following SQL to the database when details is evaluated</p>
+  <pre class="brush:sql">select 
+   Count([dbo].[OrderDetails].[OrderId])
+from [dbo].[OrderDetails]</pre>
+  <hr />
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>CountDistinct</h2>
+                    <p>You can daisychain the <code class="method">Count</code> and <code class="method">Distinct</code> methods together to return a count of the non-duplicate values in a field, or you can use the <code class="method">CountDistinct</code> method to avoid any confusion by getting Distinct and Count the wrong way around. More information on the <code class="method">Distinct</code> method can be found <a href="GetDistinctValues.html">here</a>.</p>
+                    <h3>Examples</h3>
+                    <h4>1</h4>
+                    <p>To return a count of the distinct non-null values for the OrderId column in OrderDetails, use one of the following commands:</p>
+                    <pre class="brush:csharp">var details = db.OrderDetails.All()
+  .Select(
+    db.OrderDetails.OrderId.Distinct().Count());   // NOT .Count().Distinct()!!
+
+var details = db.OrderDetails.All()
+  .Select(
+    db.OrderDetails.OrderId.CountDistinct());</pre>
+                    <p>In either case, Simple.Data sends the following SQL to the database when details is evaluated</p>
+                    <pre class="brush:sql">select count(distinct([dbo].[OrderDetails].[OrderId])) from [dbo].[OrderDetails]</pre>
+                  </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+      <script>
+         $(function () {
+            $("div.metro-pivot").metroPivot();
+         });
+   </script>
+</body>
+</html>

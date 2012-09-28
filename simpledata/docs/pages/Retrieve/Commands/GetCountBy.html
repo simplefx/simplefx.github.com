@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   <title>GetCountBy : Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../../less/metro.less" />
+   <script type="text/javascript" src="../../../scripts/less-1.3.0.min.js"></script>
+</head>
+<body>
+   <h1><a href="../../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
+    </section>
+<h2>GetCountBy</h2>
+<p>The <code class="method">GetCountBy</code> method returns a integer count of null and non-null fields based on at least one column name and value to filter by. Throws System.ArgumentException if no criteria given. use GetCount() for straight select count(*) without criteria.</p>
+  <h3>Examples</h3>
+  <h4>1</h4>
+  <p>Pass one filter to getCountBy</p>
+  <pre class="brush:csharp">db.Albums.GetCountByGenreId(1);</pre>
+  <p>Generates the following SQL</p>
+  <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] WHERE [dbo].[Albums].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+  <hr />
+  <h4>2</h4>
+  <p>Pass two filters to GetCountBy</p>
+    <pre class="brush:csharp">db.Albums.GetCountByGenreIdAndArtistId(1, 120);</pre>
+  <p>Generates the following SQL</p>
+  <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] 
+    WHERE 
+        ([dbo].[Albums].[GenreId] = @p1 AND [dbo].[Albums].[ArtistId] = @p2)
+@p1 (Int32) = 1
+@p2 (Int32) = 120</pre>
+</body>
+</html>

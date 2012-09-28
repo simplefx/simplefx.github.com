@@ -14,8 +14,9 @@
     Naming Conventions</h2>
   <p>
     One of the great features of Simple.Data is that it interprets method and property
-    names at runtime and maps them to your underlying data-store using a convention-based
-    approach.</p>
+    names at runtime and maps them to your underlying data-store using the convention-based
+    approach. It also allows you to identify schema, table and column names using an indexer syntax detailed <a href="#indexer">here</a>.</p>
+  <h3 id="fluid">The &#8216;Fluid&#8217; Way</h3>
   <p>
     <img src="../../images/NamingConventions01.png" alt="" /></p>
   <p>
@@ -104,5 +105,22 @@
         And other such variations.</p>
     </li>
   </ol>
+  <h3 id="indexer">The "Indexer" Way</h3>
+  <p>The fluid naming convention for schemas, tables and columns is great if you know what you&#8217;ll need to query at build time.
+    However it does not work for situations where what to query is determined at runtime. For that you can use the indexer syntax and
+    will need to avoid using the <code class="method">FindBy*</code> and <code class="method">FindAllBy*</code> methods.
+  </p>
+        <p>
+        The general form of this syntax is</p>
+      <pre class="brush:csharp">DatabaseReference["SchemaName"]["Table_or_View"]["ColumnName"]</pre>
+  <p>As above, if your database has only one schema, you can omit the schema name part. You can also chain method calls on to the end as demonstrated above. For example,</p>
+      <pre class="brush:csharp">db.dbo.Albums.FindByGenreId(1);</pre>
+  <p>can also be written as:</p>
+      <pre class="brush:csharp">db["dbo"]["Albums"].FindByGenreId(1);
+db.dbo["Albums"].FindByGenreId(1);
+db["dbo"].Albums.FindByGenreId(1);
+db["Albums"].FindByGenreId(1);      //if dbo is only schema
+      </pre>
+  <p>You can find further examples of indexer sytax in the page on <a href="../Retrieve/ColumnSelection.html">Column Selection</a> and in the Sample Code Project</p>
 </body>
 </html>
