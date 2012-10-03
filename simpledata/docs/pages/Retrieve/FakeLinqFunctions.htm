@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
+    </section>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                  <h2>Length</h2>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>Where</h2>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>Where</h2>
+                  </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+      <script>
+         $(function () {
+            $("div.metro-pivot").metroPivot();
+         });
+   </script>
+</body>
+</html>
+
+
+<!--        public static void FakeLinqOperatorsExample()
+        {
+            var db = Database.Open();
+            var customers = db.Customers.All();
+
+            var firstCustomer = customers.First();
+            var firstCustomerOrNull = customers.FirstOrDefault();
+
+            List<dynamic> customerList = customers.ToList();
+            dynamic[] customerArray = customers.ToArray();
+        }
+
+        public static void FakeLinqOperatorsWithTypesExample()
+        {
+            var db = Database.Open();
+            var customers = db.Customers.All();
+
+            Customer firstCustomer = customers.First();
+            Customer firstCustomerOrNull = customers.FirstOrDefault();
+
+            List<Customer> customerList = customers.ToList<Customer>();
+            Customer[] customerArray = customers.ToArray<Customer>();
+        }
+
+        public static void FakeLinqOperatorsCastExample()
+        {
+            var db = Database.Open();
+            foreach (Customer customer in db.Customers.All().Cast<Customer>())
+            {
+                Console.WriteLine(customer.Name);
+            }
+        }
+
+              Paging (sing PageNumber or SKip and Take)
+-
+
+Paging
+Again trying to use LINQ conventions to keep things simple, paging is handled using Skip and Take methods:
+db.Users.All().OrderByNickname().Skip(10).Take(10);
+Although ideally you should, you don’t have to specify an OrderBy; if you omit it the query will be arbitrarily ordered on the first column, since that is commonly the table’s key.
+The important thing to note here is that the paging is applied at the database level, using syntax specific to each RDBMS, or NoSQL datastore. (In the case of SQL Server, it uses ROWNUMBER OVER ORDER syntax; for SQL Compact, it’s the alternative OFFSET x FETCH NEXT y syntax. The authors of the other providers have to implement an interface to make it work with their RDBMS; adapter authors can implement paging however it is appropriate for their underlying store.) The thing I think is really neat about this is that it’s taken something which is differently implemented in almost every different database, and abstracts it away from you, meaning that you can seamlessly work with, for example, SQL Server Compact or SQLite in your development and test environment, and then SQL Server 2008 or Oracle in production.-->

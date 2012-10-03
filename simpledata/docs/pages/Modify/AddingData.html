@@ -41,3 +41,68 @@ insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1,@p2)
 </pre>
 </body>
 </html>
+
+
+<!--Inserting using named parameters:
+db.Users.Insert(Name: "Steve", Password: "Secret", Age: 21);
+(Planned) inserting/updating using an object:
+db.Stock.Insert(newStockItem);
+
+Inserted records returned from Insert
+The ADO adapter for SQL Server will now return an record from the Insert operation, with any values set or modified by the database in it, as long as the table has an IDENTITY column.
+
+Then there are the Insert, Update and Delete methods, which do those things. Insert and Update have versions which take entire dynamic or static objects, or you can use named parameters.
+
+—
+
+Bulk Inserts and Updates
+You can now pass lists (or IEnumerables) of dynamically- or statically-typed objects to the Insert, Update and UpdateBy methods. In the case of Insert, when using the Ado adapter, you get back a new list of objects with any database-assigned default values such as identity values or timestamps. The Update methods just return a count at the moment, but I might change that to return the updated records.
+(One thing that definitely may be a possibility by 1.0 is an Upsert method, which would take a list of objects, insert the new ones and update the existing ones.)
+
+—
+
+Inserting
+Insert (with Named Arguments)
+Simple.Data:
+db.Users.Insert(Name: "steve", Age: 50)
+SQL:
+INSERT INTO Users (Name, Age) values (@p0, @p1)
+Insert (using an object)
+**Simple.Data: **
+dynamic person = new ExpandoObject();
+person.Name = "steve";
+person.Age = 50;
+db.Users.Insert(person);
+SQL:
+INSERT INTO Users values (@p0,@p1)
+If you have an IDENTITY column defined on your table, then the Insert methods will all return a copy of the record fetched from the database, so all defaulted values are set. In 0.4, support for other ways of fetching the inserted row will be added.
+
+—
+
+        public static void InsertUsingNamedParameters()
+        {
+            var db = Database.Open();
+            var customer = db.Customers.Insert(Name: "Buy & Large", Address: "Outer Space");
+
+            // Because the Customer table has an Identity column, Simple.Data has returned the new row,
+            // including any default values set by the database.
+            Console.WriteLine(customer.CustomerId);
+        }
+
+        public static void InsertUsingExpandoObject()
+        {
+            dynamic customer = new ExpandoObject();
+            customer.Name = "Tyrell Corporation";
+            customer.Address = "New Los Angeles";
+            var db = Database.Open();
+            customer = db.Customers.Insert(customer);
+        }
+
+        public static void InsertUsingStaticTypedObject()
+        {
+            var customer = new Customer {Name = "SithCo", Address = "Tatooine"};
+            var db = Database.Open();
+            customer = db.Customers.Insert(customer);
+
+            // Magic implicit casting converts the dynamic object returned to the static type.
+        }-->
