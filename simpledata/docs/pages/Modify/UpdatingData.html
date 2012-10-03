@@ -154,3 +154,63 @@ update [dbo].[Users] set [Name] = @p0 where [dbo].[Users].[Age] > @p1
 
 </body>
 </html>
+
+
+<!--Bulk Inserts and Updates
+You can now pass lists (or IEnumerables) of dynamically- or statically-typed objects to the Insert, Update and UpdateBy methods. In the case of Insert, when using the Ado adapter, you get back a new list of objects with any database-assigned default values such as identity values or timestamps. The Update methods just return a count at the moment, but I might change that to return the updated records.
+(One thing that definitely may be a possibility by 1.0 is an Upsert method, which would take a list of objects, insert the new ones and update the existing ones.)
+
+——
+
+Updating
+UpdateBy (using Named Arguments)
+Simple.Data:
+db.Users.UpdateById(Id: 1, Name: "Dave", Age: 49)
+SQL:
+UPDATE [Users] SET [Name] = @p1, [Age] = @p2 WHERE [Users].[Id] = @p3
+Update (using Dynamic or Static Object)
+If the table has a Primary Key defined, you can just call Update and pass in a dynamic or statically-typed data object:
+Simple.Data:
+var user = db.Users.FindById(1);
+user.Name = "Dave";
+user.Age = 49;
+db.Users.Update(user);
+SQL:
+UPDATE [Users] SET [Name] = @p1, [Age] = @p2 WHERE [Users].[Id] = @p3
+If there is no Primary Key defined on the table, you can use UpdateBy to tell Simple.Data which columns to use as criteria:
+Simple.Data:
+User user = db.Users.FindById(1);
+user.Name = "Dave";
+user.Age = 49;
+db.Users.UpdateById(user);
+SQL:
+UPDATE [Users] SET [Name] = @p1, [Age] = @p2 WHERE [Users].[Id] = @p3
+
+      public static void UpdateUsingNamedParameters()
+        {
+            var db = Database.Open();
+            int updatedCount = db.Customers.UpdateByCustomerId(CustomerId: 1, Address: "Milton Keynes");
+            Console.WriteLine(updatedCount);
+        }
+
+        public static void UpdateUsingDynamicObjectWithExplicitCriteria()
+        {
+            var db = Database.Open();
+            var customer = db.Customers.FindByCustomerId(1);
+            customer.Address = "Changed";
+            db.Customers.UpdateByCustomerId(customer);
+
+            // Of course, this will work with a static-typed object too
+        }
+
+
+        public static void UpdateUsingDynamicObjectWithImplicitKey()
+        {
+            // When the table has a primary key, you don't need to explicitly specify the criteria
+
+            var db = Database.Open();
+            var customer = db.Customers.FindByCustomerId(1);
+            customer.Address = "Changed";
+            db.Customers.Update(customer);
+        }
+-->

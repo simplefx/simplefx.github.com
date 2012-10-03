@@ -1,62 +1,121 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
-   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
-   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
-   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+  <meta charset="UTF-8">
+  <title>Simple.Data Help</title>
+  <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+  <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+  <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
 </head>
 <body>
-   <h1>
-      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
-        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
+  <h1>
+    <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+  <section>
+    Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
         For example, Simple.Data includes four similar methods to cast the result of a query back into its simple type or a collection of scalar types instead of having to retrieve it as the property of a SimpleRecord with an empty string.
-    </section>
-   <div class="items">
-      <div style="display: block;" class="pivotItem current">
-         <div class="pivot-item">
-            <div class="metro-pivot">
-               <div class="pivot-item">
-                  <article>
-                  <h2>ToScalar</h2>
-                  </article>
-                 <p>ToScalar() returns an object.</p>
-                 <p>ToScalar&lt;T&gt; returns a scalar value of simple type T.</p>
-                 <p>As long as your query returns one row with one column, it will return that single value. If there is not exactly one row, an exception will be thrown</p>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>ToScalarList</h2>
-                 <p>ToScalarList() returns a List of objects.</p>
-                 <p>ToScalarList&lt;T&gt; returns a List of type T. </p>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>ToScalarArray</h2>
-                 <p>ToScalarArray() returns an array of objects.</p>
-                 <p>ToScalarArray&lt;T&gt; returns an array of type T. </p>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>ToScalarOrDefault</h2>
-                 <p>ToScalarOrDefault() returns a single value or null if no row is found. </p>
-                 <p>ToScalarOrDefault&lt;T&gt; returns a value of type T or default&lt;T&gt; if no row is found. </p>
-                  <p>If more than one row is returned, an exception will be thrown</p>
-                  </article>
-               </div>
-            </div>
-         </div>
+  </section>
+  <div class="items">
+    <div style="display: block;" class="pivotItem current">
+      <div class="pivot-item">
+        <div class="metro-pivot">
+          <div class="pivot-item">
+            <article>
+              <h2>ToScalar</h2>
+              <p><code class="method">ToScalar</code> and <code class="method">ToScalar&lt;T&gt;</code> return a property from the results of a query as a scalar value. <code class="method">ToScalar</code> returns the value as its default type. <code class="method">ToScalar&lt;T&gt;</code> allows you to determine the type the value will be cast to. Both methods work against SimpleRecord and SimpleQuery types, but with slightly different rules.</p>
+              <h3>SimpleRecords</h3>
+              <p>In the code below, album is returned as a dynamic object, created as a SimpleRecord instance, and will return values for all the Album fields in the table.</p>
+              <pre class="brush:csharp">var album = db.Albums.Get(1);</pre>
+              <p>Calling <code class="method">ToScalar</code> on this will return the first property in the SimpleRecord as a scalar value. In this case, it will return the AlbumId property as an <code class="type">int</code>. Calling <code class="method">ToScalar&lt;T&gt;</code> allows you to cast that scalar value into another type.</p>
+              <pre class="brush:csharp">int AlbumId = db.Albums.Get(1).ToScalar();</pre>
+              <p>If you include a <code class="method">Select</code> method in your query, <code class="method">ToScalar</code> will return the first field identified in that method. For example, the following code will return the Title field as a string.</p>
+              <pre class="brush:csharp">string Title = db.Albums.Select(db.Albums.Title).Get(1).ToScalar();</pre>
+              <h4>Exceptions</h4>
+              <ul>
+                <li><code class="method">ToScalar</code> and <code class="method">ToScalar&lt;T&gt;</code> will throw a <code class="exception">RuntimeBinderException</code> if the query you apply them to returns no rows (null).</li>
+                <li><code class="method">ToScalar&lt;T&gt;</code> will throw an <code class="exception">InvalidCastException</code> if the value you are targetting cannot be cast to type T.</li>
+              </ul>
+              <h3>SimpleQueries</h3>
+              <p><code class="method">ToScalar</code> and <code class="method">ToScalar&lt;T&gt;</code> may only be applied to SimpleQueries that contain one result. For example</p>
+              <pre class="brush:csharp">var albums = db.Albums.FindAllByGenreId(1).FirstOrDefault();</pre>
+              <p>As with SimpleRecords, calling <code class="method">ToScalar</code> on this will return the first property in the first SimpleRecord result as a scalar value. Calling <code class="method">ToScalar&lt;T&gt;</code> allows you to cast that scalar value into another type. In this case, it will return the AlbumId property as an <code class="type">int</code>.</p>
+              <pre class="brush:csharp">int AlbumId = db.Albums.FindAllByGenreId(1).FirstOrDefault().ToScalar();</pre>
+              <p>If you include a <code class="method">Select</code> method in your query, <code class="method">ToScalar</code> will return the first field identified in that method. For example, the following code will return the Title field as a string.</p>
+              <pre class="brush:csharp">string Title = db.Albums.FindAllByGenreId(1).Select(db.Albums.Title).FirstOrDefault().ToScalar();</pre>
+              <h4>Exceptions</h4>
+              <ul>
+                <li><code class="method">ToScalar</code> and <code class="method">ToScalar&lt;T&gt;</code> will throw a <code class="exception">SimpleDataException</code> if the query you apply them to returns no rows (i.e. is null) or returns more than one row</li>
+                <li><code class="method">ToScalar&lt;T&gt;</code> will throw an <code class="exception">InvalidCastException</code> if the value you are targetting cannot be cast to type T.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="pivot-item">
+            <article>
+              <h2>ToScalarOrDefault</h2>
+              <p><code class="method">ToScalarOrDefault</code> and <code class="method">ToScalarOrDefault&lt;T&gt;</code> return a property from the results of a query as a scalar value. <code class="method">ToScalarOrDefault</code> returns the value as its default type. <code class="method">ToScalarOrDefault&lt;T&gt;</code> allows you to determine the type the value will be cast to. If the property is null, <code class="method">ToScalarOrDefault&lt;T&gt;</code> will return <code class="method">default(T)</code>. </p>
+              <p><em><code class="method">ToScalarOrDefault</code> and <code class="method">ToScalarOrDefault&lt;T&gt;</code> may only be applied to SimpleQueries that contain zero or one result.</em> For example</p>
+              <pre class="brush:csharp">var albums = db.Albums.FindAllByAlbumId(1);</pre>
+              <p>If the query returned zero results and albums was set to null, <code class="method">ToScalarOrDefault</code> would also return null and <code class="method">ToScalarOrDefault&lt;T&gt;</code> would return default(T). If the one result has more than one property, it will throw an exception. If the query returns one result with only one property, it will return the scalar value. For example, the following code will return the Title field as a string.</p>
+              <pre class="brush:csharp">string Title = db.Albums.FindAllByAlbumId(1).Select(db.Albums.Title).ToScalarOrDefault();</pre>
+              <h4>Exceptions</h4>
+              <ul>
+                <li><code class="method">ToScalarOrDefault</code> and <code class="method">ToScalarOrDefault&lt;T&gt;</code> will throw an <code class="exception">UnresolvableObjectException</code> if the query you apply them to returns a single result as a SimpleRecord instance rather than a SimpleQuery.</li>
+                <li><code class="method">ToScalarOrDefault</code> and <code class="method">ToScalarOrDefault&lt;T&gt;</code> will throw a <code class="exception">SimpleDataException</code> if the query you apply them to returns more than one row</li>
+                <li><code class="method">ToScalarOrDefault</code> and <code class="method">ToScalarOrDefault&lt;T&gt;</code> will throw a <code class="exception">SimpleDataException</code> if the query you apply them to returns one row with more than one property in it</li>
+                <li><code class="method">ToScalarOrDefault&lt;T&gt;</code> will throw an <code class="exception">InvalidCastException</code> if the value you are targetting cannot be cast to type T.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="pivot-item">
+            <article>
+              <h2>ToScalarList</h2>
+             <p><code class="method">ToScalarList</code> and <code class="method">ToScalarList&lt;T&gt;</code> take a set of results and return a List of one value from each of those results (as a scalar value). <code class="method">ToScalarList</code> returns each value as its default type. <code class="method">ToScalarList&lt;T&gt;</code> allows you to determine the type the value will be cast to.</p>
+<p><em><code class="method">ToScalarList</code> and <code class="method">ToScalarList&lt;T&gt;</code> may only be applied to SimpleQueries. For example</em></p>
+<pre class="brush:csharp">var albums = db.Albums.FindAllByGenreId(1);</pre>
+<p>Calling <code class="method">ToScalarList</code> on albums will return a list of the first property in each Album as a scalar value - in this case, the integer albumid - instantiated as a <code class="type">List&lt;dynamic&gt;</code>. Calling <code class="method">ToScalarList&lt;int&gt;</code> would return the list of albumids as <code class="type">List&lt;int&gt;</code>
+</p>
+<pre class="brush:csharp">List&lt;dynamic&gt; albums = db.Albums.FindAllByGenreId(1).ToScalarList();
+List&lt;int&gt; albums = db.Albums.FindAllByGenreId(1).ToScalarList&lt;int&gt;();</pre>
+<p>If you include a Select method in your query, <code class="method">ToScalarList</code> will return a List of the first field identified in that method. For example, the following code will return the Title fields as a List&lt;dynamic&gt; / List&lt;string&gt;.</p>
+<pre class="brush:csharp">List&lt;dynamic&gt; albums = db.Albums.FindAllByGenreId(1).Select(db.Albums.Title).ToScalarList();
+List&lt;string&gt; albums = db.Albums.FindAllByGenreId(1).Select(db.Albums.Title).ToScalarList&lt;string&gt;();</pre>
+<h4>EXCEPTIONS</h4>
+<ul>
+	<li><code class="method">ToScalarList</code> and <code class="method">ToScalarList&lt;T&gt;</code> will throw a RuntimeBinderException if the query you apply them to returns null (no results).</li>
+	<li><code class="method">ToScalarList</code> and <code class="method">ToScalarList&lt;T&gt;</code> will throw an UnresolvableObjectException if the query you apply them to returns a single result as a SimpleRecord instance rather than a SimpleQuery.</li>
+	<li><code class="method">ToScalarList&lt;T&gt;</code> will throw an InvalidCastException if the value you are targetting cannot be cast to type T.</li>
+</ul>
+            </article>
+          </div>
+          <div class="pivot-item">
+            <article>
+              <h2>ToScalarArray</h2>
+<p><code class="method">ToScalarArray</code> and <code class="method">ToScalarArray&lt;T&gt;</code> take a set of results and return an array of one value from each of those results (as a scalar value). <code class="method">ToScalarArray</code> returns each value as its default type. <code class="method">ToScalarArray&lt;T&gt;</code> allows you to determine the type the value will be cast to.</p>
+<p><em><code class="method">ToScalarArray</code> and <code class="method">ToScalarArray&lt;T&gt;</code> may only be applied to SimpleQueries.</em> For example</p>
+<pre class="brush:csharp">var albums = db.Albums.FindAllByGenreId(1);</pre>
+<p>Calling <code class="method">ToScalarArray</code> on albums will return an array of the first property in each Album as a scalar value - in this case, the integer albumid - instantiated as a <code class="type">dynamic[]</code>. Calling <code class="method">ToScalarArray&lt;int&gt;</code> would return the array of albumids as <code class="type">int[]</code>
+</p>
+<pre class="brush:csharp">dynamic[] albums = db.Albums.FindAllByGenreId(1).ToScalarArray();
+int[] albums = db.Albums.FindAllByGenreId(1).ToScalarArray&lt;int&gt;();</pre>
+<p>If you include a Select method in your query, <code class="method">ToScalarArray</code> will return an array of the first field identified in that method. For example, the following code will return the Title fields as a dynamic[] / string[].</p>
+<pre class="brush:csharp">dynamic[] albums = db.Albums.FindAllByGenreId(1).Select(db.Albums.Title).ToScalarArray();
+string[] albums = db.Albums.FindAllByGenreId(1).Select(db.Albums.Title).ToScalarArray&lt;string&gt;();</pre>
+<h4>EXCEPTIONS</h4>
+<ul>
+	<li><code class="method">ToScalarArray</code> and <code class="method">ToScalarArray&lt;T&gt;</code> will throw a RuntimeBinderException if the query you apply them to returns null (no results).</li>
+	<li><code class="method">ToScalarArray</code> and <code class="method">ToScalarArray&lt;T&gt;</code> will throw an UnresolvableObjectException if the query you apply them to returns a single result as a SimpleRecord instance rather than a SimpleQuery.</li>
+	<li><code class="method">ToScalarArray&lt;T&gt;</code> will throw an InvalidCastException if the value you are targetting cannot be cast to type T.</li>
+</ul>
+            </article>
+          </div>
+        </div>
       </div>
-   </div>
-      <script>
-         $(function () {
-            $("div.metro-pivot").metroPivot();
-         });
-   </script>
+    </div>
+  </div>
+  <script>
+    $(function () {
+      $("div.metro-pivot").metroPivot();
+    });
+  </script>
 </body>
 </html>
