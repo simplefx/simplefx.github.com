@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple.Data Help</title>
+  <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+  <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+  <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+  <h1>
+    <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+  <section>
+    Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks. It is not reliant upon static POCO types to work. It does however make it easy to work with POCOs if you wish. 
+  </section>
+  <div class="items">
+    <div style="display: block;" class="pivotItem current">
+      <div class="pivot-item">
+        <div class="metro-pivot">
+          <div class="pivot-item">
+            <article>
+              <h2>Implicit "Magic" Casting</h2>
+              <p>Simple.Data allows you to implicitly cast query results into a static object type or collection of objects, rather than use boxing or the &#8216;as&#8217; keyword. It does this by overriding the dynamic object&#8217;s TryConvert method to perform the case implicitly. Any matching properties between dynamic object and static type are auto-mapped.</p>
+              <p>Note that you can&#8217;t currently map types which aren&#8217;t straight maps to database types. For instance, from char to byte or string to byte[]. Issue 50 covers this issue.</p>
+              <h3>SimpleRecords To Single Objects</h3>
+              <p>In the code below, album is returned as a dynamic object, created as a SimpleRecord instance, and will return values for all the Album fields in the table.</p>
+              <pre class="brush:csharp">var album = db.Albums.FindByGenreId(1);</pre>
+              <p>You can implicitly cast this into an Album object with the following code.</p>
+              <pre class="brush:csharp">Album album = db.Albums.FindByGenreId(1);</pre>
+              <p><em>Note that if the implicit cast fails, album will be set to null, so you may want to use the null coalescing operator to cater for that case</em>. For example</p>
+              <pre class="brush:csharp">Album album = db.Albums.FindByGenreId(1) ?? new Album();</pre>
+              <p>Simple.Data also provides the LINQ-like operator Cast&lt;T&gt;() to make an explicit cast.</p>
+              <h3>SimpleQueries to Object Collections</h3>
+              <p>In this code, a list of albums is returned as IEnumerable&lt;dynamic&gt;, created as a SimpleQuery instance.</p>
+              <pre class="brush:csharp">var albums = db.Albums.FindAllByGenreId(1);</pre>
+              <p>You can magic cast this to IEnumerable&lt;Album&gt; or indeed any collection type of Album implementing IEnumerable.</p>
+              <pre class="brush:csharp">IEnumerable&lt;Album&gt; = db.Albums.FindAllByGenreId(1);
+List&lt;Album&gt; = db.Albums.FindAllByGenreId(1);
+Array&lt;Album&gt; = db.Albums.FindAllByGenreId(1);</pre>
+              <p>Again, should the implicit cast fail, albums will be set to null, so you may want to use the null coalescing operator to cater for that case. For example</p>
+              <pre class="brush:csharp">List&lt;Album&gt; = db.Albums.FindAllByGenreId(1) ?? new List&lt;Album&gt;();</pre>
+              <p>Simple.Data also provides the LINQ-like operators <code class="method">Cast&lt;&gt;()</code>, <code class="method">ToList&lt;T&gt;()</code> and <code class="method">ToArray&lt;T&gt;()</code> to make an explicit cast.</p>
+              <h3>Casting to The Wrong Type</h3>
+              <p>Make sure you know how many results you are expecting to receive from your Simple.Data query before making an implicit cast.</p>
+              <ul>
+                <li><code class="method">All</code>, <code class="method">FindAll</code>, and <code class="method">FindAllBy</code> all return multiple objects as a SimpleQuery. Attempting to cast a SimpleQuery into a single object will result in a RuntimeBinderException being thrown.</li>
+                <li><code class="method">Find</code>, <code class="method">FindBy</code> and <code class="method">Get</code> all return single objects as a SimpleRecord. Attempting to cast a SimpleRecord into a collection of objects will result in a RuntimeBinderException being thrown.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="pivot-item">
+            <article>
+              <h2>Explicit Casts</h2>
+              <p>Simple.Data provides five LINQ-like extension methods for explicitly casting SimpleQueries into POCOs: <code class="method">Cast&lt;T&gt;</code>, <code class="method">ToList</code>, <code class="method">ToList&lt;T&gt;</code> and <code class="method">ToArray&lt;T&gt;</code>. Note that these methods only apply to results returned by <code class="method">All</code>, <code class="method">FindAll</code>, <code class="method">FindAllBy</code> (as SimpleQuery objects). You&#821;ll need to use implicit casts with results returned by <code class="method">Find</code>, <code class="method">FindBy</code> and <code class="method">Get</code> (as SimpleRecord objects). If you do try to call any of these methods against SimpleRecord objects, you&#8217;ll get a <code class="exception">Simple.Data.UnresolvableObjectException</code>.</p>
+              <h3>Cast&lt;T&gt;</h3>
+              <p>Use the <code class="method">Cast&lt;T&gt;</code> method to cast a SimpleQuery object from an <code class="type">IEnumerable&lt;dynamic&gt;</code> into an <code class="type">IEnumerable&lt;T&gt; object</code>. Under the covers, Simple.Data actually converts it into a <code class="type">CastEnumerable&lt;T&gt;</code>, a necessity to complete the cast.</p>
+              <p>For example</p>
+              <pre class="brush:csharp">IEnumerable&lt;Album&gt; = db.Albums.FindAllByGenreId(1).Cast&lt;Album&gt;();</pre>
+              <h3>ToList, ToList&lt;T&gt;</h3>
+              <p>Use the <code class="method">ToList</code> and <code class="method">ToList&lt;T&gt;</code> methods to cast a SimpleQuery object from an <code class="type">IEnumerable&lt;dynamic&gt;</code> object into a <code class="type">List&lt;dynamic&gt;</code> or <code class="type">List&lt;T&gt;</code> object respectively. </p>
+              <p>For example</p>
+              <pre class="brush:csharp">List&lt;dynamic&gt; = db.Albums.FindAllByGenreId(1).ToList();
+List&lt;Album&gt; = db.Albums.FindAllByGenreId(1).ToList&lt;Album&gt;();</pre>
+              <h3>ToArray, ToArray&lt;T&gt;</h3>
+              <p>Use the <code class="method">ToArray</code> and <code class="method">ToArray&lt;T&gt;</code> methods to cast a SimpleQuery object from an <code class="type">IEnumerable&lt;dynamic&gt;</code> object into a <code class="type">dynamic[]</code> or <code class="type">T[]</code> object respectively. </p>
+              <p>For example</p>
+              <pre class="brush:csharp">dynamic[] = db.Albums.FindAllByGenreId(1).ToArray();
+Album[] = db.Albums.FindAllByGenreId(1).ToArray&lt;Album&gt;();</pre>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+      $("div.metro-pivot").metroPivot();
+    });
+  </script>
+</body>
+</html>
