@@ -69,3 +69,15 @@ var details = db.OrderDetails.All()
    </script>
 </body>
 </html>
+
+
+<!--That new feature: “Magic Counting”
+A feature I’ve been asked for a couple of times is the ability to run multiple statements in a single database call, and in both cases, the underlying requirement was the same: getting the overall count for a query in conjunction with paging. A couple of weeks ago I was reading a post on Ayende’s blog where he showed some sample RavenDB query code that included a call to a method called Statistics, which dumped out various bits of info about the query into a special class, and I really liked the way it did that, so I borrowed the idea. Now, in Simple.Data, you can do this:
+Future<int> count;
+var q = _db.Customers.QueryByType("Valued")
+.WithTotalCount(out count)
+.Skip(40)
+.Take(10);
+// q returns 10 records
+// count.Value is set to total number of records matching criteria
+The Future<int> type is a very lightweight wrapper type that doesn’t have its value set when you get it back from that out call, but will have a value after the query has executed (whether by calling ToList, or just starting a foreach). The count and the paged result set are retrieved in a single database call (assuming the provider supports compound statements; SQL Server does, SQL Compact doesn’t, for other providers YMMV), which means performance is good and your DBA should be happy.-->

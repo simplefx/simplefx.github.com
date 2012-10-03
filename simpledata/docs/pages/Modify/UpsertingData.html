@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Simple.Data Help</title>
+   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+</head>
+<body>
+   <h1>
+      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+   <section>
+        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
+    </section>
+   <div class="items">
+      <div style="display: block;" class="pivotItem current">
+         <div class="pivot-item">
+            <div class="metro-pivot">
+               <div class="pivot-item">
+                  <article>
+                  <h2>Upsert</h2>
+                    Inserting and updating is all very well, but sometimes you’ve got some data and you just don’t know whether it’s in the database already or not. If it is, you want to update the row with some new values; if it’s not, you want to insert it. Boring.
+To save you the time and trouble, Simple.Data now provides the Upsert method. Give it a record, and it will do all the checking to see if it exists or not. And in beta2, there’ll be back-end database-specific optimizations; for example, if you’re using the SQL Server provider with SQL 2008 or later, it will use the MERGE operation.
+Upsert returns the record as it is in the database following the operation, with any database-specified values intact.
+var db = DatabaseHelper.Open();
+var user = new User {Id = 2, Name = "Charlie", Password = "foobar", Age = 42};
+var actual = db.Users.Upsert(user);
+ 
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>Where</h2>
+                  </article>
+               </div>
+               <div class="pivot-item">
+                  <article>
+                  <h2>Where</h2>
+                  </article>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+      <script>
+         $(function () {
+            $("div.metro-pivot").metroPivot();
+         });
+   </script>
+</body>
+</html>
+
