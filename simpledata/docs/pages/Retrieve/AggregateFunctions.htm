@@ -42,7 +42,7 @@
             $("div.metro-pivot").metroPivot();
          });
    </script>
-</body>
+<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
 </html>
 
 <!--The observant reader will have noticed that there is no GroupBy method in that code. I was trying to work out how to implement it in the simplest way, and I realised that whatever was specified in the GroupBy would have to be all the columns from the Select method which weren’t aggregates. Since that information already exists in the Query object, why make the developer write it out again? I did a little checking, and MySQL is of the same opinion, but most RDBMS systems still seem to require an explicit GROUP BY clause. So that’s another place where Simple.Data makes your life a little bit easier.
