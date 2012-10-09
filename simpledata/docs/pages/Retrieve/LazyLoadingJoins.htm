@@ -1,46 +1,317 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
-   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
-   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
-   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+  <meta charset="UTF-8">
+  <title>Simple.Data Help</title>
+  <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+  <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+  <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
 </head>
 <body>
-   <h1>
-      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
-        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
-    </section>
-   <div class="items">
-      <div style="display: block;" class="pivotItem current">
-         <div class="pivot-item">
-            <div class="metro-pivot">
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
-            </div>
-         </div>
+  <h1>
+    <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+  <section>
+    Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisy-chained in a LINQ-like fashion with further methods to modify the basic query. For example, the Join, On, and OuterJoin commands allow you to join two or more tables together in a query and access the contents of both using a lazy-loading strategy. This means that if you cast the results of a lazily-loaded join query into a POCO, Simple.Data will not &#8216;gather up&#8217; any 1:n join data into collections for you to query as enumerables.  You&#8217;ll need to use the eager-loading <a href="EagerLoadingJoins.htm">With or WithOne statements</a> to achieve this.
+  </section>
+  <div class="items">
+    <div style="display: block;" class="pivotItem current">
+      <div class="pivot-item">
+        <div class="metro-pivot">
+          <div class="pivot-item">
+            <article>
+              <h2>Natural Joins</h2>
+              <p>Simple.Data allows you to join two or more tables implicitly, rather than use the Join, OuterJoin or With commands, provided the tables have a foreign key constraint set up between them so referential integrity is enforced.</p>
+              <p>It does this by allowing you to define the chain of tables to be traversed from the &#8216;start&#8217; table in the query within a column selection. For example, if you were querying the Albums table for an album&#8217;s details, and wanted to include the name of the album&#8217;s genre instead of its genreid, you could write:</p>
+              <pre class="brush:csharp">var album = db.Albums.FindAllByGenreId(1)
+  .Select(
+    db.Albums.Title,
+    db.Albums.Genre.Name);</pre>
+              <p>The chain of tables can be as long as required as long as referential integrity is enforced between the tables in the chain.</p>
+              <pre class="brush:csharp">db.Albums.Genre.Name;
+db.OrderDetails.Albums.Genre.Name;
+db.StartTable.Table2.Table3 …. TableN.Field;</pre>
+              <p>You can also use the indexer style for writing the join chain.</p>
+              <pre class="brush:csharp">db["Albums"]["Genre"]["Name"];
+db["OrderDetails"]["Albums"]["Genre"]["Name"];
+db["StartTable"]["Table2"]["Table3"] …. ["TableN"]["Field"];</pre>
+              <p>There are two points to note about Natural joins:</p>
+              <ol>
+                <li>Simple.Data translates natural joins into <code class="statement">LEFT JOIN</code> statements.</li>
+                <li>If you cast the results of an natural join query into a POCO, Simple.Data will not &#8216;gather up&#8217; any 1:n join data into collections for you to query as enumerables.  You&#8217;ll need to use the <code class="method">With</code> or <code class="method">WithOne</code> statements to achieve this.</li>
+              </ol>
+              <h3>Exceptions</h3>
+              <p>Simple.Data may throw one of several exceptions if an aspect of the natural join chain is incorrect.</p>
+              <pre class="brush:csharp">db.StartTable.Table2.Table3 …. TableN.Field;</pre>
+              <ul>
+                <li><code class="type">UnresolvableObjectException</code>: TableN doesn&#8217;t have a column called &#8216;Field&#8217;.</li>
+                <li><span class="alert">[AdoAdapter only]</span><code class="type">Simple.Data.Ado.SchemaResolutionException</code>: Table2 and Table3 do not have a foreign key relationship defined in the database.</li>
+                <li><span class="alert">[AdoAdapter only]</span><code class="type">Simple.Data.Ado.AdoAdapterException</code>: StartTable is not the same table being queried in the main selection command.</li>
+              </ul>
+              <h3>Examples</h3>
+              <h4>1</h4>
+              <p>To return the titles from the Albums table and Names from the Genres table where GenreId = 1, use the following command:</p>
+              <pre class="brush:csharp">var albums = db.Albums.FindAllByGenreId(1)
+  .Select(
+    db.Albums.Title,
+    db.Albums.Genre.Name);
+foreach (var album in albums)
+{
+  Console.WriteLine(album.Title, album.Name);
+}</pre>
+              <p>Simple.Data sends the following SQL to the database when albums is evaluated.</p>
+              <pre class="brush:sql">select 
+  [dbo].[Albums].[Title],
+  [dbo].[Genres].[Name] 
+from [dbo].[Albums] 
+  LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+WHERE [dbo].[Albums].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+              <h4>2</h4>
+              <p>To return the titles from the Albums table and Names from the Genres table where OrderId = 1 in the OrderDetails table, use the following command:</p>
+              <pre class="brush:csharp">var orderDetails = db.OrderDetails.FindAllByOrderId(1)
+	.Select(
+	  db.OrderDetails.OrderId,
+	  db.OrderDetails.Albums.Title,
+	  db.OrderDetails.Albums.Genre.Name);
+foreach (var orderDetail in orderDetails)
+{
+  Console.WriteLine(orderDetail.OrderId, orderDetail.Title, orderDetail.Name);
+}</pre>
+              <p>Simple.Data sends the following SQL to the database when orderDetail is evaluated.</p>
+              <pre class="brush:sql">select 
+  [dbo].[OrderDetails].[OrderId],
+  [dbo].[Albums].[Title],
+  [dbo].[Genres].[Name] 
+from 
+  [dbo].[OrderDetails] 
+  LEFT JOIN [dbo].[Albums] ON ([dbo].[Albums].[AlbumId] = [dbo].[OrderDetails].[AlbumId]) 
+  LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+WHERE [dbo].[OrderDetails].[OrderId] = @p1
+@p1 (Int32) = 1</pre>
+            </article>
+          </div>
+          <div class="pivot-item">
+            <article>
+<h2>Explicit Joins</h2>
+<p>Simple.Data allows you to join two or more tables explicitly using one of three methods: <mark><code class="method">Join</code>, <code class="method">LeftJoin</code>, and <code class="method">OuterJoin</code></mark>. These will create (inner) <code class="method">JOIN</code>, <code class="method">LEFT JOIN</code> and <code class="method">LEFT OUTER JOIN</code> statements respectively. You can use them all to connect two tables that do not have a foreign key constraint set up between them. They all operate in the same way, so for clarity, the <code class="method">Join</code> methods is used for description. The Examples section demonstrates <code class="method">LeftJoin</code> and <code class="method">OuterJoin</code> methods further.
+<p><span class="alert">[ADO Adapter Only]</span> Note that as <code class="method">LEFT JOIN</code> and <code class="method">LEFT OUTER JOIN</code> are synonymous in T-SQL, the <code class="method">OuterJoin</code> method as implemented by the Simple.Data.Ado adaptor creates a <code class="method">LEFT JOIN</code> statement.</p>
+<p>There are two ways to form a <code class="method">Join</code> method:</p>
+<ul>
+	<li>You can specify the related column names as named parameters</li>
+	<li>You can use the <code class="method">On</code> method to specify the related column names and their relationship using a <code class="type">SimpleExpression</code> or using named parameters. The <code class="method">On</code> method also has an overload to let you specify an alias for the joined table.</li>
+</ul>
+
+<h3>Syntax</h3>
+<pre class="brush:csharp">// Named parameters, no On method
+public SimpleQuery Join(
+    ObjectReference targetTable,
+    JoinExpression joinExpression
+  )
+   
+// Named parameters, with On method
+public SimpleQuery Join(
+    ObjectReference targetTable
+    [, out dynamic aliasedTargetTable]
+  ).On(
+    JoinExpression joinExpression
+  )
+
+// Simple Expression, with On method
+public SimpleQuery Join(
+    ObjectReference targetTable
+    [, out dynamic aliasedTargetTable]
+  ).On(
+    SimpleExpression simpleExpression
+  )</pre>
+<p><em>The call to <code class="method">On</code> must be immediately preceded by a call to <code class="method">Join</code>.</em></p>
+<h4>Parameters</h4>
+<dl>
+	<dt>
+		<code class="parameter">targetTable</code>
+		<dd>Type: <code class="Type">ObjectReference</code><br>A reference to the table being joined into the query. For example, db.Albums</dd>
+	</dt>
+	<dt>
+		<code class="parameter">joinExpression</code>
+		<dd>Type: <code class="Type">JoinExpression</code><br>A JoinExpression uses named parameters to idetify the join condition between the two tables. It has the form <em>targetkeyColumn : db.startTable.startKeyColumn</em> where
+<ul>
+	<li><em>targetKeyColumn</em> is the name of the key column in the target table being joined into the query.</li>
+	<li><em>startTable</em> is the name of a table already referenced in the query, either in the initial command or in a previous join.</li>
+	<li><em>startKeyColumn</em> is the name of the key column in the <em>startTable</em> which forms the basis of the join for that table.</li>
+</ul></dd>
+	</dt>
+	<dt>
+		<code class="parameter">simpleExpression</code>
+		<dd>Type: <code class="Type">SimpleExpression</code><br>A (concatenated sequence of) search criteria. For example, <code>db.targetTable.targetkeyColumn == db.startTable.startKeyColumn</code>.</dd>
+	</dt>
+	<dt>
+		<code class="parameter">aliasedTargetTable</code>
+		<dd>Type: <code class="Type">dynamic</code><br>An out parameter which allows you to alias tables in the join and reuse them in later joins.</dd>
+	</dt>
+</dl>        
+<p>For example, if you were querying the Albums table for an album&#8217;s details, and wanted to include the name of the album&#8217;s genre instead of its genreId, you could use either form:</p>
+<pre class="brush:csharp">db.Albums.FindAllByGenreId(1)
+  .Select(
+    db.Albums.Title,
+    db.Genre.Name)
+  .Join(db.Genre, GenreId: db.Albums.GenreId);
+  
+db.Albums.FindAllByGenreId(1)
+  .Select(
+    db.Albums.Title,
+    db.Genre.Name)
+  .Join(db.Genre).On(GenreId: db.Albums.GenreId);
+
+  db.Albums.FindAllByGenreId(1)
+  .Select(
+    db.Albums.Title,
+    db.Genre.Name)
+  .Join(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId);</pre>
+<p>You can also use indexer style in Joins.</p>
+<pre class="brush:csharp">db.Albums.FindAllByGenreId(1)
+.Select(
+  db["Albums"]["Title"],
+  db["Genre"]["Name"])
+.Join(db["Genre"], GenreId: db["Albums"]["GenreId"]);
+
+db.Albums.FindAllByGenreId(1)
+.Select(
+  db["Albums"]["Title"],
+  db["Genre"]["Name"])
+.Join(db["Genre"]).On(GenreId: db["Albums"]["GenreId"]);
+
+db.Albums.FindAllByGenreId(1)
+.Select(
+  db["Albums"]["Title"],
+  db["Genre"]["Name"])
+.Join(db["Genre"]).On(db["Genre"]["GenreId"] == db["Albums"]["GenreId"]);</pre>
+<p>All six examples above produce the same SQL statement to be set to the database.</p>
+<pre class="brush:sql">select 
+  [dbo].[Albums].[Title],
+  [dbo].[Genres].[Name] 
+from [dbo].[Albums] 
+  JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+WHERE 
+  [dbo].[Albums].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+<p>The columns referenced in the Select statement need only identify their parent table. (Compare this to using ‘natural&#8217; joins). However, if you decide to give an alias to a table in a join, you&#8217;ll need to make a few changes.</p>
+<ol>
+	<li>Switch to using the <code class="method">On</code> variant of <code class="method">Join</code> if you weren&#8217;t already</li>
+	<li>Use the <code class="method">As</code> method within the Join to set the table alias.</li>
+	<li>Add the third <code class="keyword">out</code> parameter to store a reference to the aliased table</li>
+	<li>Move the <code class="method">Join</code> method to immediately after the main select method so the <code class="keyword">out</code> parameter is defined for use by <code class="method">Select</code> and other clauses.</li>
+	<li>Use the <code class="keyword">out</code> parameter in the <code class="method">On</code> and <code class="method">Select</code> statements to identify columns in that table.</li>
+</ol>
+<p>For example,</p> 
+<pre class="brush:csharp">dynamic GenreAlias;
+var albums = db.Albums.FindAllByGenreId(1)
+        .Join(db.Genre.As("g"), out GenreAlias).On(GenreAlias.GenreId == db.Albums.GenreId)
+        .Select(
+          db.Albums.Title,
+          GenreAlias.Name);
+
+dynamic GenreAlias;
+var albums = db.Albums.FindAllByGenreId(1)
+        .Join(db.Genre.As("g"), out GenreAlias).On(GenreId: db.Albums.GenreId)
+        .Select(
+          db.Albums.Title,
+          GenreAlias.Name);</pre>
+<p>Both examples produce the same SQL statement to be set to the database:</p>
+<pre class="brush:sql">select 
+  [dbo].[Albums].[Title],
+  [g].[Name] 
+from [dbo].[Albums] 
+  JOIN [dbo].[Genres] [g] ON ([g].[GenreId] = [dbo].[Albums].[GenreId]) 
+WHERE 
+  [dbo].[Albums].[GenreId] = @p1
+	@p1 (Int32) = 1</pre>
+<p>There are several points to note about the Join statement:</p>
+<ol>
+	<li>Simple.Data translates <code class="method">Join</code> methods into JOIN statements.</li>
+	<li>You can chain as many <code class="method">Join</code>s to the query as are required.</li>
+	<li>The named parameter form of <code class="method">Join</code> can only set column relationships based on a single equality. You can create column relationships based on any arithmetical operator using the <code class="method">On</code> form – it&#8217;s just a matter of writing the correct <code class="type">SimpleExpression</code>.</li>
+	<li>If you cast the results of a <code class="method">Join</code> query into a POCO, Simple.Data will not &#8216;gather up&#8217; any 1:n join data into collections for you to query as enumerables.  You&#8217;ll need to use the <code class="method">With</code> or <code class="method">WithOne</code> statements to achieve this.</li>
+</ol>
+<h3>Exceptions</h3>
+<p>To Be Confirmed</p>
+              <h3>Examples</h3>
+<h4>1</h4>
+<p>The following example uses the <code class="method">LeftJoin</code> method to join the OrderDetails, Album and Genre tables where OrderDetails.OrderId = 1 and sends the Album title and Genre name out to the screen.</p>
+<pre class="brush:csharp">var orderDetails = db.OrderDetails.FindAllByOrderId(1)
+  .Select(
+    db.OrderDetails.OrderId,
+    db.OrderDetails.Albums.Title,
+    db.OrderDetails.Albums.Genre.Name)
+  .LeftJoin(db.Albums, AlbumId: db.OrderDetails.AlbumId)
+  .LeftJoin(db.Genre, GenreId: db.Albums.GenreId);
+
+foreach (var od in orderDetails)
+{
+  Console.WriteLine(od.OrderId, od.Title, od.Name);
+}</pre>
+<p>The same can be achieved using the <code class="method">On</code> form of <code class="method">LeftJoin</code>.</p>
+<pre class="brush:csharp">var orderDetails = db.OrderDetails.FindAllByOrderId(1)
+  .Select(
+    db.OrderDetails.OrderId,
+    db.OrderDetails.Albums.Title,
+    db.OrderDetails.Albums.Genre.Name)
+  .LeftJoin(db.Albums).On(db.Albums.AlbumId == db.OrderDetails.AlbumId)
+  .LeftJoin(db.Genre).(db.Genre.GenreId == db.Albums.GenreId);
+
+  foreach (var od in orderDetails)
+{
+  Console.WriteLine(od.OrderId, od.Title, od.Name);
+}</pre>
+<p>The following SQL is sent to the server when orderDetails is evaluated in both versions of the code.</p>
+<pre class="brush:sql">select 
+  [dbo].[OrderDetails].[OrderId],
+  [dbo].[Albums].[Title],
+  [dbo].[Genres].[Name] 
+from [dbo].[OrderDetails] 
+  LEFT JOIN [dbo].[Albums] ON ([dbo].[Albums].[AlbumId] = [dbo].[OrderDetails].[AlbumId]) 
+  LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+WHERE 
+  [dbo].[OrderDetails].[OrderId] = @p1
+	@p1 (Int32) = 1</pre>
+<h4>2</h4>
+<p>The following example uses the <code class="method">OuterJoin</code> method to join the OrderDetails, Album and Genre tables where OrderDetails.OrderId = 1 and sends the Album title and Genre name out to the screen. The album and genre tables are given aliases.</p>
+<pre class="brush:csharp">dynamic GenreAlias;
+dynamic AlbumsAlias;
+
+var orderDetails = db.OrderDetails.FindAllByOrderId(1)
+  .OuterJoin(db.Albums.As("a"), out AlbumsAlias).On(AlbumsAlias.AlbumId == db.OrderDetails.AlbumId)
+  .OuterJoin(db.Genre.As("g"), out GenreAlias).On(GenreAlias.GenreId == AlbumsAlias.GenreId)
+  .Select(
+    db.OrderDetails.OrderId,
+    AlbumsAlias.Title,
+    GenreAlias.Name);
+          
+foreach (var od in orderDetails)
+{
+  Console.WriteLine(od.OrderId, od.Title, od.Name);
+}</pre>
+<p>The following SQL is sent to the server when orderDetails is evaluated</p>
+<pre class="brush:sql">select 
+  [dbo].[OrderDetails].[OrderId],
+  [a].[Title],
+  [g].[Name] 
+from [dbo].[OrderDetails] 
+  LEFT JOIN [dbo].[Albums] [a] ON ([a].[AlbumId] = [dbo].[OrderDetails].[AlbumId]) 
+  LEFT JOIN [dbo].[Genres] [g] ON ([g].[GenreId] = [a].[GenreId]) 
+WHERE 
+  [dbo].[OrderDetails].[OrderId] = @p1
+	@p1 (Int32) = 1</pre>
+            </article>
+          </div>
+        </div>
       </div>
-   </div>
-      <script>
-         $(function () {
-            $("div.metro-pivot").metroPivot();
-         });
-   </script>
-<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
+    </div>
+  </div>
+  <script>
+    $(function () {
+      $("div.metro-pivot").metroPivot();
+    });
+  </script>
+  <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']]; (function (d, t) { var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s) }(document, 'script'));</script>
+</body>
 </html>
