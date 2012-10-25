@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-   <title>Opening A COnnection : Simple.Data Help</title>
+   <title>Opening A Connection : Simple.Data Help</title>
    <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
    <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
 </head>
@@ -22,11 +22,28 @@ Console.WriteLine("Id: {0}, Name: {1}", artist.ArtistId, artist.Name);</pre>
 <pre class="brush:csharp">var namedDb = Database.OpenNamedConnection("MvcMusicStoreDb");
 var artist2 = namedDb.Artists.FindByName("Metallica");
 Console.WriteLine("Id: {0}, Name: {1}", artist2.ArtistId, artist2.Name);</pre>
-<h3>OpenConnection(string connectionString)</h3>
+<h3>OpenConnection(string connectionString[, string providerName])</h3>
 <p>Tries to open a connection to a data store with the given literal <code class="parameter">connectionString</code>.</p>
 <pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--");
 var artist3 = magicDb.Artists.FindByName("Iron Maiden");
 Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
+<p><code class="method">OpenConnection</code> has a second variant that allows you to specify the name of the Simple.Data provider that should be used to open the connection. If you&#8217;ve only one provider in your project, Simple.Data will pick it up by default. If you&#8217;d like to identify it explicitly or need to switch between two providers in you project, you&#8217;ll need to use this.</p>
+<pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--", "providerString");
+var artist3 = magicDb.Artists.FindByName("Iron Maiden");
+Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
+<p>In the code above, <code class="parameter">providerString</code> can be one of the following values:</p>
+  <table>
+    <tr><th>Provider</th><th>String To Use</th></tr>
+    <tr><td>Simple.Data.SqlServer</td><td>System.Data.SqlServer</td></tr>
+    <tr><td>Simple.Data.SqlCe35</td><td>sdf</td></tr>
+    <tr><td>Simple.Data.SqlCe40</td><td>System.Data.SqlServerCe<br />System.Data.SqlServerCe.4.0</td></tr>
+    <tr><td>Simple.Data.MySql</td><td>MySql.Data.MySqlClient</td></tr>
+    <tr><td>Simple.Data.Oracle</td><td>Oracle.DataAccess.Client<br />Devart.Data.Oracle</td></tr>
+    <tr><td>Simple.Data.Sqlite</td><td>db<br />sqlite</td></tr>
+    <tr><td>Simple.Data.SqlAnywhere</td><td>iAnywhere.Data.SqlAnywhere</td></tr>
+    <tr><td>Simple.Data.PostgreSql</td><td>Npgsql</td></tr>
+    <tr><td>Simple.Data.Access</td><td>mdb<br />accdb<br />System.Data.OleDb</td></tr>
+  </table>
 <h3>OpenFile(string filepath)</h3>
 <p>Tries to open a connection to a data store with the given <code class="parameter">filepath</code>.</p>
 <pre class="brush:csharp">var fileDb = Database.OpenConnection("MvcMusicStore.sdf");
