@@ -122,5 +122,14 @@ db["dbo"].Albums.FindByGenreId(1);
 db["Albums"].FindByGenreId(1);      //if dbo is only schema
       </pre>
   <p>You can find further examples of indexer sytax in the page on <a href="../Retrieve/ColumnSelection.html">Column Selection</a> and in the Sample Code Project</p>
+  <h3 id="advanced">Advanced Naming Scenarios</h3>
+  <p>When trying to match method and property names with your underlying data-store, Simple.Data will strip out all non-alphanumeric characters and try a case-insensitive match on what's left. There are times when this might not be ideal, such as having tables or columns with similar names:</p>
+  <pre class="brush:csharp">IsGenerated
+Is_Generated</pre>
+  <p>With the non-alphanumeric characters removed, this leads to duplicate columns names: <code class="method">isgenerated</code>.</p>
+  <p>To work around these scenarios, you simply need to override the regular express that Simple.Data uses to remove non-alphanumeric characters to include the characters which distinguish your columns from being duplicates. In the example above, we need to tell Simple.Data to include the underscore character to avoid the naming conflicts with a one-time call to a static method:</p>
+  <pre class="brush:csharp">Simple.Data.Extensions.HomogenizeEx.SetRegularExpression(new Regex("[^a-z0-9_]"));</pre>
+  <p>Now that we've told Simple.Data to include the underscore character, it now separates the distinct names correctly: <code class="method">isgenerated</code> and <code class="method">is_generated</code>.</p>
+  <p>The default regular expression that Simple.Data uses to find valid characters in names is  <code class="method">new Regex("[^a-z0-9]")</code>.</p>
 <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
 </html>
