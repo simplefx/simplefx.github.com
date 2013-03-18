@@ -1,4 +1,4 @@
-article,
+﻿article,
 aside,
 details,
 figcaption,
@@ -715,4 +715,11 @@ body {
 }
 hr {
   color: #002b2b;
+}
+td,
+th {
+  text-align: left;
+  padding: 15px;
+  border: 1px solid #aaaaaa;
+  background: #fafafa;
 }
