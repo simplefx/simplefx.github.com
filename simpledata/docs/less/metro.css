@@ -723,3 +723,6 @@ th {
   border: 1px solid #aaaaaa;
   background: #fafafa;
 }
+dd {
+  padding-bottom: 2em;
+}
