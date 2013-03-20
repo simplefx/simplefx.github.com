@@ -42,20 +42,20 @@ public SimpleQuery FindAllBycolumnName1[AndcolumnName2&#8230;](
 <p>Type: <code class="type">SimpleQuery</code><br />
 	A collection of <code class="type">SimpleRecord</code> objects  which can be iterated over.</p>
 <h3>Exceptions</h3>
-<table>
-<tr>
-		<th>Exception</th>
-		<th>Condition</th>
-	</tr>
-<tr>
-		<td><code class="type">InvalidOperationException</code></td>
-		<td>You have specified no named parameters for <code class="parameter">filterExpressions</code><br />
-    <em>-or-</em><br />The number of <code class="parameter">columnNames</code> does not match the number of <code class="parameter">columnValues</code></td>
-	</tr>
-<tr>
-		<td><code class="type">ArgumentException</code></td>
-		<td>The number of <code class="parameter">columnValues</code> does not match the number of <code class="parameter">columnNames</code></td>
-	</tr></table>
+    <table>
+        <tr>
+            <th>Exception</th>
+            <th>Condition</th>
+        </tr>
+        <tr>
+            <td><code class="type">ArgumentException</code></td>
+            <td>The number of <code class="parameter">columnValues</code> does not match the number of <code class="parameter">columnNames</code> or no arguments at all have been passed to the method.</td>
+        </tr>
+        <tr>
+            <td><code class="type">FormatException</code></td>
+            <td>The type of a <code class="parameter">columnValue</code> does not match the actual type of the corresponding <code class="parameter">columnName</code></td>
+        </tr>
+    </table>
 <h3>Remarks</h3>
 <p>FindAllBy is used to return all the data from a table based on a set of criteria where the value of columns in a row </p>
 <ul>
