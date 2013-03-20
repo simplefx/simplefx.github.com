@@ -31,10 +31,14 @@ A (concatenated sequence of) search criteria. For example, <code>dbo.Album.Genre
 		<th>Exception</th>
 		<th>Condition</th>
 	</tr>
-<tr>
-		<td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">RuntimeBinderException</code></td>
-		<td>Malformed SimpleExpression</td>
-	</tr>
+    <tr>
+        <td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">BadExpressionException</code></td>
+        <td>Malformed SimpleExpression</td>
+    </tr>
+    <tr>
+        <td><code class="type">BadExpressionException</code></td>
+        <td>Only one SimpleExpression is allowed in Find</td>
+    </tr>
 </table>
 <h3>Remarks</h3>
 <p>The <code class="method">Find</code> method is used instead of <code class="method">FindBy</code> when the criteria is more complicated than simple equality tests. Criteria can be constructed just using regular C# expressions, with all operators supported and precedence-grouping honoured.</p>
