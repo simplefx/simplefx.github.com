@@ -1,38 +1,281 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-   <title>Order By : Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
-   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Order By : Simple.Data Help</title>
+    <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+    <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
 </head>
 <body>
-   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
+    <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+    <section>
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
-        For example, the OrderBy method makes sure the returned data is sorted by the named columns.
+        For example, once you have run a command to find data, you can use the OrderBy, OrderByDescending, ThenBy and ThenByDescending methods to make sure the returned data is sorted by the named columns.
     </section>
-<h2>Sorting Data</h2>
-<p>Once you have run a Finding Data query, you can then sort the returned data at the Sql Level by using the Order By clause. 
-This clause comes in two forms, OrderBy with the column name as part of the method call, or with an expression supplied
-to the method.</p>
-<h3>Order By (Method name form)</h3>
-<pre class="brush: csharp">_db.Customers.FindAll(_db.Customers.CustomerName == "Arthur")
-      .OrderByCustomerName();
-</pre>
-<p>Generates the following SQL</p>
-<pre class="brush: sql">
-@p1 = 'Arthur'
-select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
-from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
-</pre>
-<h3>Order By (Expression form)</h3>
-<pre class="brush: csharp">_db.Customers.FindAll(_db.Customers.CustomerName == "Arthur").OrderBy(_db.Customers.CustomerName)
-</pre>
-<p>Generates the following SQL</p>
-<pre class="brush: sql">@p1 = 'Arthur'
-select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
-from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
-</pre>
-<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
+    <div class="items">
+        <div style="display: block;" class="pivotItem current">
+            <div class="pivot-item">
+                <div class="metro-pivot">
+                    <div class="pivot-item">
+                        <article>
+                            <h2>OrderBy(Descending)</h2>
+                            <p>Use the <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> methods to sort the records returns by a query command on a named column in an ascending or decending order respectively.</p>
+                            <p>There are two ways to form an <code class="method">OrderBy</code> or an <code class="method">OrderByDescending</code> method.</p>
+                            <ul>
+                                <li>You can specify the column names as named parameters.</li>
+                                <li>You can specify the column names as part of the method</li>
+                            </ul>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public SimpleQuery OrderBy(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery OrderBycolumnName(
+)
+
+public SimpleQuery OrderByDescending(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery OrderBycolumnNameDescending(
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">columnNameReference</code></dt>
+                                <dd>Type: <code class="type">ObjectReference</code><br>
+                                    A reference to the column being sorted against written using either dot notation (db.Table.Column) or index notation (db["Table"]["Column"]).</dd>
+                                <dt><code class="parameter">columnName</code></dt>
+                                <dd>Type: <code class="type">string</code>
+                                    The name or alias of the column being sorted against</dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">SimpleQuery</code><br />
+                                A <code class="type">SimpleQuery</code> object containing an OrderBy clause.  
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">NullReferenceException</code></td>
+                                    <td>OrderBy has been called directly on a table reference without a base command (All, FindAllBy etc)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td><code class="parameter">columnNameReference</code> is not a valid, single column reference<br />
+                                        <em>- or -</em><br />
+                                        Both <code class="parameter">columnNameReference</code> and <code class="parameter">columnName</code> are used in the same call.<br />
+                                        <em>- or -</em><br />
+                                        OrderBy has been called twice or more in the same daisychain of commands instead of once followed by many calls to ThenBy.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">UnresolvableObjectException</code></td>
+                                    <td>You have attempted to order results by a column in a secondary joined table using a fluid style <code class="parameter">columnName</code> rather than the named parameter style <code class="parameter">columnNameReference</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">Simple.Ado.AdoException</code></td>
+                                    <td>The column specified in the call to OrderBy is not one of the column being retrieved in the main query command</td>
+                                </tr>
+                            </table>
+                            <p>Note that <a href="https://github.com/markrendle/Simple.Data/issues?state=open">issues #269 - #272</a> are still open with regards to exceptions thrown by OrderBy.</p>
+                            <h3>Remarks</h3>
+                            <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> are designed to specify the <em>first</em> field on which a returned dataset is to be ordered. Any further ordering should be specified using <code class="method">ThenBy</code> and <code class="method">ThenByDescending</code>.</p>
+                            <p>If you wish to order results by a column name that contains the string &#8220;and&#8221; in it, 
+you must use the named parameter form of <code class="method">OrderBy</code>. If you have a column called, for example, <code class="value">HandlingCode</code>, and you try to call </p>
+<pre class="brush:csharp">OrderByHandlingCode();</pre>
+<p>the parser will split that into two columns, H &amp; lingCode, and throw an <code class="type">ArgumentException</code>. So you have to use the named parameter form for columns with &#8220;and&#8221; in the name. For example,</p>
+<pre class="brush:csharp">OrderBy(db.TableName.HandlingCode);</pre>
+                            <h3>Examples</h3>
+                            <h4>Single Table</h4>
+                            <p>The following example retrieves the contents of the Albums table ordered by the <code class="parameter">ArtistId</code> field.</p>
+                            <pre class="brush:csharp">//Fluid style
+SimpleQuery albums = Database.Open().Albums.All().OrderByArtistId();
+
+//Named parameter style
+SimpleQuery albums = Database.Open().Albums.All().OrderBy(db.Albums.ArtistId);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[AlbumId],
+   [dbo].[Albums].[GenreId],
+   [dbo].[Albums].[ArtistId],
+   [dbo].[Albums].[Title],
+   [dbo].[Albums].[Price],
+   [dbo].[Albums].[AlbumArtUrl] 
+from 
+   [dbo].[Albums] 
+ORDER BY 
+   [dbo].[Albums].[ArtistId]</pre>
+<p>The Descending equivalent commands are</p>
+<pre class="brush:csharp">//Fluid style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByArtistIdDescending();
+
+//Named parameter style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByDescending(db.Albums.ArtistId);</pre>
+                            <h4>Joined Tables</h4>
+                            <p>The following example queries the album table, left joins the genre table and orders them by a field in the (primary) album table.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Albums.Title);    // .OrderByTitle() also works</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [dbo].[Albums].[Title]</pre>
+                            <p>You can also order this query by a field in the joined table but only using the named parameter style of call.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Genre.Name);    // .OrderByName() throws an UnresolvableObjectException</pre>
+                            <h4>Using Column Aliases</h4>
+                            <p>If a column has been given a unique column alias using the <code class="method">As</code> method, you can use the fluid style of calling OrderBy to reference the alias.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name.As("GenreName"))
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderByGenreName();</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   GenreName</pre>
+                            <h4>Using Table Aliases</h4>
+                            <p>If a table has been given an alias using the <code class="method">As</code> method, you can use the named parameter style of calling OrderBy to reference it.</p>
+                            <pre class="brush:csharp;">dynamic genreAlias;
+SimpleQuery albums = Database.Open().Albums.All()
+    .LeftJoin(db.Genre.As("g"), out genreAlias).On(genreAlias.GenreId == db.Albums.GenreId)
+    .Select(
+        db.Albums.Title,
+        genreAlias.Name)
+    .OrderBy(genreAlias.Name);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [g].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] [g] ON ([g].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [g].[Name]</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>ThenBy(Descending)</h2>
+                            <p><code class="method">GetCountBy</code> returns returns an integer count of records in a table that match a given at least one column name and value to filter by.</p>
+                            <p>There are two ways to form a <code class="method">GetCountBy</code> method.</p>
+                            <ul>
+                                <li>You can specify the column names as named parameters.</li>
+                                <li>You can specify the column names as part of the method</li>
+                            </ul>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public int GetCountBy(
+		Object[] filterExpressions
+	)
+
+public int GetCountBycolumnName1[AndcolumnName2&#8230;](
+	Object columnValue1
+	[, Object columnValue2]
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">filterExpressions</code></dt>
+                                <dd>Type: <code class="type">object[]</code><br>
+                                    A set of named parameters where the parameter name is that of column being filtered against and the parameter value is that which the column should equal.</dd>
+                                <dt><code class="parameter">columnName1[, columnName2, &#8230;, columnNameX]</code></dt>
+                                <dd>Type: <code class="type">string</code>
+                                    The name of the column(s) being filtered against</dd>
+                                <dt><code class="parameter">columnValue1[, columnValue2, &#8230;, columnValueX]</code></dt>
+                                <dd>Type: <code class="type">object</code>  (typically <code class="type">string</code> or <code class="type">int</code>)
+			<code class="parameter">columnValueY</code> contains the value with which column with name <code class="parameter">columnNameY</code> should equal.</dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">int</code><br />
+                                A number that represents how many records in the table satisfy the given conditions.
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td>The number of <code class="parameter">columnValues</code> does not match the number of <code class="parameter">columnNames</code> or no arguments at all have been passed to the method.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">FormatException</code></td>
+                                    <td>The type of a <code class="parameter">columnValue</code> does not match the actual type of the corresponding <code class="parameter">columnName</code></td>
+                                </tr>
+                            </table>
+                            <h3>Remarks</h3>
+                            <p>GetCountBy is used to return all the data from a table based on a set of criteria where the value of columns in a row </p>
+                            <ul>
+                                <li>are equal to given values - e.g. <code>GenreId=6</code> and <code>Title="Nevermind"</code></li>
+                                <li>are within certain sets of values, a range or an array. See <a href="../WhereClauses.html">the Where clause page</a> for more information</li>
+                            </ul>
+                            <p>
+                                If you wish to include a column name in a filter that contains the string &#8220;and&#8221; in it, 
+you must use the named parameter form of <code class="method">GetCountBy</code>. If you have a column called, for example, <code class="value">HandlingCode</code>, and you try to call
+                            </p>
+                            <pre class="brush:csharp">GetCountByHandlingCode(1);</pre>
+                            <p>the parser will split that into two columns, H &amp; lingCode, and throw an <code class="type">ArgumentException</code>. So you have to use the named parameter form for columns with &#8220;and&#8221; in the name. For example,</p>
+                            <pre class="brush:csharp">GetCountBy(HandlingCode:1);</pre>
+                            <h3>Examples</h3>
+                            <h4>One Criteria</h4>
+                            <p>The following example retrieves the number of records in the Albums table with <code class="parameter">GenreId</code> equal to <code class="value">1</code>.</p>
+                            <pre class="brush:csharp">int albums = Database.Open().Albums.GetCountByGenreId(1);
+	
+// The named parameter equivalent call to GetCountBy() is
+// int albums = Database.Open().Albums.GetCountBy(GenreId:1);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albumCount</code> is evaluated.</p>
+                            <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] 
+WHERE 
+   [dbo].[Albums].[GenreId] = @p1
+@p1 (Int32) = 1</pre>
+                            <h4>Two Criteria</h4>
+                            <p>The following example retrieves the number of records in the Albums table with <code class="parameter">GenreId</code> equal to <code class="value">1</code> and <code class="parameter">ArtistId</code> equal to <code class="value">120</code>.</p>
+                            <pre class="brush:csharp">int albums = Database.Open().Albums.GetCountByGenreIdAndArtistId(1,120);
+	
+// The named parameter equivalent call to GetCountBy() is
+// int albums = Database.Open().Albums.GetCountBy(GenreId:1,ArtistId:120);</pre>
+                            <p>Simple.Data sends the following SQL to the database when album is evaluated.</p>
+                            <pre class="brush:sql">select COUNT(*) from [dbo].[Albums] 
+WHERE 
+    ([dbo].[Albums].[GenreId] = @p1 AND [dbo].[Albums].[ArtistId] = @p2)
+@p1 (Int32) = 1
+@p2 (Int32) = 120</pre>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("div.metro-pivot").metroPivot();
+        });
+    </script>
+    <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']]; (function (d, t) { var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s) }(document, 'script'));</script>
+</body>
 </html>
