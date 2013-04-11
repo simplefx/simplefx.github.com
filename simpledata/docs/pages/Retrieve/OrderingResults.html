@@ -1,38 +1,350 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-   <title>Order By : Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
-   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Order By : Simple.Data Help</title>
+    <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+    <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
 </head>
 <body>
-   <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
+    <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+    <section>
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query. 
-        For example, the OrderBy method makes sure the returned data is sorted by the named columns.
+        For example, once you have run a command to find data, you can use the OrderBy, OrderByDescending, ThenBy and ThenByDescending methods to make sure the returned data is sorted by the named columns.
     </section>
-<h2>Sorting Data</h2>
-<p>Once you have run a Finding Data query, you can then sort the returned data at the Sql Level by using the Order By clause. 
-This clause comes in two forms, OrderBy with the column name as part of the method call, or with an expression supplied
-to the method.</p>
-<h3>Order By (Method name form)</h3>
-<pre class="brush: csharp">_db.Customers.FindAll(_db.Customers.CustomerName == "Arthur")
-      .OrderByCustomerName();
-</pre>
-<p>Generates the following SQL</p>
-<pre class="brush: sql">
-@p1 = 'Arthur'
-select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
-from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
-</pre>
-<h3>Order By (Expression form)</h3>
-<pre class="brush: csharp">_db.Customers.FindAll(_db.Customers.CustomerName == "Arthur").OrderBy(_db.Customers.CustomerName)
-</pre>
-<p>Generates the following SQL</p>
-<pre class="brush: sql">@p1 = 'Arthur'
-select [dbo].[customers].[customerid],[dbo].[customers].[customer_name] 
-from [dbo].[customers] where [dbo].[customers].[customer_name] = @p1 order by [customer_name]
-</pre>
-<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
+    <div class="items">
+        <div style="display: block;" class="pivotItem current">
+            <div class="pivot-item">
+                <div class="metro-pivot">
+                    <div class="pivot-item">
+                        <article>
+                            <h2>OrderBy(Descending)</h2>
+                            <p>Use the <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> methods to sort the records returns by a query command on a named column in an ascending or descending order respectively.</p>
+                            <p>There are two ways to form an <code class="method">OrderBy</code> or an <code class="method">OrderByDescending</code> method.</p>
+                            <ul>
+                                <li>You can specify the column names as named parameters.</li>
+                                <li>You can specify the column names as part of the method</li>
+                            </ul>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public SimpleQuery OrderBy(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery OrderBycolumnName(
+)
+
+public SimpleQuery OrderByDescending(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery OrderBycolumnNameDescending(
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">columnNameReference</code></dt>
+                                <dd>Type: <code class="type">ObjectReference</code><br>
+                                    A reference to the column being sorted against written using either dot notation (db.Table.Column) or index notation (db["Table"]["Column"]).</dd>
+                                <dt><code class="parameter">columnName</code></dt>
+                                <dd>Type: <code class="type">string</code>
+                                    The name or alias of the column being sorted against</dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">SimpleQuery</code><br />
+                                A <code class="type">SimpleQuery</code> object containing an OrderBy clause.  
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">NullReferenceException</code></td>
+                                    <td>OrderBy has been called directly on a table reference without a base command (All, FindAllBy etc)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td><code class="parameter">columnNameReference</code> is not a valid, single column reference<br />
+                                        <em>- or -</em><br />
+                                        Both <code class="parameter">columnNameReference</code> and <code class="parameter">columnName</code> are used in the same call.<br />
+                                        <em>- or -</em><br />
+                                        OrderBy has been called twice or more in the same daisychain of commands instead of once followed by many calls to ThenBy.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">UnresolvableObjectException</code></td>
+                                    <td>You have attempted to order results by a column in a secondary joined table using a fluid style <code class="parameter">columnName</code> rather than the named parameter style <code class="parameter">columnNameReference</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">Simple.Ado.AdoException</code></td>
+                                    <td>The column specified in the call to OrderBy is not in one of the tables being retrieved in the main query command</td>
+                                </tr>
+                            </table>
+                            <p>Note that <a href="https://github.com/markrendle/Simple.Data/issues?state=open">issues #269 - #272</a> are still open with regards to exceptions thrown by OrderBy.</p>
+                            <h3>Remarks</h3>
+                            <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> are designed to specify the <em>first</em> field on which a returned dataset is to be ordered. Any further ordering should be specified using <code class="method">ThenBy</code> and <code class="method">ThenByDescending</code>.</p>
+                            <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> expect only a single column reference so trying to specify two columns using a fluid style will not work. For example, trying to call <code class="method">OrderByArtistIdAndAlbumId</code> will result in Simple.Data trying to order the result set on a column called <em>ArtistIdAndAlbumId</em>. You'll need to use <code>OrderByArtistId().ThenByAlbumId()</code> instead.</p>
+                            <h3>Examples</h3>
+                            <h4>Single Table</h4>
+                            <p>The following example retrieves the contents of the Albums table ordered by the <code class="parameter">ArtistId</code> field.</p>
+                            <pre class="brush:csharp">//Fluid style
+SimpleQuery albums = Database.Open().Albums.All().OrderByArtistId();
+
+//Named parameter style
+SimpleQuery albums = Database.Open().Albums.All().OrderBy(db.Albums.ArtistId);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[AlbumId],
+   [dbo].[Albums].[GenreId],
+   [dbo].[Albums].[ArtistId],
+   [dbo].[Albums].[Title],
+   [dbo].[Albums].[Price],
+   [dbo].[Albums].[AlbumArtUrl] 
+from 
+   [dbo].[Albums] 
+ORDER BY 
+   [dbo].[Albums].[ArtistId]</pre>
+                            <p>The Descending equivalent commands are</p>
+                            <pre class="brush:csharp">//Fluid style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByArtistIdDescending();
+
+//Named parameter style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByDescending(db.Albums.ArtistId);</pre>
+                            <h4>Joined Tables</h4>
+                            <p>The following example queries the album table, left joins the genre table and orders them by a field in the (primary) album table.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Albums.Title);    // .OrderByTitle() also works</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [dbo].[Albums].[Title]</pre>
+                            <p>You can also order this query by a field in the joined table but only using the named parameter style of call.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Genre.Name);    // .OrderByName() throws an UnresolvableObjectException</pre>
+                            <h4>Using Column Aliases</h4>
+                            <p>If a column has been given a unique column alias using the <code class="method">As</code> method, you can use the fluid style of calling OrderBy to reference the alias.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name.As("GenreName"))
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderByGenreName();</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   GenreName</pre>
+                            <h4>Using Table Aliases</h4>
+                            <p>If a table has been given an alias using the <code class="method">As</code> method, you can use the named parameter style of calling OrderBy to reference it.</p>
+                            <pre class="brush:csharp;">dynamic genreAlias;
+SimpleQuery albums = Database.Open().Albums.All()
+    .LeftJoin(db.Genre.As("g"), out genreAlias).On(genreAlias.GenreId == db.Albums.GenreId)
+    .Select(
+        db.Albums.Title,
+        genreAlias.Name)
+    .OrderBy(genreAlias.Name);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [g].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] [g] ON ([g].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [g].[Name]</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>ThenBy(Descending)</h2>
+                            <p>Use the <code class="method">ThenBy</code> and <code class="method">ThenByDescending</code> methods to specify additional fields on which to sort the records (in an ascending or descending order respectively) following a call to <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code>.</p>
+                            <p>There are two ways to form an <code class="method">ThenBy</code> or an <code class="method">ThenByDescending</code> method.</p>
+                            <ul>
+                                <li>You can specify the column names as named parameters.</li>
+                                <li>You can specify the column names as part of the method</li>
+                            </ul>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public SimpleQuery ThenBy(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery ThenBycolumnName(
+)
+
+public SimpleQuery ThenByDescending(
+	ObjectReference columnNameReference
+)
+
+public SimpleQuery ThenBycolumnNameDescending(
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">columnNameReference</code></dt>
+                                <dd>Type: <code class="type">ObjectReference</code><br>
+                                    A reference to the column being sorted against written using either dot notation (db.Table.Column) or index notation (db["Table"]["Column"]).</dd>
+                                <dt><code class="parameter">columnName</code></dt>
+                                <dd>Type: <code class="type">string</code>
+                                    The name or alias of the column being sorted against</dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">SimpleQuery</code><br />
+                                A <code class="type">SimpleQuery</code> object containing a ThenBy clause.  
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">InvalidOperationException</code></td>
+                                    <td>ThenBy has been called without OrderBy in the same daisychain.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">NullReferenceException</code></td>
+                                    <td>ThenBy has been called directly on a table reference without a base command (All, FindAllBy etc)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td><code class="parameter">columnNameReference</code> is not a valid, single column reference<br />
+                                        <em>- or -</em><br />
+                                        Both <code class="parameter">columnNameReference</code> and <code class="parameter">columnName</code> are used in the same call.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">UnresolvableObjectException</code></td>
+                                    <td>You have attempted to order results by a column in a secondary joined table using a fluid style <code class="parameter">columnName</code> rather than the named parameter style <code class="parameter">columnNameReference</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">Simple.Ado.AdoException</code></td>
+                                    <td>The column specified in the call to ThenBy is not one of the tables being retrieved in the main query command</td>
+                                </tr>
+                            </table>
+                            <p>Note that <a href="https://github.com/markrendle/Simple.Data/issues?state=open">issues #277 - #280</a> are still open with regards to exceptions thrown by ThenBy.</p>
+                            <h3>Remarks</h3>
+                            <p><code class="method">ThenBy</code> and <code class="method">ThenByDescending</code> are designed to specify the <em>subsequent</em> fields on which a returned dataset is to be ordered after the first column is specified using <code class="method">OrderBy</code> or <code class="method">OrderByDescending</code>.</p>
+                            <p><code class="method">ThenBy</code> and <code class="method">ThenByDescending</code> expect only a single column reference so trying to specify two columns using a fluid style will not work. For example, trying to call <code class="method">ThenByArtistIdAndAlbumId</code> will result in Simple.Data trying to order the result set on a column called <em>ArtistIdAndAlbumId</em>. You'll need to use <code>ThenByArtistId().ThenByAlbumId()</code> instead.</p>
+                            <h3>Examples</h3>
+                            <h4>Single Table</h4>
+                            <p>The following example retrieves the contents of the Albums table ordered by the <code class="parameter">AlbumId</code> and then <code class="parameter">ArtistId</code> fields.</p>
+                            <pre class="brush:csharp">//Fluid style
+SimpleQuery albums = Database.Open().Albums.All().OrderByAlbumId().ThenByArtistId();
+
+//Named parameter style
+SimpleQuery albums = Database.Open().Albums.All().OrderByAlbumId().ThenBy(db.Albums.ArtistId);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[AlbumId],
+   [dbo].[Albums].[GenreId],
+   [dbo].[Albums].[ArtistId],
+   [dbo].[Albums].[Title],
+   [dbo].[Albums].[Price],
+   [dbo].[Albums].[AlbumArtUrl] 
+from 
+   [dbo].[Albums] 
+ORDER BY 
+   [dbo].[Albums].[AlbumId], [dbo].[Albums].[ArtistId]</pre>
+                            <p>The Descending equivalent commands are</p>
+                            <pre class="brush:csharp">//Fluid style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByAlbumId().ThenByArtistIdDescending();
+
+//Named parameter style 
+SimpleQuery albums = Database.Open().Albums.All().OrderByAlbumId().ThenByDescending(db.Albums.ArtistId);</pre>
+                            <h4>Joined Tables</h4>
+                            <p>The following example queries the album table, left joins the genre table and orders them by two fields in the (primary) album table.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Albums.AlbumId)
+    .ThenBy(db.Albums.Title);    // .ThenByTitle() also works</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [dbo].[Albums].[AlbumId], [dbo].[Albums].[Title]</pre>
+                            <p>You can also order this query by a field in the joined table but only using the named parameter style of call.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name)
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Albums.AlbumId)
+    .ThenBy(db.Genre.Name);    // .ThenByName() throws an UnresolvableObjectException</pre>
+                            <h4>Using Column Aliases</h4>
+                            <p>If a column has been given a unique column alias using the <code class="method">As</code> method, you can use the fluid style of calling ThenBy to reference the alias.</p>
+                            <pre class="brush:csharp;">SimpleQuery albums = Database.Open().Albums.All()
+    .Select(
+        db.Albums.Title,
+        db.Genre.Name.As("GenreName"))
+    .LeftJoin(db.Genre).On(db.Genre.GenreId == db.Albums.GenreId)
+    .OrderBy(db.Albums.AlbumId)
+    .ThenByGenreName();</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [dbo].[Genres].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] ON ([dbo].[Genres].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [dbo].[Albums].[AlbumId], GenreName</pre>
+                            <h4>Using Table Aliases</h4>
+                            <p>If a table has been given an alias using the <code class="method">As</code> method, you can use the named parameter style of calling ThenBy to reference it.</p>
+                            <pre class="brush:csharp;">dynamic genreAlias;
+SimpleQuery albums = Database.Open().Albums.All()
+    .LeftJoin(db.Genre.As("g"), out genreAlias).On(genreAlias.GenreId == db.Albums.GenreId)
+    .Select(
+        db.Albums.Title,
+        genreAlias.Name)
+    .OrderBy(db.Albums.AlbumId)
+    .ThenBy(genreAlias.Name);</pre>
+                            <p>Simple.Data sends the following SQL to the database when <code class="variable">albums</code> is evaluated.</p>
+                            <pre class="brush:sql">select 
+   [dbo].[Albums].[Title],
+   [g].[Name] 
+from 
+   [dbo].[Albums] 
+   LEFT JOIN [dbo].[Genres] [g] ON ([g].[GenreId] = [dbo].[Albums].[GenreId]) 
+ORDER BY 
+   [dbo].[Albums].[AlbumId], [g].[Name]</pre>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("div.metro-pivot").metroPivot();
+        });
+    </script>
+    <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']]; (function (d, t) { var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s) }(document, 'script'));</script>
+</body>
 </html>
