@@ -1,145 +1,210 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <title>Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
-   <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
-   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
-   <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
+    <meta charset="UTF-8">
+    <title>Simple.Data Help</title>
+    <link rel="stylesheet/less" type="text/css" href="../../less/metro.less" />
+    <script type="text/javascript" src="../../scripts/less-1.3.0.min.js"></script>
+    <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery.metro.js"></script>
 </head>
 <body>
-   <h1>
-      <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
-        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks.
+    <h1>
+        <a href="../../index.html" title="Back to index">Simple.Data</a></h1>
+    <section>
+        Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisy-chained in a LINQ-like fashion with further methods to modify the basic query. For example, the With, WithOne, and WithMany commands allow you to join two or more tables together in a query and access the contents of both using an eager-loading strategy. This means that if you cast the results of an eager-loaded query into a POCO, Simple.Data will gather any data from child tables into properties or collections for you to query without any subsequent queries to the database. See <a href="http://blog.hmobius.com/post/2012/10/14/Inferred-Hierarchies-and-Evaluation-Strategies-in-SimpleData.aspx">here</a> for more information.
     </section>
-   <div class="items">
-      <div style="display: block;" class="pivotItem current">
-         <div class="pivot-item">
-            <div class="metro-pivot">
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
-               <div class="pivot-item">
-                  <article>
-                  <h2>Where</h2>
-                  </article>
-               </div>
+    <div class="items">
+        <div style="display: block;" class="pivotItem current">
+            <div class="pivot-item">
+                <div class="metro-pivot">
+                    <div class="pivot-item">
+                        <article>
+                            <h2>With</h2>
+                            <p>Use <code class="method">With</code> to create an eager-loaded join query between two tables <em>which have a foreign key relationship (or equivalent) between each other</em>. When cast to the corresponding POCOs, enumerable properties representing the child tables will be hydrated correctly.</p>
+                            <p>There are two ways to form an <code class="method">With</code> method.</p>
+                            <ul>
+                                <li>You can specify the child table name as a named parameter.</li>
+                                <li>You can specify the child table name as part of the method</li>
+                            </ul>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public SimpleQuery WithtargetTableName(
+)
+
+public SimpleQuery With(
+	ObjectReference targetTableReference
+	[, out dynamic aliasedTargetTable]
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">targetTableName</code></dt>
+                                <dd>Type: <code class="type">string</code>
+                                    The name or alias of the child table in the join</dd>
+                                <dt><code class="parameter">targetTableReference</code></dt>
+                                <dd>Type: <code class="type">ObjectReference</code><br>
+                                    A reference to the child table in the join written using either dot notation (db.PrimaryTable.ChildTable) or index notation (db["PrimaryTable"]["SecondaryTable"]). <em>Note the chained style of identifying the child table</em>.<br />
+                                    <br />
+                                    Alternately, the results of a call to <code class="method">As</code>
+                                </dd>
+                                <dt><code class="parameter">aliasedTargetTable</code></dt>
+                                <dd>Type: <code class="type">dynamic</code><br />
+                                    An out parameter which allows you to alias tables in the join and reuse them in later joins.
+                                </dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">SimpleQuery</code><br />
+                                A <code class="type">SimpleQuery</code> object containing a With clause.  
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">NullReferenceException</code></td>
+                                    <td>With has been called directly on a table reference without a base command (All, FindAllBy etc)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td><code class="parameter">tableReference</code> is not a valid, single column reference<br />
+                                        <em>- or -</em><br />
+                                        Both <code class="parameter">targetTableReference</code> and <code class="parameter">targetTableName</code> are used in the same call.                      </td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">InvalidOperationException</code></td>
+                                    <td>There is no foreign key relationship between the primary table and the target table.</td>
+                                </tr>
+                            </table>
+                            <p>Note that <a href="https://github.com/markrendle/Simple.Data/issues?state=open">issues #282 - #284</a> are still open with regards to exceptions thrown by With.</p>
+                            <h3>Remarks</h3>
+                            <p>Note that you cannot currently use With to eager-load grandchild tables or deeper.</p>
+                            <h3>Examples</h3>
+                            <h4>With Queries Returning A SimpleRecord</h4>
+                            <p>If you are using a base command that returns a SimpleRecord (<code class="method">Find</code>, <code class="method">Get</code>, <code class="method">FindBy</code>), you&#8217;ll need to write the <code class="method">With</code> command before the base command. For example:</p>
+                            <pre class="brush:csharp">db.Albums.WithArtists().Get(1);   // fluid style
+db.Albums.With(db.Albums.Artists).Get(1);    // named parameter style</pre>
+                            <h4>With Queries Returning A SimpleQuery</h4>
+                            <p>If you are using a base command that returns a SimpleQuery (<code class="method">All</code>, <code class="method">FindAll</code>, <code class="method">FindAllBy</code>), you can write the <code class="method">With</code> command before or (more readably) after the base command. For example:</p>
+                            <pre class="brush:csharp">db.Albums.All().WithArtists();   // fluid style
+db.Albums.All().With(db.Albums.Artists);    // named parameter style</pre>
+                            <h4>Using With and As to Give Collection The Correct Name</h4>
+                            <p>If the POCO to which you are casting the results of a query uses a different property name for a table which you are eager-loading, use the <code class="method">As</code> function to change its name.</p>
+                            <pre class="brush:csharp">db.Albums.All().With(db.Albums.Artists.As("BandInfo"));</pre>
+                            <p>You can also use the optional out variable here to keep your Select statements compact.</p>
+                            <pre class="brush:csharp">dynamic BandAlias;
+var albumDetails = db.Albums.All()
+    .With(db.Albums.Artists.As("BandInfo"), out BandAlias)
+    .Select(
+       db.Albums.Title,
+       BandAlias.Name);</pre>
+                            <h4>Using With and Join.On To Specify Explicit Joins</h4>
+                            <p>In cases where you want to eager load some data but need to specify a Join relationship explicitly, you can use <code class="method">Join().On()</code> in conjunction with <code class="method">With</code>.</p>
+                            <pre class="brush:csharp">dynamic homeTeam;
+dynamic awayTeam;
+db.Fixtures.FindAllByDate(date)
+    .Join(db.Team.As("HomeTeam"), out homeTeam)
+    .On(db.Fixtures.HomeTeamId == homeTeam.Id)
+    .Join(db.Team.As("AwayTeam"), out awayTeam)
+    .On(db.Fixtures.AwayTeamId == awayTeam.Id)
+    .With(homeTeam)
+    .With(awayTeam);</pre>
+                        </article>
+                    </div>
+                    <div class="pivot-item">
+                        <article>
+                            <h2>WithOne &amp; WithMany</h2>
+                            <p>Use <code class="method">WithOne</code> or <code class="method">WithMany</code> to create an eager-loaded join query between two tables <em>which do NOT have a foreign key relationship (or equivalent) between each other.</em> When cast to the corresponding POCOs, data from the child table will be hydrated into a single, complex object or an IEnumerable collection respectively.</p>
+                            <h3>Syntax</h3>
+                            <pre class="brush:csharp">public SimpleQuery WithOne(
+	ObjectReference targetTableReference
+	[, out dynamic aliasedTargetTable]
+)
+
+public SimpleQuery WithMany(
+	ObjectReference targetTableReference
+	[, out dynamic aliasedTargetTable]
+)</pre>
+                            <h4>Parameters</h4>
+                            <dl>
+                                <dt><code class="parameter">targetTableReference</code></dt>
+                                <dd>Type: <code class="type">ObjectReference</code><br>
+                                    A reference to the child table in the join written using either dot notation (db.PrimaryTable.ChildTable) or index notation (db["PrimaryTable"]["SecondaryTable"]). <em>Note the chained style of identifying the child table</em>.<br />
+                                    <br />
+                                    Alternately, the results of a call to <code class="method">As</code>
+                                </dd>
+                                <dt><code class="parameter">aliasedTargetTable</code></dt>
+                                <dd>Type: <code class="type">dynamic</code><br />
+                                    An out parameter which allows you to alias tables in the join and reuse them in later joins.
+                                </dd>
+                            </dl>
+                            <h4>Return Value</h4>
+                            <p>
+                                Type: <code class="type">SimpleQuery</code><br />
+                                A <code class="type">SimpleQuery</code> object containing a With clause.  
+                            </p>
+                            <h3>Exceptions</h3>
+                            <table>
+                                <tr>
+                                    <th>Exception</th>
+                                    <th>Condition</th>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">NullReferenceException</code></td>
+                                    <td>WithOne or WithMany has been called directly on a table reference without a base command (All, FindAllBy etc)</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="type">ArgumentException</code></td>
+                                    <td><code class="parameter">tableReference</code> is not a valid, single column reference</td>
+                                </tr>
+                            </table>
+                            <h3>Remarks</h3>
+                            <p><code class="method">WithOne</code> and <code class="method">WithMany</code> can also be used to create joins between tables that do have foreign key relationships between them, as well as With.</p>
+                            <p>
+                                You cannot currently use <code class="method">WithOne</code> or <code class="method">WithMany</code> to eager-load grandchild tables or deeper.
+                            </p>
+                            <h3>Examples</h3>
+                            <h4>Queries Returning A SimpleRecord</h4>
+                            <p>If you are using a base command that returns a SimpleRecord (<code class="method">Find</code>, <code class="method">Get</code>, <code class="method">FindBy</code>), you&#8217;ll need to write the commands before the base command. For example:</p>
+                            <pre class="brush:csharp">db.Albums.WithOne(db.Albums.Genre).Get(1);
+db.Artists.WithMany(db.Artists.Albums).Get(1);</pre>
+                            <h4>Queries Returning A SimpleQuery</h4>
+                            <p>If you are using a base command that returns a SimpleQuery (<code class="method">All</code>, <code class="method">FindAll</code>, <code class="method">FindAllBy</code>), you can write the command before or (more readably) after the base command. For example:</p>
+                            <pre class="brush:csharp">db.Albums.All().WithOne(db.Albums.Genre);
+db.Artists.All().WithMany(db.Artists.Albums);</pre>
+                            <h4>Using As to Give Collection The Correct Name</h4>
+                            <p>If the POCO to which you are casting the results of a query uses a different property name for a table which you are eager-loading, use the <code class="method">As</code> function to change its name.</p>
+                            <pre class="brush:csharp">db.Albums.All().WithOne(db.Albums.Artists.As("BandInfo"));</pre>
+                            <p>You can also use the optional out variable here to keep your Select statements compact.</p>
+                            <pre class="brush:csharp">dynamic BandAlias;
+var albumDetails = db.Albums.All()
+    .WithOne(db.Albums.Artists.As("BandInfo"), out BandAlias)
+    .Select(
+       db.Albums.Title,
+       BandAlias.Name);</pre>
+                            <h4>Using Join.On To Specify Explicit Joins</h4>
+                            <p>In cases where you want to eager load some data but need to specify a Join relationship explicitly, you can use <code class="method">Join().On()</code> in conjunction with <code class="method">With</code>.</p>
+                            <pre class="brush:csharp">dynamic homeTeam;
+dynamic awayTeam;
+db.Fixtures.FindAllByDate(date)
+    .Join(db.Team.As("HomeTeam"), out homeTeam)
+    .On(db.Fixtures.HomeTeamId == homeTeam.Id)
+    .Join(db.Team.As("AwayTeam"), out awayTeam)
+    .On(db.Fixtures.AwayTeamId == awayTeam.Id)
+    .WithOne(homeTeam)
+    .WithOne(awayTeam);</pre>
+                        </article>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
-      <script>
-         $(function () {
+        </div>
+    </div>
+    <script>
+        $(function () {
             $("div.metro-pivot").metroPivot();
-         });
-   </script>
-<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
+        });
+    </script>
+    <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']]; (function (d, t) { var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s) }(document, 'script'));</script>
+</body>
 </html>
-
-<!--In case you don’t know, eager loading is a pattern for getting data from the database in an optimal fashion, with the minimum number of requests or least-possible server load. It’s the opposite of lazy loading, which Simple.Data already does.
-The implementation syntax will look like this:
-    IEnumerable<Customer> customers = _db.Customers.FindAllByRegion("South")
-                .With(_db.Customers.Orders)
-                .Cast<Customer>();
-This will create the customer objects and populate an ICollection<Order> Orders property in each one, assuming there is one.
-There are two directions in which a class may have relationships with other classes: it may have “parent” (or “lookup”) classes, where there is at most a single instance of that parent class within the instance of the class in question; and it may have “child” classes, where there is a collection of instances of the child class. Eager loading of parent classes is trivial; you just add the necessary join(s) to the master table(s) and marshal the data into the right places in code.
-Eager loading of child classes is similarly easy when there is only a single child collection to be loaded; you join to the detail table and then process the results so that a single instance of the main table row is created, and instances of the detail table rows are grouped into collections.
-For example, loading user objects with a list of phone numbers:
-SELECT User.Id, User.Name, Phone.Number
-FROM User
-LEFT JOIN Phone ON User.Id = Phone.UserId
-Returned rows:
-User.Id	User.Name	Phone.Number
-1	Alice	0123456789
-1	Alice	0738473284
-2	Bob	0129934845
-2	Bob	0729478594
-From this we create a User object for Alice with her two phone numbers, and an object for Bob with his. Even if there are a lot of rows in the detail table, this is still the preferred way of handling eager loading for this scenario as it involves the fewest round-trips to the database. Often, you can handle a parent-child-child relationship using this algorithm, too, although beyond that point you’re getting a bit scary.
-The complexity arises when you want to load two unrelated child collections, say, load Customers with their Invoices and Orders:
-SELECT Customer.*, Invoice.*, Order.*
-FROM Customer
-LEFT JOIN Invoice ON Customer.Id = Invoice.CustomerId
-LEFT JOIN Order ON Customer.Id = Order.CustomerId
-This creates what is technically called an “outer Cartesian product”, where a row is returned for every possible combination of the rows from the two outer-joined tables. So if you’re grabbing the details for a single valuable customer who has placed a thousand orders and generated a thousand invoices, you get a million rows back from the database. I have a hunch this might not be optimal.
-So this is my Request for Comments: what would you like to see done here?
-The options are:
-Only allow one detail-table With clause to be specified per query. Throw an exception if there is more than one.
-Allow multiple detail-table With clauses, and use additional SELECT operations for all except the first.
-Add a parameter to the With method allowing the developer to specify the technique on a per-detail-table basis:
-    var customers = _db.Customers.FindAllByRegion("South")
-                .With(_db.Customers.Orders, WithUsing.Join)
-                .With(_db.Customers.Orders.Items, WithUsing.Join)
-                .With(_db.Customers.Invoices, WithUsing.ExtraQuery);
-If only one detail table is specified, or one detail with a detail below it (e.g. _db.Customers.Orders.Items), the default behaviour when no WithUsing parameter is supplied will be to use JOIN. Multiple detail tables without a WithUsing will cause the ADO adapter to throw an exception (other adapters, such as the one for MongoDB, can use the With clause as they see fit).
-I think I’ve rubber ducked here a bit, as Option 3 is looking like a no-brainer, but I’ve typed it all now, so if you do have any comments or suggestions, please do leave them below. I’m planning on starting code for this on Sunday morning, so there’s plenty of time to change my mind.
-
-—
-
-Eager-loading with With
-Since very early on, Simple.Data has supported lazy-loading when you reference a joined property from the dynamic record type. There were two issues with that: firstly, if you assigned the record to a static type, the joined properties were not hydrated; secondly, multiple selects do not make DBAs happy, and should be avoided if possible.
-Now you can use the With method to load the joined data at the same time as the main record.
-var db = DatabaseHelper.Open();
-Customer actual = db.Customers.FindAllByCustomerId(1).WithOrders().FirstOrDefault();
-This uses a single SQL select statement to pull all the Customer rows, plus the Order detail rows, and groups the data in-memory; generally, that’s more efficient than running two select operations. When the record is converted to the Customer type, it sets the ICollection<Order> property at the same time, either creating a new instance of List<Order>, or populating an existing instance if the property is readonly.
-The inverse works too:
-var db = DatabaseHelper.Open();
-Order actual = db.Orders.FindAllByOrderId(1).WithCustomer().FirstOrDefault();
-If the property name is not the same as the database table name, you can use an alias to tweak it:
-var db = DatabaseHelper.Open();
-var actual = db.Orders.FindAllByOrderId(1).With(db.Orders.OrderItems.As("Items"));
-And if there’s no referential integrity in the database, you can specify an explicit join separately:
-dynamic manager;
-var q = _db.Employees.All()
-    .OuterJoin(_db.Employees.As("Manager"), out manager)
-    .On(Id: _db.Employees.ManagerId)
-    .With(manager);
- 
-(Oh, yeah, and check out the OuterJoin method. Finally.)
-Of course, if there’s no referential integrity, it’s hard for Simple.Data to work out whether the joined property is a collection or a complex object, so you can specify WithOne or WithMany to help it out:
-dynamic manager;
-var q = _db.Employees.All()
-    .OuterJoin(_db.Employees.As("Manager"), out manager)
-    .On(Id: _db.Employees.ManagerId)
-    .WithOne(manager);
- 
-And of course, you can mix and match all these. This test gives you a good idea of some of the heavy lifting that’s going on for you with this feature, just with the SQL:
-public void MultipleWithClauseJustDoesEverythingYouWouldHope()
-{
-    const string expectedSql = 
-        "select [dbo].[employee].[id],[dbo].[employee].[name]," +
-        "[dbo].[employee].[managerid],[dbo].[employee].[departmentid]," +
-        "[manager].[id] as [__withn__manager__id]," +
-        "[manager].[name] as [__withn__manager__name]," +
-        "[manager].[managerid] as [__withn__manager__managerid]," +
-        "[manager].[departmentid] as [__withn__manager__departmentid]," +
-        "[dbo].[department].[id] as [__with1__department__id]," +
-        "[dbo].[department].[name] as [__with1__department__name]" +
-        " from [dbo].[employee] left join [dbo].[employee] [manager] " +
-        "on ([manager].[id] = [dbo].[employee].[managerid])" +
-        " left join [dbo].[department] " +
-        "on ([dbo].[department].[id] = [dbo].[employee].[departmentid])";
-
-    dynamic manager;
-    var q = _db.Employees.All()
-        .OuterJoin(_db.Employees.As("Manager"), out manager)
-        .On(Id: _db.Employees.ManagerId)
-        .With(manager)
-        .WithDepartment();
-
-    GeneratedSqlIs(expectedSql);
-}
-(Never mind the logic involved in turning that result set into the correct in-memory object graphs.)
-Now, this works on multi-record queries, but not on single-record ones such as FindById or the key-driven Get method, and that’s more problematic since those methods don’t return a query you can modify, just a record. In the past I did actually toy with having the SimpleRecord type do lazy self-evaluation, but the fact that the NUnit Assert.IsNull test wouldn’t accept that the object was null even when it swore black-was-blue that it was put me off. (It works for Nullable<T>; no fair.)
-Instead of that, and this is only in the 1.0 beta release, you can specify your With clause before the Get or FindBy:
-var db = DatabaseHelper.Open();
-Customer actual = db.Customers.WithOrders().Get(1);
-So now you get all that goodness for single records, where it’s arguably more useful anyway.-->
