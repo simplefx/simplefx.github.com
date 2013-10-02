@@ -39,6 +39,20 @@ _db.Users.Insert(user);
 @p2 = 50
 insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1,@p2)
 </pre>
+<h3>Multi-Insert (by object)</h3>
+<pre class="brush: csharp">
+var users = new[]
+            {
+                new User { Name = "Slartibartfast", Password = "bistromathics", Age = 777 },
+                new User { Name = "Wowbagger", Password = "teatime", Age = int.MaxValue }
+            };
+IList<User> retrows = _db.Users.Insert(users).ToList<User>();      
+</pre>
+<p>Generates the following SQL</p>
+<pre class="brush: sql">
+insert into [dbo].[Users] ([Name],[Password],[Age]) values ('Slartibartfast','bistromathics',777)
+insert into [dbo].[Users] ([Name],[Password],[Age]) values ('Wowbagger','teatime',2147483647)
+</pre>
 <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
 </html>
 
