@@ -12,6 +12,7 @@
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
     </section>
 <h2>FindBy</h2>
+    <p><mark><code class="method">FindBy</code></a> is now deprecated in favour of using <a href="FindAllBy.html">FindAllBy</a>.FirstOrDefault() or <a href="Get.html">Get</a>. More details <a href="http://blog.markrendle.net/2012/10/03/simple-data-change-findby-is-deprecated-for-1-0/">here</a>.</mark></p>
 <p><code class="method">FindBy</code> returns a single row of data as a <code class="type">SimpleRecord</code> object based on at least one column name and value to filter by; if more than one row matches, the first row retrieved from the data store is returned.</p>
 <p>There are two ways to form a <code class="method">FindBy</code> method.</p>
 <ul>
