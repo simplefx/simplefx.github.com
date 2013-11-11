@@ -28,7 +28,7 @@
         with the <code class="operator">AND</code> operator.</p>
     <h3>
         Syntax</h3>
-    <pre class="brush:csharp">public ICommand Where(
+    <pre class="brush:csharp">public SimpleQuery Where(
 		SimpleExpression criteria
 	)</pre>
     <h4>
@@ -40,41 +40,35 @@
             A (concatenated sequence of) search criteria. For example, <code>dbo.Album.GenreId == 1</code>.</dd></dl>
     <h4>
         Return Value</h4>
-    <p>
-        Type: <code class="interface">ICommand</code><br>
-        An object representation of the data retrieval query to be sent to a data store</p>
-    <h3>
+<p>
+    Type: <code class="type">SimpleQuery</code><br />
+    A <code class="type">SimpleQuery</code> object containing a Where clause.  
+</p>
+            <h3>
         Exceptions</h3>
-    <table>
+<table>
+<tr>
+		<th>Exception</th>
+		<th>Condition</th>
+	</tr>
+    <tr>
+        <td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">BadExpressionException</code></td>
+        <td><code class="parameter">criteria</code>is a malformed <code class="type">SimpleExpression</code></td>
+    </tr>
+    <tr>
+        <td><code class="type">UnresolvableObjectException</code></td>
+        <td><code class="parameter">criteria</code> has been assigned a <code class="type">SimpleExpression</code> containing a field that does not exist</td>
+    </tr>
+    <tr>
+        <td><code class="type">ArgumentException</code></td>
+        <td><code class="parameter">criteria</code> has been assigned zero or more than one <code class="type">SimpleExpression</code></td>
+    </tr>
         <tr>
-            <th>
-                Exception
-            </th>
-            <th>
-                Condition
-            </th>
-        </tr>
-        <tr>
-        	<td><code class="type">RuntimeBinderException</code></td>
-        	<td><code class="method">Where</code> called without a query command to qualify</td>
-        </tr>
-        <tr>
-        	<td><code class="type">System.Reflection.TargetParameterCountException</code></td>
-        	<td>Zero or more than one <code class="type">SimpleExpression</code>s have been supplied to <code class="method">Where</code> as parameters</td>
-        </tr>
-        <tr>
-            <td>
-                <code class="type">FormatException</code><br />
-                <em>- or -</em><br />
-                <code class="type">RuntimeBinderException</code><br />
-                <em>- or -</em><br />
-                <code class="type">Simple.Data.UnresolvableObjectException</code>
-            </td>
-            <td>
-                Malformed <code class="type">SimpleExpression</code> supplied to <code class="method">Where</code> as parameter
-            </td>
-        </tr>
-    </table>
+        <td><code class="type">InvalidOperationException</code></td>
+        <td><code class="method">Where</code> has been called without a base command - <code class="method">All</code>, <code class="method">FindAllBy</code> etc.</td>
+    </tr>
+</table>
+    <p>Note that issues <a href="https://github.com/markrendle/Simple.Data/issues/321">#321</a>, and <a href="https://github.com/markrendle/Simple.Data/issues/322">#322</a> are still open with regards to exceptions thrown by <code class="method">Where</code>.</p> 
     <h3>
         Remarks</h3>
         <p>Using the <code class="method">Where</code> method allows you to add to the filtering criteria you may have already given your
@@ -92,9 +86,6 @@ db.Albums
     .All()
     .Select(db.Albums.Title)
     .Where(db.Albums.GenreId == 1 && db.Albums.AlbumId > 400);</pre>     
-        <p>You must call <code class="method">Where</code> with a single valid <code class="type">SimpleExpression</code> 
-        as a parameter else an <code class="object">Exception</code> will be thrown.</p>
-        <p>You can find examples of setting common search conditions as <code class="type">SimpleExpression</code>s here</p>
 <h4>Building Complex SimpleExpressions</h4>
 <p><code class="method">Where</code> takes a single <code class="type">SimpleExpression</code> as a parameter. 
 If the command it is qualifying already has filtering criteria on it, the new criteria is appending to the old 
