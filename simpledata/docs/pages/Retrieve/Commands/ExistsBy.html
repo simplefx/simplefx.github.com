@@ -51,6 +51,10 @@ public bool ExistsBycolumnName1[AndcolumnName2&#8230;](
             <th>Condition</th>
         </tr>
         <tr>
+            <td><code class="type">UnresolvableObjectException</code></td>
+            <td><code class="method">ExistsBy</code> is called on a table that doesn&#8217;t exist</td>
+        </tr>        
+        <tr>
             <td><code class="type">ArgumentException</code></td>
             <td>The number of <code class="parameter">columnValues</code> does not match the number of <code class="parameter">columnNames</code> or no arguments at all have been passed to the method.</td>
         </tr>
@@ -59,6 +63,7 @@ public bool ExistsBycolumnName1[AndcolumnName2&#8230;](
             <td>The type of a <code class="parameter">columnValue</code> does not match the actual type of the corresponding <code class="parameter">columnName</code></td>
         </tr>
     </table>
+    <p>Note that issues <a href="https://github.com/markrendle/Simple.Data/issues/318">#318</a>, <a href="https://github.com/markrendle/Simple.Data/issues/319">#319</a>, and <a href="https://github.com/markrendle/Simple.Data/issues/320">#320</a> are still open with regards to exceptions thrown by <code class="method">ExistsBy</code>.</p>    
     <h3>Remarks</h3>
     <p>ExistsBy is used to determine whether data exists in a table based on a set of criteria where the value of columns in a row </p>
     <ul>

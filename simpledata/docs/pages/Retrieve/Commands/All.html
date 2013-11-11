@@ -1,46 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-   <title>All : Simple.Data Help</title>
-   <link rel="stylesheet/less" type="text/css" href="../../../less/metro.less" />
-   <script type="text/javascript" src="../../../scripts/less-1.3.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>All : Simple.Data Help</title>
+    <link rel="stylesheet/less" type="text/css" href="../../../less/metro.less" />
+    <script type="text/javascript" src="../../../scripts/less-1.3.0.min.js"></script>
 </head>
+
 <body>
-   <h1><a href="../../../index.html" title="Back to index">Simple.Data</a></h1>
-   <section>
+    <h1>
+        <a href="../../../index.html" title="Back to index">Simple.Data</a>
+    </h1>
+    <section>
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
     </section>
-<h2>All</h2>
-<p>The <code class="method">All</code> method returns all data from a table.</p>
-<h3>Syntax</h3>
-<pre class="brush:csharp">public SimpleQuery All(
-		Object[] filterExpressions
-	)</pre>
-<h4>Parameters</h4>
-<dl>
-<dt><code class="parameter">filterExpressions</code></dt>
-			<dd>Type: <code class="type">object[]</code><br>
-				All parameters in <code class="parameter">filterExpressions</code> are <em>silently ignored</em> by <code class="method">All()</code>.</dd></dl>
-<h4>Return Value</h4>
-<p>Type: <code class="type">SimpleQuery</code><br>
-	A collection of <code class="type">SimpleRecord</code> objects  which can be iterated over.</p>
-<h3>Examples</h3>
-<p>The following example returns all the rows of the Albums table and outputs all the album titles to the Console window.</p>
-<pre class="brush:csharp">var albums = Database.Open().Albums.All();
-foreach (var album in albums)
-{
-  Console.WriteLine(album.Title);
-}</pre>
-<p>Simple.Data sends the following SQL to the database when albums is evaluated.</p>
-<pre class="brush:sql">select   
-   [dbo].[Album].[AlbumId],
-   [dbo].[Album].[GenreId],
-   [dbo].[Album].[ArtistId],
-   [dbo].[Album].[Title],
-   [dbo].[Album].[Price],
-   [dbo].[Album].[AlbumArtUrl] 
-from [dbo].[Album]</pre>
-<p>(which equates to <code>select * from [dbo].[Album]</code>)</p>
-<script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
+    <h2>All</h2>
+    <p>The
+        <code class="method">All</code>method returns all data from a table.</p>
+    <h3>Syntax</h3>
+    <pre class="brush:csharp">public SimpleQuery All( SimpleExpression criteria )
+    </pre>
+    <h4>Parameters</h4>
+    <dl>
+        <dt>
+            <code class="parameter">criteria</code>
+        </dt>
+        <dd>Type:
+            <code class="type">SimpleExpression</code>
+            <br>A (concatenated sequence of) search criteria for a group or an aggregate function. For example,
+            <code>db.Albums.AlbumId.Count() > 2.</code>
+        </dd>
+    </dl>
+    <h4>Return Value</h4>
+    <p>Type:
+        <code class="type">SimpleQuery</code>
+        <br>A collection of
+        <code class="type">SimpleRecord</code>objects which can be iterated over.</p>
+    <h3>Exceptions</h3>
+    <table>
+        <tr>
+            <th>Exception</th>
+            <th>Condition</th>
+        </tr>
+        <tr>
+            <td>
+                <code class="type">BadExpressionException</code>
+            </td>
+            <td>
+                <code class="parameter">criteria</code>is a malformed <code class="type">SimpleExpression</code></td>
+        </tr>
+    </table>
+    <h3>Remarks</h3>
+    <p>The
+        <code class="method">All</code>method generally ignores any
+        <code class="type">SimpleExpression</code>s passed to it, be they valid or invalid. The one exception to this rule is when writing a malformed expression using assignment rather than equality checking. For example</p>
+    <pre class="brush:csharp">var albums = db.Albums.All(db.Albums.GenreId = null)</pre>
+    <p>In this one case, Simple.Data throws a
+        <code class="exception">BadExpressionException</code>
+    </p>
+    <h3>Examples</h3>
+    <p>The following example returns all the rows of the Albums table and outputs all the album titles to the Console window.</p>
+    <pre class="brush:csharp">var albums = Database.Open().Albums.All(); foreach (var album in albums) { Console.WriteLine(album.Title); }</pre>
+    <p>Simple.Data sends the following SQL to the database when albums is evaluated.</p>
+    <pre class="brush:sql">SELECT 
+    [dbo].[Album].[AlbumId], 
+    [dbo].[Album].[GenreId], 
+    [dbo].[Album].[ArtistId], 
+    [dbo].[Album].[Title], 
+    [dbo].[Album].[Price], 
+    [dbo].[Album].[AlbumArtUrl] 
+from [dbo].[Album]  </pre>
+    <p>(which equates to
+        <code>select * from [dbo].[Album]</code>)</p>
+    <script>
+        var _gaq = [
+            ['_setAccount', 'UA-35405621-1'],
+            ['_trackPageview']
+        ];
+        (function(d, t) {
+            var g = d.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+            g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        }(document, 'script'));
+    </script>
+</body>
+
 </html>

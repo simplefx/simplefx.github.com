@@ -12,7 +12,7 @@
         Simple.Data defines a number of commands for retrieving data from a data store. These can then be daisychained in a LINQ-like fashion with further methods to modify the basic query.
     </section>
     <h2>Exists</h2>
-    <p><code class="method">Exists</code> returns a boolean value based on whether a search returns any values. An optional <code class="type">SimpleExpression</code> defines the criteria for the search. <code class="method">Any</code> is a synonym for <code class="method">Exists</code>.</p>
+    <p><code class="method">Exists</code> returns a boolean value based on whether a search returns any values. An optional <code class="type">SimpleExpression</code> defines the criteria for the search. <mark><code class="method">Any</code> is a synonym for <code class="method">Exists</code>.</mark></p>
     <h3>Syntax</h3>
     <pre class="brush:csharp">public bool Exists(
 	[SimpleExpression criteria]
@@ -36,19 +36,18 @@
         </tr>
         <tr>
             <td><code class="type">UnresolvableObjectException</code></td>
-            <td>Exists is called on a table that doesn&#8217;t exist</td>
+            <td><code class="method">Exists</code> is called on a table that doesn&#8217;t exist</td>
         </tr>
-        <tr>
-            <td><code class="type">FormatException</code><br />
-                <em>- or -</em><br />
-                <code class="type">BadExpressionException</code></td>
-            <td>Malformed SimpleExpression</td>
-        </tr>
-        <tr>
-            <td><code class="type">ArgumentException</code></td>
-            <td>Only one SimpleExpression is allowed in GetCount</td>
-        </tr>
+    <tr>
+        <td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">BadExpressionException</code></td>
+        <td><code class="parameter">criteria</code>is a malformed <code class="type">SimpleExpression</code></td>
+    </tr>
+    <tr>
+        <td><code class="type">ArgumentException</code></td>
+        <td><code class="parameter">criteria</code> has been assigned zero or more than one <code class="type">SimpleExpression</code></td>
+    </tr>
     </table>
+    <p>Note that issues <a href="https://github.com/markrendle/Simple.Data/issues/315">#315</a>, <a href="https://github.com/markrendle/Simple.Data/issues/316">#316</a>, and <a href="https://github.com/markrendle/Simple.Data/issues/317">#317</a> are still open with regards to exceptions thrown by <code class="method">Exists</code>.</p>
     <h3>Remarks</h3>
     <p>The <code class="method">Exists</code> method can be used either as the main command in a Simple.Data query or as a daisychained qualifier. For example, the following quads of queries should produce the same results.</p>
     <pre class="brush:csharp">bool albumsExist = Database.Open.Albums.All().Exists();
