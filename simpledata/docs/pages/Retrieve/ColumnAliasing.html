@@ -31,7 +31,7 @@
     <h4>
         Return Value</h4>
     <p>
-        Type: <code class="interface">ICommand</code><br>
+        Type: <code class="type">ObjectReference</code><br />
         The new name with which to reference a data field within a <code class="object">SimpleRecord</code>
         once it has been retrieved from a data store.</p>
     <h3>
@@ -47,6 +47,22 @@
         </tr>
         <tr>
             <td>
+                <code class="type">ArgumentException</code>
+            </td>
+            <td>
+                You have set a field&#8217;s <code class="parameter">alias</code> to the name or alias of another field.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <code class="type">System.Collections.Generic.KeyNotFoundException</code>
+            </td>
+            <td>
+                You have set a field&#8217;s <code class="parameter">alias</code> to one value and then tried to access the field with its original name.
+            </td>
+        </tr>                
+        <tr>
+            <td><span class="alert">[ADO Adapter Only]</span><br>
                 <code class="type">Simple.Data.Ado.AdoAdapterException</code>
             </td>
             <td>
@@ -67,14 +83,11 @@
         one field to the name of another, Simple.Data will throw a <code class="type">System.ArgumentException</code>
         when the query is resolved.
     </p>
-    <p>
-        Should you alias a field in a <code class="method">Select</code> method and then
-        try to reference it later using its original name, Simple.Data will throw a <code
-            class="type">Simple.Data.UnresolvableObjectException</code> exception</p>
     <h3>
         Examples</h3>
+        <h4>Aliasing a Table Column</h4>
     <p>
-        For example, to refer to the Album.Title field as ‘AlbumName’ in your code, use
+        To refer to the Album.Title field as ‘AlbumName’ in your code, use
         the following command.</p>
     <pre class="brush:csharp">var albums = db.Albums.All()
    .Select(
@@ -86,5 +99,15 @@
    [dbo].[Album].[AlbumId],
    [dbo].[Album].[ArtistId] AS [AlbumName]
 from [dbo].[Album]</pre>
+<h4>Aliasing a column Operation</h4>
+<p>You can alias the addition of (or any other operation over) two columns using <code class="method">Select</code> and <code class="method">As</code>.</p>
+<pre class="brush:csharp">db.OrderDetails.All()
+   .Select(
+      db.OrderDetails.Quantity * db.OrderDetails.UnitPrice).As("SubTotal"));</pre>
+          <p>
+        Simple.Data sends the following SQL to the database when albums is evaluated.</p>
+    <pre class="brush:sql">select   
+   ([dbo].[OrderDetails].[Quantity] * [dbo].[OrderDetails].[UnitPrice]) AS [SubTotal]
+from [dbo].[OrderDetails]</pre>
 <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
 </html>
