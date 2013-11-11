@@ -33,11 +33,11 @@ A (concatenated sequence of) search criteria. For example, <code>dbo.Album.Genre
 	</tr>
     <tr>
         <td><code class="type">FormatException</code><br /><em>- or -</em><br /><code class="type">BadExpressionException</code></td>
-        <td>Malformed SimpleExpression</td>
+        <td><code class="parameter">criteria</code>is a malformed <code class="type">SimpleExpression</code></td>
     </tr>
     <tr>
         <td><code class="type">ArgumentException</code></td>
-        <td>Only one SimpleExpression is allowed in GetCount</td>
+        <td><code class="parameter">criteria</code> has been assigned zero or more than one <code class="type">SimpleExpression</code></td>
     </tr>
 </table>
 <h3>Remarks</h3>
