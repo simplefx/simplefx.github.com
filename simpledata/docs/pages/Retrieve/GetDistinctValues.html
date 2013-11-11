@@ -13,10 +13,18 @@
         For example, the Distinct method makes sure the returned data contains only distinct values for the named columns.
   </section>
   <h2>Distinct</h2>
-  <p>Adds the distinct keyword to the selection of a column. Please read the <a href="ColumnCounts.htm">section on Counting</a> to learn how to use distinct with count.</p>
+  <p>Adds the distinct keyword to the selection of a column.</p>
+      <h3>Syntax</h3>
+    <pre class="brush:csharp">public SimpleQuery Distinct()</pre>
+    <h4>Return Value</h4>
+    <p>
+        Type: <code class="type">SimpleQuery</code><br>
+        A <code class="type">SimpleQuery</code> object containing a <code class="method">Distinct</code> clause
+    </p>
+    <h3>Remarks</h3>
+<p>Please read the <a href="ColumnCounts.htm">section on Counting</a> to learn how to use <code class="method">Distinct</code> with <code class="method">Count</code>.</p>
   <h3>Examples</h3>
-  <h4>1</h4>
-
+  <h4>Distinct with a single column</h4>
   <p>
     For example, to return a list of distinct OrderIds from OrderDetails, use
         the following command.
@@ -28,9 +36,8 @@
   <pre class="brush:sql">select 
    Distinct([dbo].[OrderDetails].[OrderId])
 from [dbo].[OrderDetails]</pre>
-  <hr />
-  <h4>2</h4>
-  For example, to return a list of distinct OrderIds and AlbumIds from OrderDetails, use
+  <h4>Distinct within a list of columns</h4>
+  <p>For example, to return a list of distinct OrderIds and AlbumIds from OrderDetails, use
         the following command.</p>
     <pre class="brush:csharp">var albums = db.OrderDetails.All()
                .Select(
