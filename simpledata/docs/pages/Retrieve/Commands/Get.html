@@ -41,6 +41,7 @@
 	</tr>
 </table>  
 <h3>Remarks</h3>
+<p>If <code class="method">Get</code> is sent <code class="parameter">primaryKeyValues</code> that do not correspond to a row in the data source, it will return <code>null</code>.</p>    
 <p class="alert">[ADO Adapter Only]</p>
 <p><code class="method">Get</code> will use the table&#8217;s primary key to construct the query (once; it&#8217;s then cached internally, no worries about performance).</p>
 <p>If a table has a compound primary key, Simple.Data arbitrarily assigns individual <code class="parameter">primaryKeyValues</code> to the key columns in the order the latter were defined.</p> 
