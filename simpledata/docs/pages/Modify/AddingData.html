@@ -39,6 +39,17 @@ _db.Users.Insert(user);
 @p2 = 50
 insert into [dbo].[Users] ([Name],[Age]) values (@p0,@p1,@p2)
 </pre>
+
+<h3>Identity Insert</h3>
+<p>If your database uses auto-incrementing integer IDs, use the return value
+of Insert (which is always the single row of data that has just be inserted):</p>
+<pre class="brush: csharp">
+User user1 = new User { Name = "Steve", Age = 50 };
+User user2 = _db.Users.Insert(user1);
+Debug.Assert(user2.Id != 0); // passes
+Debug.Assert(user1.Id != 0); // fails - insert source not given the new ID.
+</pre>
+
 <h3>Multi-Insert (by object)</h3>
 <pre class="brush: csharp">
 var users = new[]
