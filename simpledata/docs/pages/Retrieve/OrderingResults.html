@@ -21,7 +21,7 @@
                     <div class="pivot-item">
                         <article>
                             <h2>OrderBy(Descending)</h2>
-                            <p>Use the <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> methods to sort the records returns by a query command on a named column in an ascending or descending order respectively.</p>
+                            <p>Use the <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> methods to sort the records returned by a query command on a named column in an ascending or descending order respectively.</p>
                             <p>There are two ways to form an <code class="method">OrderBy</code> or an <code class="method">OrderByDescending</code> method.</p>
                             <ul>
                                 <li>You can specify the column names as named parameters.</li>
@@ -79,14 +79,15 @@ public SimpleQuery OrderBycolumnNameDescending(
                                     <td>You have attempted to order results by a column in a secondary joined table using a fluid style <code class="parameter">columnName</code> rather than the named parameter style <code class="parameter">columnNameReference</code></td>
                                 </tr>
                                 <tr>
-                                    <td><code class="type">Simple.Ado.AdoException</code></td>
+                                    <td><p class="alert">[ADO Adapter Only]</p><br><code class="type">Simple.Ado.AdoException</code></td>
                                     <td>The column specified in the call to OrderBy is not in one of the tables being retrieved in the main query command</td>
                                 </tr>
                             </table>
                             <p>Note that <a href="https://github.com/markrendle/Simple.Data/issues?state=open">issues #269 - #272</a> are still open with regards to exceptions thrown by OrderBy.</p>
                             <h3>Remarks</h3>
                             <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> are designed to specify the <em>first</em> field on which a returned dataset is to be ordered. Any further ordering should be specified using <code class="method">ThenBy</code> and <code class="method">ThenByDescending</code>.</p>
-                            <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> expect only a single column reference so trying to specify two columns using a fluid style will not work. For example, trying to call <code class="method">OrderByArtistIdAndAlbumId</code> will result in Simple.Data trying to order the result set on a column called <em>ArtistIdAndAlbumId</em>. You'll need to use <code>OrderByArtistId().ThenByAlbumId()</code> instead.</p>
+                            <p><code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> expect only a single column reference so trying to specify two columns using a fluid style will not work. For example, trying to call <code class="method">OrderByArtistIdAndAlbumId</code> will result in Simple.Data trying to order the result set on a column called <em>ArtistIdAndAlbumId</em>. You&#8217;ll need to use <code>OrderByArtistId().ThenByAlbumId()</code> instead.</p>
+                            <p>Similarly, if you try and specify two columns to either <code class="method">OrderBy</code> and <code class="method">OrderByDescending</code> using a hybrid approach of fluid and named parameters - for example <code>OrderByGenreId(db.Albums.Title)</code>, the named parameter is ingored and <code>OrderByGenreId()</code> is applied to the <code class="type">SimpleQuery</code></p>
                             <h3>Examples</h3>
                             <h4>Single Table</h4>
                             <p>The following example retrieves the contents of the Albums table ordered by the <code class="parameter">ArtistId</code> field.</p>

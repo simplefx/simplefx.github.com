@@ -21,7 +21,7 @@
   </p>
   <h3>Syntax</h3>
   <pre class="brush:csharp">public SimpleQuery Select(
-		Object[] columnNames
+		[object[] columnNames]
 	)</pre>
   <h4>Parameters</h4>
   <dl>
@@ -30,10 +30,10 @@
       A comma-separated list of fields to be retrieved by the main query command.</dd>
   </dl>
   <h4>Return Value</h4>
-  <p>
-    Type: <code class="interface">ICommand</code><br>
-    An object representation of the data retrieval query to be sent to a data store
-  </p>
+<p>
+    Type: <code class="type">SimpleQuery</code><br />
+    A <code class="type">SimpleQuery</code> object containing a Select clause.  
+</p>
   <h3>Exceptions</h3>
   <table>
     <tr>
@@ -44,10 +44,17 @@
     </tr>
     <tr>
       <td>
-        <code class="type">Simple.Data.UnresolvableObjectException</code>
+        <code class="type">UnresolvableObjectException</code>
       </td>
       <td>You have included a non-existent column in the <code class="method">Select</code>
         method
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code class="type">InvalidOperationException</code>
+      </td>
+      <td>You have tried to call <code class="method">Select</code> twice in the same command chain
       </td>
     </tr>
   </table>
@@ -59,6 +66,12 @@
   <p>
     You can also call it on its own, at which point Simple.Data will imply a call to
         <code class="method">All</code>.
+  </p>
+  <p>
+      If you supply no arguments to <code class="method">Select</code>, Simple.Data will return all columns.
+  </p>
+  <p>
+      <code class="method">Select</code> is not cumulative. Calling it a second time in the same command chain with additional columns to include will throw an <code class="type">InvalidOperationException</code>. 
   </p>
   <p>
     Columns can be identified in any order. Their names will be resolved according to
@@ -85,7 +98,7 @@
   <h4>Retrieving All Columns In A Table Using AllColumns() and Star()</h4>
   <p>Simple.Data defines two synonymous methods, <code class="method">AllColumns</code> and <code class="method">Star</code>, which when appended to a table reference will return all columns for that table. This comes in handy in join queries where you may want to return all the fields in one table but not in another. See Example 3 for the syntax.</p>
   <h3>Examples</h3>
-  <h4>1</h4>
+  <h4>Using Select With All</h4>
   <p>
     To return all the <code class="parameter">AlbumId</code> and <code class="parameter">Title</code> fields from the <code class="parameter">Albums</code> table, use
         one of the following commands
@@ -116,8 +129,7 @@ var albums = db["Albums"].Select(
    [dbo].[Album].[AlbumId],
    [dbo].[Album].[ArtistId] 
 from [dbo].[Album]</pre>
-  <hr />
-  <h4>2</h4>
+  <h4>Usng Select With FindAllBy</h4>
   <p>
     To return all the <code class="parameter">AlbumId</code> and <code class="parameter">Title</code> fields from the <code class="parameter">Albums</code> table where
         <code class="parameter">GenreId</code> equals 1, use one of the following commands.
@@ -156,8 +168,7 @@ db["Albums"].FindAll(db["Albums"].GenreId == 1)
 from [dbo].[Album]  
 where [dbo].[Album].[GenreId] = @p1
 @p1 (Int32) = 1</pre>
-    <hr />
-  <h4>3</h4>
+  <h4>Using AllColumns Or Star</h4>
   <p>
     To return all the fields from the <code class="parameter">Albums</code> table using the <code class="method">AllColumns</code> or <code class="method">Star</code> methods, use the following syntax.
   </p>
