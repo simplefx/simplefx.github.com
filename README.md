@@ -3,13 +3,12 @@ This is the repository for the documentation for the [Simple.Data](https://githu
 The URL for the Simple.Data docs are live [here](http://simplefx.org/simpledata/docs/index.html) and the Simple.Web docs are live [here](http://simplefx.org/simpleweb/docs/index.html).
 
 ## Contributing
-The Simplefx documentation is made with
+The Simplefx documentation is based on Code52's [Metro.CSS](https://github.com/Code52/metro.css) project whch uses
 
 * HTML5, CSS, & JavaScript
 * [jQuery](http://jquery.com/)
 * [LESS](http://lesscss.org/)
 * [Bootstrap](http://getbootstrap.com/)
-* [Metro UI CSS](http://metroui.org.ua/)
 
 ## Notes
 * [Simple.Data Group](http://groups.google.com/group/simpledata)
