@@ -2,6 +2,15 @@
 This is the repository for the documentation for the [Simple.Data](https://github.com/markrendle/Simple.Data) and [Simple.Web](https://github.com/markrendle/Simple.Web) projects.
 The URL for the Simple.Data docs are live [here](http://simplefx.org/simpledata/docs/index.html) and the Simple.Web docs are live [here](http://simplefx.org/simpleweb/docs/index.html).
 
+## Contributing
+The Simplefx documentation is made with
+
+* HTML5, CSS, & JavaScript
+* [jQuery](http://jquery.com/)
+* [LESS](http://lesscss.org/)
+* [Bootstrap](http://getbootstrap.com/)
+* [Metro UI CSS](http://metroui.org.ua/)
+
 ## Notes
 * [Simple.Data Group](http://groups.google.com/group/simpledata)
 * [Simple.Web User Group](http://groups.google.com/group/simpleweb-users)

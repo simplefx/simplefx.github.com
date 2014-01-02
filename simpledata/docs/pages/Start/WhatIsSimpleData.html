@@ -8,8 +8,7 @@
 <body>
    <h1><a href="../../index.html" title="Back to index">Simple.Data</a></h1>
    <section>
-        Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks. In this section, we see why and how to get started with Simple.Data.
-    </section>
+        Simple.Data is a lightweight framework that uses the <a href="http://msdn.microsoft.com/en-us/magazine/gg598922.aspx">dynamic features of .NET 4</a> to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks. In this section, we see why and how to get started with Simple.Data.</section>
 <h2>What is Simple.Data?</h2>
 <p>Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the  code pre-generation and boilerplate required by other frameworks. Instead, it interprets method and property names at runtime and maps them to your underlying data-store using a convention-based approach. It does not permit SQL Injection. It was built by Mark Rendle <a href="http://blog.markrendle.net/2010/08/05/introducing-simple-data/">in reaction to Microsoft&#8217;s release of Microsoft.Data.dll</a>, taking Ruby&#8217;s <a href="http://ar.rubyonrails.org/">ActiveRecord</a> and <a href="http://datamapper.org/">DataMapper</a> gems as its inspiration.</p>
 <blockquote>&#8220;It&#8217;s not an O/RM. It looks a bit like one, but it doesn&#8217;t need objects, it doesn&#8217;t need a relational database, and it doesn&#8217;t need any mapping configuration. So it&#8217;s an O/RM without the O or the R or the M. So it&#8217;s just a /.&#8221;</blockquote>
@@ -26,7 +25,10 @@
 </ul>
 <p>Assuming you&#8217;re using Simple.Data to access a SQL-based database, the following SQL (or similar depending on your database) is generated along with the requisite boilerplate code to send it to the database and retrieve the resulting data.</p>
 <pre class="brush:sql">SELECT * FROM Albums WHERE Title = @p1</pre>
-<p>Simple.Data is not limited to SQL databases. The developer community has also built providers to run Simple.Data against several noSQL data stores.</p>
+
+<p>Simple.Data is not limited to SQL databases. The developer community has also built providers to run Simple.Data against several noSQL data stores.
+    For a full listing of the databases currently supported, take a look at the <a href="SupportedDatabases.html">Supported Databases</a> documentation page.</p>
+
 <p>Simple.Data runs on the .NET Framework and Mono.</p>
 <script>var _gaq = [['_setAccount', 'UA-35405621-1'], ['_trackPageview']];(function (d, t) {var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s)}(document, 'script'));</script></body>
 </html>
