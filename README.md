@@ -8,4 +8,4 @@ The URL for the Simple.Data docs are live [here](http://simplefx.org/simpledata/
 * [Simple.Web Developer Group](http://groups.google.com/group/simpleweb-dev)
 * [Simple.Data Samples repository](https://github.com/markrendle/simple.data.sample).
 * Follow [@markrendle on Twitter](http://twitter.com/markrendle) for updates on Simple.Web docs 
-* Follow [@hmobius on Twitter](http://twitter.com/hmobius) for updates on Simple.Data docs
+* Follow [@danmaharry on Twitter](http://twitter.com/danmaharry) for updates on Simple.Data docs
