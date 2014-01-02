@@ -10,6 +10,8 @@ The Simplefx documentation is based on Code52's [Metro.CSS](https://github.com/C
 * [LESS](http://lesscss.org/)
 * [Bootstrap](http://getbootstrap.com/)
 
+A few additional lines have also been pulled in from the [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate) project.
+
 ## Notes
 * [Simple.Data Group](http://groups.google.com/group/simpledata)
 * [Simple.Web User Group](http://groups.google.com/group/simpleweb-users)
