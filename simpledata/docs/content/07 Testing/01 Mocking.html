@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mocking</title>
+</head>
+<body>
+<h2>Mocking</h2>
+<p>In testing cases you often want to replace the stuff that hits the database (for example a repository) with a testing stand-in that returns some expected result (i.e. a mock). That's one of the common use of Dependency injection pattern where you can inject mock version of your repository at test time and have the "real" repository resolved at run-time.</p>
+<p>But what if you want to test the repository... Or not use a repository but the Simple.Data Database object straight off, since it's so lean and slick?</p>
+<p>It so happens that Simple.Data comes with a Mocking framework of it's own. It can easily be installed via NuGet</p>
+<code>Install-Package Simple.Data.Mocking</code>
+<p>With the Simple.Data.Mocking you can swap out the Adapter that you are using for a "mocking" adapter in the test-case. An example might clariy that a bit</p>
+<p>Say that you have this dead-simple repository you want to test
+<pre class="brush: csharp">
+  	internal class SampleRepository
+    {
+        private readonly dynamic _database;
+
+        public SampleRepository()
+        {
+            _database = Database.Open();
+        }
+
+        public IList<dynamic> GetUsersNamedBob()
+        {
+            return _database.Users.FindAllByName("Bob").ToList();
+        }
+    }
+</pre>
+
+<p>Using Simple.Data.Mocking you can now write a test like this</p>
+<pre class="brush: csharp">
+	[Test]
+    public void testing_simple_repository()
+    {
+        // Create a mock adapter with some suitable XML
+        var mockAdapter = new XmlMockAdapter(/* Load it with appropiate data (see below) */);
+
+        // Tell Simple.Data to use our mock adapter
+        MockHelper.UseMockAdapter(mockAdapter);
+
+        // Now create our repo
+        var repo = new SampleRepository();
+
+        // Get the users named Bob
+        var result = repo.GetUsersNamedBob();
+
+        // Assert
+        Assert.AreEqual(2, result.Count);
+    }
+</pre>
+
+<p>There are two ways to mock data access with Simple.Data today; with XML or in Memory</p>
+
+<h3>Mocking with XML</h3>
+<p>When using XML to mock out a database you supply a XML-stream (or string, or file) that is to be used as your database.</p>
+<p>Here is an short example</p>
+<pre class="brush: csharp">
+		
+		// Create a mock adapter with some suitable XML
+        var mockAdapter =
+            new XmlMockAdapter(
+                @"<Root>
+                    <Users _keys=""Id"" Id=""System.Int32"" Key=""System.Guid"">
+                        <User Id=""1"" Email=""foo"" Name=""Bob"" />
+                        <User Id=""2"" Email=""bar"" Name=""Bobelina""/>
+                        <User Id=""3"" Email=""baz"" Name=""Bob""/>
+                        <User Id=""4"" Email=""baz"" Name=""Bobelina""/>
+                     </Users>
+                   </Root>");
+
+		// Set up the database to use our mock adapter
+		MockHelper.UseMockAdapter(mockAdapter);
+</pre>
+<p>In this example we're creating a <code>XmlMockAdapter</code> and load it with some inline XML-data. This data is in essence the database we're going to query. We then tell Simple.Data to use that adapter with the <code>MockHelper.UseMockAdapter(mockAdapter)</code> call.</p>
+<p>We can then easily run queries and updates as usual against the Database as usual.</p>
+<pre class="brush: csharp">
+	// Open the database
+	var db = Database.Open();
+	
+	// Insert a couple of new users
+	dynamic user = new ExpandoObject();
+	user.Id = 10;
+	user.Email = "marcus";
+	user.Password = "supersecret";
+	
+	db.Users.Insert(user);
+	var row = db.Users.Insert(Id: 5, Email: "bob", Password: "secret");
+		
+	// Query the (mocked) database for all users with Email Bob
+	var users = db.Users.FindAllByEmail("Bob").ToList();
+	
+    // Update a record
+    db.Users.UpdateById(Id: 10, Email: "marcusoft");
+
+    // And finally delete that stupid record
+    db.Users.DeleteByEmail(Email: "marcusoft");
+    var usersWithEmailMarcusoft = db.Users.FindAllByEmail("marcusoft").ToList();
+    Assert.AreEqual(0, usersWithEmailMarcusoft.Count);
+</pre>
+
+<p>Your XML-data can contain relations as well:</p>
+<pre class="brush: csharp">
+[Test]
+public void showing_off_relations_with_XmlMockAdapter()
+{
+    var mockAdapter =
+    new XmlMockAdapter(
+         @"<Root>
+			<Users _keys=""Id"" Id=""System.Int32"" Key=""System.Guid"">
+				<User Id=""1"" Email=""foo"" Password=""bar"" Key=""4A1c8a8a-238d-443e-8ab2-bdf046a91fd7"">
+  					<Pets><Pet Name=""Fido""/></Pets>
+				</User>
+			</Users>
+		  </Root>");
+
+    MockHelper.UseMockAdapter(_mockAdapter);
+
+    var db = Database.Open();
+    IEnumerable<dynamic> pets = db.Users.FindById(1).Pets;
+    Assert.AreEqual(1, pets.Count());
+   Assert.AreEqual("Fido", pets.Single().Name);
+}
+</pre>
+
+<h3>Required set up of XML-data</h3>
+<p>You need to indicate the keys of your mocked XML database. This is done with the "_keys" attirbute on the root Element that indicates your table.</p>
+<p>Like this:</p>
+<pre>
+	<Users _keys=""Id"" Id=""System.Int32"" Key=""System.Guid"">
+</pre>
+<p>Here we see that the Users-element (representing the Users-table) has a key called Id. </p>
+</body>
+</html>
