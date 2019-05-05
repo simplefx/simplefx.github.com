@@ -11,7 +11,7 @@
         Simple.Data is a lightweight framework that uses the dynamic features of .NET 4 to provide an expressive, ORM-ish way of accessing and manipulating data without any of the code pre-generation and boilerplate required by other frameworks. In this section, we see why and how to get started with Simple.Data.
     </section>
 <h2>Opening A Connection</h2>
-<p>Once you&#8217;ve set up your connection strings in your configuration file (or not), the first action to have your code take is to open your data store. You can use one of four methods to do this.</p>
+<p>Once you&#8217;ve set up your connection strings in your configuration file (or not), the first action to have your code take is to open your data store. You can use one of five methods to do this.</p>
 <h3>Open</h3>
 <p>Tries to open a connection to a data store using the connection string named <code class="value">Simple.Data.Properties.Settings.DefaultConnectionString</code> in your configuration file</p>
 <pre class="brush:csharp">var defaultDb = Database.Open();
@@ -22,19 +22,20 @@ Console.WriteLine("Id: {0}, Name: {1}", artist.ArtistId, artist.Name);</pre>
 <pre class="brush:csharp">var namedDb = Database.OpenNamedConnection("MvcMusicStoreDb");
 var artist2 = namedDb.Artists.FindByName("Metallica");
 Console.WriteLine("Id: {0}, Name: {1}", artist2.ArtistId, artist2.Name);</pre>
-<h3>OpenConnection(string connectionString[, string providerName])</h3>
+<h3>OpenConnection(string connectionString)</h3>
 <p>Tries to open a connection to a data store with the given literal <code class="parameter">connectionString</code>.</p>
 <pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--");
 var artist3 = magicDb.Artists.FindByName("Iron Maiden");
 Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
-<p><code class="method">OpenConnection</code> has a second variant that allows you to specify the name of the Simple.Data provider that should be used to open the connection. If you&#8217;ve only one provider in your project, Simple.Data will pick it up by default. If you&#8217;d like to identify it explicitly or need to switch between two providers in you project, you&#8217;ll need to use this.</p>
-<pre class="brush:csharp">var magicDb = Database.OpenConnection("--Your Connection String--", "providerString");
+<h3>Opener.OpenConnection(string connectionString[, string providerName])</h3>
+<p><code class="method">Opener.OpenConnection</code> allows you to specify the name of the Simple.Data provider that should be used to open the connection. If you&#8217;ve only one provider in your project, Simple.Data will pick it up by default. If you&#8217;d like to identify it explicitly or need to switch between two providers in you project, you&#8217;ll need to use this.</p>
+<pre class="brush:csharp">var magicDb = Database.Opener.OpenConnection("--Your Connection String--", "providerString");
 var artist3 = magicDb.Artists.FindByName("Iron Maiden");
 Console.WriteLine("Id: {0}, Name: {1}", artist3.ArtistId, artist3.Name);</pre>
 <p>In the code above, <code class="parameter">providerString</code> can be one of the following values:</p>
   <table>
     <tr><th>Provider</th><th>String To Use</th></tr>
-    <tr><td>Simple.Data.SqlServer</td><td>System.Data.SqlServer</td></tr>
+    <tr><td>Simple.Data.SqlServer</td><td>System.Data.SqlClient</td></tr>
     <tr><td>Simple.Data.SqlCe35</td><td>sdf</td></tr>
     <tr><td>Simple.Data.SqlCe40</td><td>System.Data.SqlServerCe<br />System.Data.SqlServerCe.4.0</td></tr>
     <tr><td>Simple.Data.MySql</td><td>MySql.Data.MySqlClient</td></tr>
